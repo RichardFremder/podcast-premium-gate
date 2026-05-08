@@ -27,6 +27,8 @@ exports.handler = async (event) => {
       limit: 10,
     });
 
+    console.log(`Clients trouvés pour ${email}: ${customers.data.length}`);
+
     if (customers.data.length === 0) {
       return {
         statusCode: 200,
@@ -34,29 +36,22 @@ exports.handler = async (event) => {
       };
     }
 
-    // Vérifie si l'un des clients a un abonnement actif ou en période d'essai
     for (const customer of customers.data) {
+      console.log(`Vérification client: ${customer.id} (${customer.email})`);
+
       const subscriptions = await stripe.subscriptions.list({
         customer: customer.id,
-        status: 'active',
-        limit: 1,
+        limit: 10,
       });
 
-      if (subscriptions.data.length > 0) {
-        return {
-          statusCode: 200,
-          body: JSON.stringify({ active: true }),
-        };
-      }
+      console.log(`Abonnements trouvés: ${subscriptions.data.length}`);
+      subscriptions.data.forEach(s => console.log(`  - status: ${s.status}, id: ${s.id}`));
 
-      // Accepte aussi les abonnements en période d'essai
-      const trialSubs = await stripe.subscriptions.list({
-        customer: customer.id,
-        status: 'trialing',
-        limit: 1,
-      });
+      const hasAccess = subscriptions.data.some(s =>
+        ['active', 'trialing', 'past_due'].includes(s.status)
+      );
 
-      if (trialSubs.data.length > 0) {
+      if (hasAccess) {
         return {
           statusCode: 200,
           body: JSON.stringify({ active: true }),
