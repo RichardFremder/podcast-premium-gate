@@ -1,0 +1,79 @@
+const Stripe = require('stripe');
+
+exports.handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method not allowed' };
+  }
+
+  let email;
+  try {
+    ({ email } = JSON.parse(event.body || '{}'));
+  } catch {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Corps de requête invalide' }) };
+  }
+
+  if (!email || typeof email !== 'string' || !email.includes('@')) {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Email invalide' }) };
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2023-10-16',
+  });
+
+  try {
+    // Cherche tous les clients avec cet email (il peut y en avoir plusieurs)
+    const customers = await stripe.customers.list({
+      email: email.toLowerCase().trim(),
+      limit: 10,
+    });
+
+    if (customers.data.length === 0) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ active: false }),
+      };
+    }
+
+    // Vérifie si l'un des clients a un abonnement actif ou en période d'essai
+    for (const customer of customers.data) {
+      const subscriptions = await stripe.subscriptions.list({
+        customer: customer.id,
+        status: 'active',
+        limit: 1,
+      });
+
+      if (subscriptions.data.length > 0) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ active: true }),
+        };
+      }
+
+      // Accepte aussi les abonnements en période d'essai
+      const trialSubs = await stripe.subscriptions.list({
+        customer: customer.id,
+        status: 'trialing',
+        limit: 1,
+      });
+
+      if (trialSubs.data.length > 0) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ active: true }),
+        };
+      }
+    }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ active: false }),
+    };
+
+  } catch (err) {
+    console.error('Stripe error:', err.message);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Erreur lors de la vérification' }),
+    };
+  }
+};

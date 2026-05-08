@@ -1,0 +1,8 @@
+{
+  "name": "podcast-premium-gate",
+  "version": "1.0.0",
+  "description": "Portail d'accès podcasts Premium avec vérification Stripe",
+  "dependencies": {
+    "stripe": "^14.21.0"
+  }
+}

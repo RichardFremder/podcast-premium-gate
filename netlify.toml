@@ -1,0 +1,19 @@
+[build]
+  functions = "netlify/functions"
+  publish    = "."
+
+[functions]
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+
+# Empêche l'indexation par les moteurs de recherche
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
