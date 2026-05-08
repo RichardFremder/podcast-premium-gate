@@ -27,8 +27,6 @@ exports.handler = async (event) => {
       limit: 10,
     });
 
-    console.log(`Clients trouvés pour ${email}: ${customers.data.length}`);
-
     if (customers.data.length === 0) {
       return {
         statusCode: 200,
@@ -37,15 +35,10 @@ exports.handler = async (event) => {
     }
 
     for (const customer of customers.data) {
-      console.log(`Vérification client: ${customer.id} (${customer.email})`);
-
       const subscriptions = await stripe.subscriptions.list({
         customer: customer.id,
         limit: 10,
       });
-
-      console.log(`Abonnements trouvés: ${subscriptions.data.length}`);
-      subscriptions.data.forEach(s => console.log(`  - status: ${s.status}, id: ${s.id}`));
 
       const hasAccess = subscriptions.data.some(s =>
         ['active', 'trialing', 'past_due'].includes(s.status)
