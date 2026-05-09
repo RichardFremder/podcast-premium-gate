@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline Story Premium — L'Histoire sans limite</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F5E6C0;
+    --gold-dark: #8B6914;
+    --ink: #1A1612;
+    --ink-mid: #3D3529;
+    --ink-light: #6B5E4E;
+    --parchment: #FAF6EE;
+    --parchment-dark: #F0E8D6;
+    --white: #FFFFFF;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--parchment);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 72px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, #3D2E1A 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .hero h1 span {
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: #B8A898;
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 1.65;
+  }
+
+  .price-block {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    padding: 20px 36px;
+    margin-bottom: 36px;
+  }
+
+  .price-item {
+    text-align: center;
+  }
+
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .price-label {
+    font-size: 12px;
+    color: #8A7A6A;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .price-divider {
+    width: 1px;
+    height: 48px;
+    background: rgba(201,168,76,0.2);
+  }
+
+  .price-saving {
+    font-size: 11px;
+    color: var(--gold);
+    background: rgba(201,168,76,0.12);
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-top: 6px;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 16px 40px;
+    border-radius: 3px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.15s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: #D4B060;
+    transform: translateY(-1px);
+  }
+
+  /* FEATURES */
+  .features {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+
+  .section-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 600;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 56px;
+    line-height: 1.3;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 2px;
+    background: var(--parchment-dark);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .feature-card {
+    background: var(--parchment);
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .feature-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* QUOTE */
+  .quote-section {
+    background: var(--ink);
+    padding: 64px 24px;
+    text-align: center;
+  }
+
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-style: italic;
+    color: var(--white);
+    max-width: 640px;
+    margin: 0 auto 20px;
+    line-height: 1.55;
+  }
+
+  .quote-author {
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* CTA */
+  .cta-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 72px 24px;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .cta-section p {
+    font-size: 16px;
+    color: var(--ink-light);
+    margin-bottom: 36px;
+    line-height: 1.65;
+  }
+
+  .cta-note {
+    font-size: 13px;
+    color: var(--ink-light);
+    margin-top: 16px;
+  }
+
+  /* DIVIDER */
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 20px;
+    letter-spacing: 12px;
+    margin: 8px 0;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 540px) {
+    .price-block { flex-direction: column; gap: 12px; padding: 20px 24px; }
+    .price-divider { width: 80px; height: 1px; }
+    .features-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Accès Premium</div>
+  <h1>L'Histoire<br><span>sans limite</span></h1>
+  <p class="hero-sub">Pour moins d'un café par mois, accédez à tout l'univers Timeline Story — sans publicité, sans frontières.</p>
+
+  <div class="price-block">
+    <div class="price-item">
+      <div class="price-amount">2€</div>
+      <div class="price-label">par mois</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-item">
+      <div class="price-amount">20€</div>
+      <div class="price-label">par an</div>
+      <div class="price-saving">2 mois offerts</div>
+    </div>
+  </div>
+
+  <br>
+  <a class="btn-primary" href="https://m.audiomeans.fr/s/S-tavkjvmo">Devenir membre Premium →</a>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label">Ce qui vous attend</div>
+  <h2 class="section-title">Tout Timeline Story,<br>sans restriction</h2>
+
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="feature-title">Archives illimitées</div>
+      <p class="feature-desc">Accédez à l'intégralité du catalogue — des milliers d'heures d'histoire à portée d'écoute.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="feature-title">Zéro publicité</div>
+      <p class="feature-desc">L'histoire, rien que l'histoire. Aucune interruption, aucune pub — une écoute pure et immersive.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="feature-title">Épisodes exclusifs</div>
+      <p class="feature-desc">Des contenus réservés aux membres Premium — approfondissements, séries spéciales et inédits.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+      </div>
+      <div class="feature-title">Bonus chaque mois</div>
+      <p class="feature-desc">Une surprise réservée aux abonnés — bonus, avant-premières ou contenus inattendus.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="ornament">— ✦ —</div>
+  <p class="quote-text">« Timeline Story s'adresse à celles et ceux qui préfèrent comprendre avant de juger. »</p>
+  <div class="quote-author">La rédaction Timeline Story</div>
+  <div class="ornament">— ✦ —</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Rejoignez la communauté Premium</h2>
+  <p>2€ par mois, résiliable à tout moment. Un investissement minimal pour un gain intellectuel maximal.</p>
+  <a class="btn-primary" href="https://m.audiomeans.fr/s/S-tavkjvmo">S'abonner maintenant →</a>
+  <p class="cta-note">Résiliation en un clic · Paiement sécurisé par Stripe</p>
+</section>
+
+</body>
+</html>
