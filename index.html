@@ -679,6 +679,39 @@ async function fetchPodcasts() {
   }
 }
 
+var currentAudio = null;
+var currentBtn = null;
+
+function togglePodcastPlay(btn, audioUrl) {
+  // Si on clique sur le bouton déjà en cours
+  if (currentAudio && currentBtn === btn) {
+    if (currentAudio.paused) {
+      currentAudio.play();
+      btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    } else {
+      currentAudio.pause();
+      btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    }
+    return;
+  }
+  // Arrêter l'audio précédent
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    if (currentBtn) currentBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+  }
+  // Lancer le nouvel audio
+  currentAudio = new Audio(audioUrl);
+  currentBtn = btn;
+  currentAudio.play();
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+  currentAudio.addEventListener('ended', function() {
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    currentAudio = null;
+    currentBtn = null;
+  });
+}
+
 function renderPodcasts(items) {
   const grid = document.getElementById('podcast-grid');
   if (!grid || items.length === 0) return;
@@ -690,11 +723,13 @@ function renderPodcasts(items) {
     const temps = (props.Temps && props.Temps.rich_text && props.Temps.rich_text[0]) ? props.Temps.rich_text[0].plain_text : '';
     const imageFiles = props.Image && props.Image.files && props.Image.files[0];
     const image = imageFiles ? (imageFiles.file ? imageFiles.file.url : imageFiles.external.url) : ('https://picsum.photos/seed/' + item.id.slice(0,8) + '/600/170');
-    const lienAudio = (props['Lien audio'] && props['Lien audio'].url) ? props['Lien audio'].url : '#';
-    const emission = (props.Emission && props.Emission.url) ? props.Emission.url : '';
+    // Lien audio — fichiers & médias
+    const audioFiles = props['Lien audio'] && props['Lien audio'].files && props['Lien audio'].files[0];
+    const audioUrl = audioFiles ? (audioFiles.file ? audioFiles.file.url : audioFiles.external.url) : '';
 
     const card = document.createElement('div');
     card.className = 'podcast-card';
+    const btnId = 'btn-' + item.id.slice(0,8);
     card.innerHTML = '<img class="podcast-card-img" src="' + image + '" alt="' + titre + '" onerror="this.src=\'https://picsum.photos/seed/default/600/170\'">' +
       '<div class="podcast-card-body">' +
         '<div class="podcast-ep">Timeline Story</div>' +
@@ -702,7 +737,7 @@ function renderPodcasts(items) {
         (desc ? '<div class="podcast-desc">' + desc + '</div>' : '') +
         '<div class="podcast-footer">' +
           '<span class="podcast-duration">' + temps + '</span>' +
-          (lienAudio !== '#' ? '<a href="' + lienAudio + '" target="_blank" class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></a>' : '<div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>') +
+          (audioUrl ? '<button id="' + btnId + '" class="play-btn" onclick="togglePodcastPlay(this, \'' + audioUrl + '\')" style="border:none;cursor:pointer;"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>' : '<div class="play-btn" style="opacity:0.3"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>') +
         '</div>' +
       '</div>';
     grid.appendChild(card);
