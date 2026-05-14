@@ -668,12 +668,33 @@ footer {
 <script>
 const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
 const NOTION_DB_PODCASTS = '313011abd129808da0facfbe4684e31c';
+const NOTION_DB_INTERVIEWS = '315011abd12980548fbbcab01c3f7a69';
+const NOTION_DB_5MIN = '315011abd12980b59f1ddfc511af1bb7';
+
+async function fetchFromNotion(dbId) {
+  const res = await fetch('/.netlify/functions/notion?db=' + dbId);
+  return await res.json();
+}
 
 async function fetchPodcasts() {
   try {
-    const res = await fetch('/.netlify/functions/notion?db=' + NOTION_DB_PODCASTS);
-    const data = await res.json();
-    if (data.results) renderPodcasts(data.results);
+    const [d1, d2, d3] = await Promise.all([
+      fetchFromNotion(NOTION_DB_PODCASTS),
+      fetchFromNotion(NOTION_DB_INTERVIEWS),
+      fetchFromNotion(NOTION_DB_5MIN)
+    ]);
+    const all = [
+      ...(d1.results || []),
+      ...(d2.results || []),
+      ...(d3.results || [])
+    ];
+    // Trier par date décroissante
+    all.sort(function(a, b) {
+      const da = a.properties['Date mise en ligne radio'] && a.properties['Date mise en ligne radio'].date ? a.properties['Date mise en ligne radio'].date.start : '';
+      const db2 = b.properties['Date mise en ligne radio'] && b.properties['Date mise en ligne radio'].date ? b.properties['Date mise en ligne radio'].date.start : '';
+      return da < db2 ? 1 : -1;
+    });
+    if (all.length > 0) renderPodcasts(all.slice(0, 4));
   } catch(e) {
     console.log('Notion fetch error:', e);
   }
