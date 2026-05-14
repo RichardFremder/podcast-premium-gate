@@ -688,10 +688,10 @@ async function fetchPodcasts() {
       ...(d2.results || []),
       ...(d3.results || [])
     ];
-    // Trier par date décroissante
+    // Trier par date décroissante, sans date = en dernier
     all.sort(function(a, b) {
-      const da = a.properties['Date mise en ligne radio'] && a.properties['Date mise en ligne radio'].date ? a.properties['Date mise en ligne radio'].date.start : '';
-      const db2 = b.properties['Date mise en ligne radio'] && b.properties['Date mise en ligne radio'].date ? b.properties['Date mise en ligne radio'].date.start : '';
+      const da = a.properties['Date mise en ligne radio'] && a.properties['Date mise en ligne radio'].date ? a.properties['Date mise en ligne radio'].date.start : '0000';
+      const db2 = b.properties['Date mise en ligne radio'] && b.properties['Date mise en ligne radio'].date ? b.properties['Date mise en ligne radio'].date.start : '0000';
       return da < db2 ? 1 : -1;
     });
     if (all.length > 0) renderPodcasts(all.slice(0, 4));
@@ -740,7 +740,8 @@ function renderPodcasts(items) {
   items.forEach(function(item) {
     const props = item.properties;
     const titre = (props.Titre && props.Titre.title && props.Titre.title[0]) ? props.Titre.title[0].plain_text : 'Sans titre';
-    const desc = (props.Description && props.Description.rich_text && props.Description.rich_text[0]) ? props.Description.rich_text[0].plain_text : '';
+    const descFull = (props.Description && props.Description.rich_text && props.Description.rich_text[0]) ? props.Description.rich_text[0].plain_text : '';
+    const desc = descFull.length > 150 ? descFull.substring(0, 150).trim() + '…' : descFull;
     const temps = (props.Temps && props.Temps.rich_text && props.Temps.rich_text[0]) ? props.Temps.rich_text[0].plain_text : '';
     const imageFiles = props.Image && props.Image.files && props.Image.files[0];
     const image = imageFiles ? (imageFiles.file ? imageFiles.file.url : imageFiles.external.url) : ('https://picsum.photos/seed/' + item.id.slice(0,8) + '/600/170');
@@ -765,7 +766,7 @@ function renderPodcasts(items) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', fetchPodcasts);
+
 </script>
 </head>
 <body>
@@ -1154,5 +1155,6 @@ audio.addEventListener('error', function() {
   playing = false;
 });
 </script>
+<script>fetchPodcasts();</script>
 </body>
 </html>
