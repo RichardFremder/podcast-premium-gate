@@ -825,6 +825,7 @@ function renderPodcasts(items) {
   <div class="live-info">
     <div class="live-show">Timeline Story — Radio en direct</div>
     <div class="live-track" id="live-track">L'Histoire en continu · 24h/24 · 7j/7</div>
+    <div id="live-next" style="display:none;font-size:10px;color:rgba(255,255,255,0.4);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
   </div>
   <div class="live-waves">
     <div class="wave"></div>
@@ -1243,6 +1244,22 @@ function fetchCurrentTrack() {
         var text = data.title;
         if (data.artist) text = data.artist + ' — ' + data.title;
         track.textContent = text;
+      }
+    })
+    .catch(function() {});
+  // Fetch next track
+  fetch('https://api.radioking.io/widget/radio/timelineradio/track/next')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var next = document.getElementById('live-next');
+      if (data && data[0] && data[0].title) {
+        var time = '';
+        if (data[0].started_at) {
+          var d = new Date(data[0].started_at);
+          time = d.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+        }
+        next.textContent = '▶ À ' + time + ' : ' + data[0].title;
+        next.style.display = 'block';
       }
     })
     .catch(function() {});
