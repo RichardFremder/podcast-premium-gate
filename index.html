@@ -670,6 +670,8 @@ const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
 const NOTION_DB_PODCASTS = '313011abd129808da0facfbe4684e31c';
 const NOTION_DB_INTERVIEWS = '315011abd12980548fbbcab01c3f7a69';
 const NOTION_DB_5MIN = '315011abd12980b59f1ddfc511af1bb7';
+const NOTION_DB_MATINALE = '361011abd1298002bbb2cf4357ab9209';
+const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
 
 async function fetchFromNotion(dbId) {
   const res = await fetch('/.netlify/functions/notion?db=' + dbId);
@@ -1013,6 +1015,35 @@ function renderPodcasts(items) {
   </div>
 </section>
 
+
+<!-- LA MATINALE -->
+<section class="invite-section" id="matinale">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Vidéos</div>
+      <h2 class="section-title">La Matinale</h2>
+    </div>
+    <a href="#" class="see-all" style="color:var(--blue)">Toutes les matinales →</a>
+  </div>
+  <div class="invite-grid" id="matinale-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
+  </div>
+</section>
+
+<!-- L'AFTER WEEK -->
+<section class="invite-section" id="afterweek" style="background:var(--ink);">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Vidéos</div>
+      <h2 class="section-title">L'After Week</h2>
+    </div>
+    <a href="#" class="see-all" style="color:var(--blue)">Tous les after week →</a>
+  </div>
+  <div class="invite-grid" id="afterweek-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
+  </div>
+</section>
+
 <!-- NOS ARTICLES -->
 <section class="edito-section">
   <div class="section-header">
@@ -1154,7 +1185,67 @@ audio.addEventListener('error', function() {
   clearInterval(trackInterval);
   playing = false;
 });
+
+// YouTube sections
+function getYouTubeId(url) {
+  if (!url) return null;
+  var match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
+}
+
+function renderYouTubeSection(items, gridId) {
+  var grid = document.getElementById(gridId);
+  if (!grid || items.length === 0) return;
+  grid.innerHTML = '';
+  items.forEach(function(item) {
+    var props = item.properties;
+    var titre = (props.Titre && props.Titre.title && props.Titre.title[0]) ? props.Titre.title[0].plain_text : 'Sans titre';
+    var desc = (props.Description && props.Description.rich_text && props.Description.rich_text[0]) ? props.Description.rich_text[0].plain_text : '';
+    var descShort = desc.length > 120 ? desc.substring(0, 120).trim() + '…' : desc;
+    var lienYT = (props['Lien YouTube'] && props['Lien YouTube'].url) ? props['Lien YouTube'].url : '';
+    var ytId = getYouTubeId(lienYT);
+    var imageFiles = props.Image && props.Image.files && props.Image.files[0];
+    var image = imageFiles ? (imageFiles.file ? imageFiles.file.url : imageFiles.external.url) : ('https://picsum.photos/seed/' + item.id.slice(0,8) + '/600/280');
+
+    var card = document.createElement('div');
+    card.className = 'invite-card';
+
+    if (ytId) {
+      card.innerHTML =
+        '<div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;">' +
+          '<iframe src="https://www.youtube.com/embed/' + ytId + '" ' +
+          'style="position:absolute;inset:0;width:100%;height:100%;border:none;" ' +
+          'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+          'allowfullscreen></iframe>' +
+        '</div>' +
+        '<div style="padding:14px;background:var(--ink-mid);">' +
+          '<div class="invite-ep">La Matinale</div>' +
+          '<div class="invite-name" style="font-size:14px;">' + titre + '</div>' +
+          (descShort ? '<div style="font-size:12px;color:var(--silver);margin-top:4px;">' + descShort + '</div>' : '') +
+        '</div>';
+    } else {
+      card.innerHTML =
+        '<img class="invite-card-img" src="' + image + '" alt="' + titre + '">' +
+        '<div class="invite-overlay"></div>' +
+        '<div class="invite-card-body">' +
+          '<div class="invite-ep">À venir</div>' +
+          '<div class="invite-name">' + titre + '</div>' +
+        '</div>';
+    }
+    grid.appendChild(card);
+  });
+}
+
+async function fetchYouTubeSection(dbId, gridId) {
+  try {
+    var res = await fetch('/.netlify/functions/notion?db=' + dbId);
+    var data = await res.json();
+    if (data.results) renderYouTubeSection(data.results, gridId);
+  } catch(e) {
+    console.log('Notion fetch error:', e);
+  }
+}
 </script>
-<script>fetchPodcasts();</script>
+<script>fetchPodcasts(); fetchYouTubeSection(NOTION_DB_MATINALE, 'matinale-grid'); fetchYouTubeSection(NOTION_DB_AFTERWEEK, 'afterweek-grid');</script>
 </body>
 </html>
