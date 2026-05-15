@@ -1234,6 +1234,7 @@ function renderPodcasts(items) {
 var audio = document.getElementById('radio-stream');
 var playing = false;
 var trackInterval = null;
+var stoppingManually = false;
 
 function fetchCurrentTrack() {
   fetch('https://api.radioking.io/widget/radio/timelineradio/track/current')
@@ -1267,13 +1268,16 @@ function fetchCurrentTrack() {
 
 function togglePlay() {
   if (playing) {
+    stoppingManually = true;
     audio.pause();
     audio.src = '';
     clearInterval(trackInterval);
     document.getElementById('icon-play').style.display = 'block';
     document.getElementById('icon-pause').style.display = 'none';
     document.getElementById('live-track').textContent = "L'Histoire en continu · 24h/24 · 7j/7";
+    document.getElementById('live-next').style.display = 'none';
     playing = false;
+    setTimeout(function() { stoppingManually = false; }, 500);
   } else {
     audio.src = 'https://api.radioking.io/radio/791081/listen.m3u';
     audio.play().then(function() {
@@ -1289,8 +1293,7 @@ function togglePlay() {
 }
 
 audio.addEventListener('error', function() {
-  // Ne rien afficher si c'est nous qui avons vidé le src (stop volontaire)
-  if (!audio.src || audio.src === window.location.href) return;
+  if (stoppingManually) return;
   document.getElementById('live-track').textContent = "Erreur de connexion — réessayez";
   document.getElementById('icon-play').style.display = 'block';
   document.getElementById('icon-pause').style.display = 'none';
