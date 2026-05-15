@@ -1270,7 +1270,8 @@ function togglePlay() {
   if (playing) {
     stoppingManually = true;
     audio.pause();
-    audio.src = '';
+    audio.removeAttribute('src');
+    audio.load();
     clearInterval(trackInterval);
     document.getElementById('icon-play').style.display = 'block';
     document.getElementById('icon-pause').style.display = 'none';
