@@ -1289,6 +1289,8 @@ function togglePlay() {
 }
 
 audio.addEventListener('error', function() {
+  // Ne rien afficher si c'est nous qui avons vidé le src (stop volontaire)
+  if (!audio.src || audio.src === window.location.href) return;
   document.getElementById('live-track').textContent = "Erreur de connexion — réessayez";
   document.getElementById('icon-play').style.display = 'block';
   document.getElementById('icon-pause').style.display = 'none';
