@@ -747,9 +747,16 @@ function renderPodcasts(items) {
     const temps = (props.Temps && props.Temps.rich_text && props.Temps.rich_text[0]) ? props.Temps.rich_text[0].plain_text : '';
     const imageFiles = props.Image && props.Image.files && props.Image.files[0];
     const image = imageFiles ? (imageFiles.file ? imageFiles.file.url : imageFiles.external.url) : ('https://picsum.photos/seed/' + item.id.slice(0,8) + '/600/170');
-    // Lien audio — fichiers & médias
-    const audioFiles = props['Lien audio'] && props['Lien audio'].files && props['Lien audio'].files[0];
-    const audioUrl = audioFiles ? (audioFiles.file ? audioFiles.file.url : audioFiles.external.url) : '';
+    // Lien audio — URL directe ou fichiers & médias
+    var audioUrl = '';
+    if (props['Lien audio']) {
+      if (props['Lien audio'].url) {
+        audioUrl = props['Lien audio'].url;
+      } else if (props['Lien audio'].files && props['Lien audio'].files[0]) {
+        var af = props['Lien audio'].files[0];
+        audioUrl = af.file ? af.file.url : (af.external ? af.external.url : '');
+      }
+    }
 
     const card = document.createElement('div');
     card.className = 'podcast-card';
