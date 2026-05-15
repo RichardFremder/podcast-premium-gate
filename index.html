@@ -745,8 +745,15 @@ function renderPodcasts(items) {
     const descFull = (props.Description && props.Description.rich_text && props.Description.rich_text[0]) ? props.Description.rich_text[0].plain_text : '';
     const desc = descFull.length > 150 ? descFull.substring(0, 150).trim() + '…' : descFull;
     const temps = (props.Temps && props.Temps.rich_text && props.Temps.rich_text[0]) ? props.Temps.rich_text[0].plain_text : '';
-    const imageFiles = props.Image && props.Image.files && props.Image.files[0];
-    const image = imageFiles ? (imageFiles.file ? imageFiles.file.url : imageFiles.external.url) : ('https://picsum.photos/seed/' + item.id.slice(0,8) + '/600/170');
+    // Image — URL directe ou fichiers & médias
+    var image = '';
+    if (props['Image URL'] && props['Image URL'].url) {
+      image = props['Image URL'].url;
+    } else if (props.Image && props.Image.files && props.Image.files[0]) {
+      var imgF = props.Image.files[0];
+      image = imgF.file ? imgF.file.url : (imgF.external ? imgF.external.url : '');
+    }
+    if (!image) image = 'https://picsum.photos/seed/' + item.id.slice(0,8) + '/600/170';
     // Lien audio — URL directe ou fichiers & médias
     var audioUrl = '';
     if (props['Lien audio']) {
