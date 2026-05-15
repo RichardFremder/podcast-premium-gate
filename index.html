@@ -1016,31 +1016,36 @@ function renderPodcasts(items) {
 </section>
 
 
-<!-- LA MATINALE -->
+<!-- LA MATINALE + L'AFTER WEEK -->
 <section class="invite-section" id="matinale">
-  <div class="section-header">
-    <div>
-      <div class="section-eyebrow">Vidéos</div>
-      <h2 class="section-title">La Matinale</h2>
-    </div>
-    <a href="#" class="see-all" style="color:var(--blue)">Toutes les matinales →</a>
-  </div>
-  <div class="invite-grid" id="matinale-grid" style="grid-template-columns: repeat(3, 1fr);">
-    <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
-  </div>
-</section>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;">
 
-<!-- L'AFTER WEEK -->
-<section class="invite-section" id="afterweek" style="background:var(--ink);">
-  <div class="section-header">
     <div>
-      <div class="section-eyebrow">Vidéos</div>
-      <h2 class="section-title">L'After Week</h2>
+      <div class="section-header" style="margin-bottom:24px;">
+        <div>
+          <div class="section-eyebrow">Vidéos</div>
+          <h2 class="section-title">La Matinale</h2>
+        </div>
+        <a href="#" class="see-all" style="color:var(--blue)">Toutes →</a>
+      </div>
+      <div id="matinale-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px;">
+        <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
+      </div>
     </div>
-    <a href="#" class="see-all" style="color:var(--blue)">Tous les after week →</a>
-  </div>
-  <div class="invite-grid" id="afterweek-grid" style="grid-template-columns: repeat(3, 1fr);">
-    <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
+
+    <div>
+      <div class="section-header" style="margin-bottom:24px;">
+        <div>
+          <div class="section-eyebrow">Vidéos</div>
+          <h2 class="section-title">L'After Week</h2>
+        </div>
+        <a href="#" class="see-all" style="color:var(--blue)">Tous →</a>
+      </div>
+      <div id="afterweek-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px;">
+        <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1219,8 +1224,7 @@ function renderYouTubeSection(items, gridId) {
           'allowfullscreen></iframe>' +
         '</div>' +
         '<div style="padding:14px;background:var(--ink-mid);">' +
-          '<div class="invite-ep">La Matinale</div>' +
-          '<div class="invite-name" style="font-size:14px;">' + titre + '</div>' +
+          '<div class="invite-name" style="font-size:14px;margin-top:2px;">' + titre + '</div>' +
           (descShort ? '<div style="font-size:12px;color:var(--silver);margin-top:4px;">' + descShort + '</div>' : '') +
         '</div>';
     } else {
