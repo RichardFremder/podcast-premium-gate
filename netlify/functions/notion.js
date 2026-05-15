@@ -6,7 +6,15 @@ exports.handler = async function(event) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing db parameter' }) };
   }
 
+  const cursor = event.queryStringParameters && event.queryStringParameters.cursor;
+
   try {
+    const body = {
+      filter: { property: 'Visible', checkbox: { equals: true } },
+      page_size: 20
+    };
+    if (cursor) body.start_cursor = cursor;
+
     const response = await fetch('https://api.notion.com/v1/databases/' + dbId + '/query', {
       method: 'POST',
       headers: {
@@ -14,10 +22,7 @@ exports.handler = async function(event) {
         'Notion-Version': '2022-06-28',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        filter: { property: 'Visible', checkbox: { equals: true } },
-        page_size: 20
-      })
+      body: JSON.stringify(body)
     });
 
     const data = await response.json();
