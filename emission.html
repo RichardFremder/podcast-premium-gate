@@ -731,7 +731,7 @@ footer {
   </a>
   <ul class="nav-links">
     <li><a href="#">Radio en direct</a></li>
-    <li><a href="#">Podcasts</a></li>
+    <li><a href="/podcasts.html">Podcasts</a></li>
     <li><a href="#">L'invité Histoire</a></li>
     <li><a href="#">Nos articles</a></li>
     <li><a href="/grille.html">Grille des programmes</a></li>
@@ -763,7 +763,7 @@ footer {
     <div style="width:100%;max-width:600px;padding:0 20px;">
       <div style="display:flex;align-items:center;gap:12px;background:var(--ink-mid);border:1px solid var(--blue);border-radius:6px;padding:14px 20px;">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--blue)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="search-input" type="text" placeholder="Rechercher un épisode, un sujet..." 
+        <input id="search-input" type="text" placeholder="Rechercher un épisode, un sujet.." 
           style="flex:1;background:none;border:none;color:var(--white);font-size:16px;outline:none;font-family:'DM Sans',sans-serif;"
           oninput="searchContent(this.value)">
         <button onclick="toggleSearch()" style="background:none;border:none;color:var(--silver);cursor:pointer;font-size:20px;">✕</button>
@@ -788,7 +788,7 @@ footer {
     <span class="footer-logo-text">Timeline Story</span>
   </a>
   <ul class="footer-links">
-    <li><a href="#">Podcasts</a></li>
+    <li><a href="/podcasts.html">Podcasts</a></li>
     <li><a href="#">Radio</a></li>
     <li><a href="#">L'invité Histoire</a></li>
     <li><a href="#">Nos articles</a></li>
@@ -952,33 +952,50 @@ if (info) {
   document.title = info.title + ' — Timeline Story';
 }
 
+var cursors = [null]; // cursors[0] = null (page 1), cursors[1] = cursor for page 2, etc.
+var totalPages = 1;
+
 async function loadEpisodes() {
   var dbId = DB_MAP[emissionId];
   if (!dbId) return;
-  allEpisodes = [];
-  var cursor = null;
-  while (true) {
-    var url = '/.netlify/functions/notion?db=' + dbId + (cursor ? '&cursor=' + cursor : '');
-    var res = await fetch(url);
-    var data = await res.json();
-    allEpisodes = allEpisodes.concat(data.results || []);
-    if (!data.has_more) break;
-    cursor = data.next_cursor;
+  // Load first page
+  await loadNotionPage(1, null);
+}
+
+async function loadNotionPage(page, cursor) {
+  var dbId = DB_MAP[emissionId];
+  var list = document.getElementById('episodes-list');
+  list.innerHTML = '<div style="text-align:center;padding:40px;"><div style="font-size:32px;margin-bottom:12px;">🎙</div><div style="color:var(--white);font-size:18px;margin-bottom:8px)">Chargement en cours…</div><div style="color:var(--silver);font-size:14px;">Nos 1.000 émissions arrivent dans quelques secondes</div></div>';
+  
+  var url = '/.netlify/functions/notion?db=' + dbId + (cursor ? '&cursor=' + cursor : '');
+  var res = await fetch(url);
+  var data = await res.json();
+  var items = data.results || [];
+  
+  // Store next cursor if available
+  if (data.has_more && data.next_cursor) {
+    if (!cursors[page]) cursors[page] = data.next_cursor;
+    totalPages = Math.max(totalPages, page + 1);
   }
-  allEpisodes.sort(function(a,b) {
-    var da = a.properties['Date mise en ligne radio'] && a.properties['Date mise en ligne radio'].date ? a.properties['Date mise en ligne radio'].date.start : '0000';
-    var db2 = b.properties['Date mise en ligne radio'] && b.properties['Date mise en ligne radio'].date ? b.properties['Date mise en ligne radio'].date.start : '0000';
-    return da < db2 ? 1 : -1;
-  });
-  renderPage(1);
+  
+  currentPage = page;
+  renderItems(items);
+  renderPagination();
+  window.scrollTo(0, 0);
 }
 
 function renderPage(page) {
-  currentPage = page;
-  var start = (page-1)*PAGE_SIZE;
-  var items = allEpisodes.slice(start, start+PAGE_SIZE);
+  var cursor = cursors[page - 1] || null;
+  loadNotionPage(page, cursor);
+}
+
+function renderItems(items) {
   var list = document.getElementById('episodes-list');
   var type = TYPE_MAP[emissionId];
+  if (!items || items.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:var(--silver);padding:40px;">Aucun épisode disponible</div>';
+    return;
+  }
   list.innerHTML = items.map(function(item) {
     var props = item.properties;
     var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : 'Sans titre';
@@ -1002,7 +1019,7 @@ function renderPage(page) {
 }
 
 function renderPagination() {
-  var total = Math.ceil(allEpisodes.length/PAGE_SIZE);
+  var total = totalPages;
   var pag = document.getElementById('pagination');
   if (total<=1) { pag.innerHTML=''; return; }
   var html='';
