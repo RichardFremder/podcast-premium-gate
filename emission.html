@@ -944,6 +944,12 @@ const PAGE_SIZE = 20;
 var currentPage = 1;
 var allEpisodes = [];
 var emissionId = new URLSearchParams(window.location.search).get('id') || '5000ans';
+var dbOverride = new URLSearchParams(window.location.search).get('db') || null;
+var typeOverride = new URLSearchParams(window.location.search).get('type') || null;
+
+// Override DB and type if provided in URL
+if (dbOverride) DB_MAP[emissionId] = dbOverride;
+if (typeOverride) TYPE_MAP[emissionId] = typeOverride;
 
 var info = EMISSIONS_INFO[emissionId];
 if (info) {
