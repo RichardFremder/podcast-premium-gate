@@ -1,5 +1,8 @@
 const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
-const SETTINGS_DB = '362011abd129803d8915f72f9c726d33';
+const NO_FILTER_DBS = [
+  '362011abd129803d8915f72f9c726d33', // Paramètres
+  '362011abd1298026b0eac357b47036b2', // Équipe
+];
 
 exports.handler = async function(event) {
   const dbId = event.queryStringParameters && event.queryStringParameters.db;
@@ -8,12 +11,11 @@ exports.handler = async function(event) {
   }
 
   const cursor = event.queryStringParameters && event.queryStringParameters.cursor;
-  const isSettings = dbId === SETTINGS_DB;
+  const noFilter = NO_FILTER_DBS.includes(dbId);
 
   try {
     const body = { page_size: 20 };
-    // Only filter by Visible for non-settings databases
-    if (!isSettings) {
+    if (!noFilter) {
       body.filter = { property: 'Visible', checkbox: { equals: true } };
     }
     if (cursor) body.start_cursor = cursor;
