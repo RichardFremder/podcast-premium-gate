@@ -1414,7 +1414,7 @@ async function loadSettings() {
     if (!data.results) return;
     data.results.forEach(function(item) {
       var props = item.properties;
-      var key = props['Clé'] && props['Clé'].title && props['Clé'].title[0] ? props['Clé'].title[0].plain_text : '';
+      var key = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
       var value = props.Valeur && props.Valeur.url ? props.Valeur.url : '';
       if (key === 'hero_image' && value) {
         var img = document.getElementById('hero-main-img');
