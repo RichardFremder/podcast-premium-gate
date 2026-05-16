@@ -695,6 +695,7 @@ const NOTION_DB_INTERVIEWS = '315011abd12980548fbbcab01c3f7a69';
 const NOTION_DB_5MIN = '315011abd12980b59f1ddfc511af1bb7';
 const NOTION_DB_MATINALE = '361011abd1298002bbb2cf4357ab9209';
 const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
+const NOTION_DB_SETTINGS = '362011abd129803d8915f72f9c726d33';
 
 async function fetchFromNotion(dbId) {
   const res = await fetch('/.netlify/functions/notion?db=' + dbId);
@@ -906,7 +907,7 @@ function renderPodcasts(items) {
 
   <div class="hero-visual">
     <img class="hero-img-main"
-      src="https://picsum.photos/seed/stonehenge/800/480"
+      id="hero-main-img" src="https://picsum.photos/seed/stonehenge/800/480"
       alt="Stonehenge"
       onerror="this.src=''; this.style.background='#1e2d4a';">
     <div class="hero-img-caption">
@@ -1428,6 +1429,27 @@ async function fetchYouTubeSection(dbId, gridId) {
   }
 }
 </script>
-<script>fetchPodcasts(); fetchYouTubeSection(NOTION_DB_MATINALE, 'matinale-grid'); fetchYouTubeSection(NOTION_DB_AFTERWEEK, 'afterweek-grid');</script>
+<script>
+async function loadSettings() {
+  try {
+    var res = await fetch('/.netlify/functions/notion?db=' + NOTION_DB_SETTINGS);
+    var data = await res.json();
+    if (!data.results) return;
+    data.results.forEach(function(item) {
+      var props = item.properties;
+      var key = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
+      var value = props.Valeur && props.Valeur.url ? props.Valeur.url : '';
+      if (key === 'hero_image' && value) {
+        var img = document.getElementById('hero-main-img');
+        if (img) img.src = value;
+      }
+    });
+  } catch(e) { console.log('Settings error:', e); }
+}
+fetchPodcasts();
+fetchYouTubeSection(NOTION_DB_MATINALE, 'matinale-grid');
+fetchYouTubeSection(NOTION_DB_AFTERWEEK, 'afterweek-grid');
+loadSettings();
+</script>
 </body>
 </html>
