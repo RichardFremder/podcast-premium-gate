@@ -1049,10 +1049,11 @@ async function loadEmissions() {
       var type = props.Type && props.Type.rich_text && props.Type.rich_text[0] ? props.Type.rich_text[0].plain_text : 'audio';
       
       // Find emission id from DB map
-      var emId = Object.keys(DB_MAP).find(function(k) { return DB_MAP[k] === idBase; }) || item.id.slice(0,8);
+      // Use item id as emission id since DB_MAP not available here
+      var emId = item.id.replace(/-/g, '');
       
       return '<a href="/emission.html?id='+emId+'&db='+idBase+'&type='+type+'" class="emission-card">' +
-        '<div class="emission-card-img-wrap"><img class="emission-card-img" src="'+image+'" alt="'+titre+'" onerror="this.src='https://picsum.photos/seed/default/400/180'"></div>' +
+        '<div class="emission-card-img-wrap"><img class="emission-card-img" src="'+image+'" alt="'+titre+'" onerror="this.src=\'https://picsum.photos/seed/default/400/180\'"></div>' +
         '<div class="emission-card-body">' +
           '<div class="emission-card-title">'+titre+'</div>' +
           (desc ? '<div class="emission-card-desc">'+desc+'</div>' : '') +
