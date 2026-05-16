@@ -31,7 +31,8 @@ exports.handler = async function(event) {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600'
       },
       body: JSON.stringify(data)
     };
