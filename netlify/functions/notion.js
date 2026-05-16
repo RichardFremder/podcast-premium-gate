@@ -2,6 +2,7 @@ const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
 const NO_FILTER_DBS = [
   '362011abd129803d8915f72f9c726d33', // Paramètres
   '362011abd1298026b0eac357b47036b2', // Équipe
+  '362011abd129805ba540e25179bfd472', // Émissions
 ];
 
 exports.handler = async function(event) {
