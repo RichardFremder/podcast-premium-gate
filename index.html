@@ -908,31 +908,8 @@ function renderPodcasts(items) {
   <div class="hero-visual">
     <img class="hero-img-main"
       id="hero-main-img" src="https://picsum.photos/seed/stonehenge/800/480"
-      alt="Stonehenge"
+      alt="Timeline Story"
       onerror="this.src=''; this.style.background='#1e2d4a';">
-    <div class="hero-img-caption">
-      <div>
-        <div class="hero-caption-ep">5000 ans d'Histoire · Épisode 48</div>
-        <div class="hero-caption-title">Stonehenge — Les mystères du monument</div>
-      </div>
-      <div class="play-btn" style="width:38px;height:38px;flex-shrink:0;">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-number">5 000</div>
-        <div class="stat-label">ans d'histoire</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">100+</div>
-        <div class="stat-label">épisodes</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">24/7</div>
-        <div class="stat-label">en direct</div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1437,7 +1414,7 @@ async function loadSettings() {
     if (!data.results) return;
     data.results.forEach(function(item) {
       var props = item.properties;
-      var key = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
+      var key = props['Clé'] && props['Clé'].title && props['Clé'].title[0] ? props['Clé'].title[0].plain_text : '';
       var value = props.Valeur && props.Valeur.url ? props.Valeur.url : '';
       if (key === 'hero_image' && value) {
         var img = document.getElementById('hero-main-img');
