@@ -1,383 +1,315 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timeline Story Premium — L'Histoire sans limite</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès Podcasts Premium</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #F5E6C0;
-    --gold-dark: #8B6914;
-    --ink: #1A1612;
-    --ink-mid: #3D3529;
-    --ink-light: #6B5E4E;
-    --parchment: #FAF6EE;
-    --parchment-dark: #F0E8D6;
-    --white: #FFFFFF;
-  }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--parchment);
-    color: var(--ink);
-    min-height: 100vh;
-  }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 48px 40px;
+      max-width: 560px;
+      width: 100%;
+    }
 
-  /* HERO */
-  .hero {
-    background: var(--ink);
-    padding: 72px 24px 80px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
+    .logo {
+      text-align: center;
+      font-size: 40px;
+      margin-bottom: 24px;
+    }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, #3D2E1A 0%, transparent 65%);
-    pointer-events: none;
-  }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
 
-  .hero-badge {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 6px 16px;
-    border-radius: 2px;
-    margin-bottom: 28px;
-  }
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      font-size: 15px;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
 
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 6vw, 56px);
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.15;
-    margin-bottom: 20px;
-    position: relative;
-  }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
 
-  .hero h1 span {
-    color: var(--gold);
-  }
+    input[type="email"] {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s;
+      color: #111827;
+    }
 
-  .hero-sub {
-    font-size: 17px;
-    color: #B8A898;
-    max-width: 480px;
-    margin: 0 auto 48px;
-    line-height: 1.65;
-  }
+    input[type="email"]:focus {
+      border-color: #1a1a2e;
+    }
 
-  .price-block {
-    display: inline-flex;
-    align-items: center;
-    gap: 20px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 4px;
-    padding: 20px 36px;
-    margin-bottom: 36px;
-  }
+    button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 14px;
+      background: #1a1a2e;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+    }
 
-  .price-item {
-    text-align: center;
-  }
+    button:hover:not(:disabled) {
+      background: #2d2d4e;
+    }
 
-  .price-amount {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
-    font-weight: 700;
-    color: var(--gold);
-    line-height: 1;
-  }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
-  .price-label {
-    font-size: 12px;
-    color: #8A7A6A;
-    margin-top: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
+    #message {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
 
-  .price-divider {
-    width: 1px;
-    height: 48px;
-    background: rgba(201,168,76,0.2);
-  }
+    #message.error {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      display: block;
+    }
 
-  .price-saving {
-    font-size: 11px;
-    color: var(--gold);
-    background: rgba(201,168,76,0.12);
-    padding: 3px 8px;
-    border-radius: 2px;
-    margin-top: 6px;
-  }
+    #message.info {
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      display: block;
+    }
 
-  .btn-primary {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 16px 40px;
-    border-radius: 3px;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    transition: background 0.2s, transform 0.15s;
-    cursor: pointer;
-    border: none;
-  }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
 
-  .btn-primary:hover {
-    background: #D4B060;
-    transform: translateY(-1px);
-  }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* FEATURES */
-  .features {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 72px 24px;
-  }
+    #player-area {
+      display: none;
+    }
 
-  .section-label {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold-dark);
-    margin-bottom: 16px;
-  }
+    #player-area h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+    }
 
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 4vw, 36px);
-    font-weight: 600;
-    text-align: center;
-    color: var(--ink);
-    margin-bottom: 56px;
-    line-height: 1.3;
-  }
+    #player-area .welcome {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
 
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 2px;
-    background: var(--parchment-dark);
-    border: 1px solid var(--parchment-dark);
-    border-radius: 6px;
-    overflow: hidden;
-  }
+    .player-wrapper {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f9fafb;
+    }
 
-  .feature-card {
-    background: var(--parchment);
-    padding: 36px 28px;
-    text-align: center;
-  }
+    .logout-btn {
+      width: auto;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: transparent;
+      color: #6b7280;
+      border: 1.5px solid #d1d5db;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+    }
 
-  .feature-icon {
-    width: 48px;
-    height: 48px;
-    background: var(--ink);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-  }
-
-  .feature-icon svg {
-    width: 22px;
-    height: 22px;
-    stroke: var(--gold);
-    fill: none;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .feature-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 10px;
-  }
-
-  .feature-desc {
-    font-size: 14px;
-    color: var(--ink-light);
-    line-height: 1.6;
-  }
-
-  /* QUOTE */
-  .quote-section {
-    background: var(--ink);
-    padding: 64px 24px;
-    text-align: center;
-  }
-
-  .quote-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(18px, 3vw, 26px);
-    font-style: italic;
-    color: var(--white);
-    max-width: 640px;
-    margin: 0 auto 20px;
-    line-height: 1.55;
-  }
-
-  .quote-author {
-    font-size: 13px;
-    color: var(--gold);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  /* CTA */
-  .cta-section {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 72px 24px;
-    text-align: center;
-  }
-
-  .cta-section h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(22px, 4vw, 34px);
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 16px;
-    line-height: 1.3;
-  }
-
-  .cta-section p {
-    font-size: 16px;
-    color: var(--ink-light);
-    margin-bottom: 36px;
-    line-height: 1.65;
-  }
-
-  .cta-note {
-    font-size: 13px;
-    color: var(--ink-light);
-    margin-top: 16px;
-  }
-
-  /* DIVIDER */
-  .ornament {
-    text-align: center;
-    color: var(--gold);
-    font-size: 20px;
-    letter-spacing: 12px;
-    margin: 8px 0;
-    opacity: 0.5;
-  }
-
-  @media (max-width: 540px) {
-    .price-block { flex-direction: column; gap: 12px; padding: 20px 24px; }
-    .price-divider { width: 80px; height: 1px; }
-    .features-grid { grid-template-columns: 1fr; }
-  }
-</style>
+    .logout-btn:hover {
+      background: #f9fafb;
+      color: #374151;
+    }
+  </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">Accès Premium</div>
-  <h1>L'Histoire<br><span>sans limite</span></h1>
-  <p class="hero-sub">Pour moins d'un café par mois, accédez à tout l'univers Timeline Story — sans publicité, sans frontières.</p>
+  <!-- Formulaire de vérification -->
+  <div class="card" id="gate">
+    <div class="logo">🎙️</div>
+    <h1>Espace Podcasts Premium</h1>
+    <p class="subtitle">
+      Saisissez l'adresse email associée à votre abonnement pour accéder à vos podcasts.
+    </p>
 
-  <div class="price-block">
-    <div class="price-item">
-      <div class="price-amount">2€</div>
-      <div class="price-label">par mois</div>
-    </div>
-    <div class="price-divider"></div>
-    <div class="price-item">
-      <div class="price-amount">20€</div>
-      <div class="price-label">par an</div>
-      <div class="price-saving">2 mois offerts</div>
-    </div>
+    <label for="email-input">Adresse email</label>
+    <input
+      type="email"
+      id="email-input"
+      placeholder="votre@email.com"
+      autocomplete="email"
+    />
+
+    <button id="verify-btn" onclick="verifyEmail()">
+      Accéder à mes podcasts
+    </button>
+
+    <div id="message"></div>
   </div>
 
-  <br>
-  <a class="btn-primary" href="https://m.audiomeans.fr/s/S-tavkjvmo">Devenir membre Premium →</a>
-</section>
+  <!-- Lecteur — affiché après vérification -->
+  <div class="card" id="player-area">
+    <h2>🎧 Vos Podcasts Premium</h2>
+    <p class="welcome" id="welcome-text">Bienvenue ! Votre accès est confirmé.</p>
 
-<!-- FEATURES -->
-<section class="features">
-  <div class="section-label">Ce qui vous attend</div>
-  <h2 class="section-title">Tout Timeline Story,<br>sans restriction</h2>
-
-  <div class="features-grid">
-
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-      </div>
-      <div class="feature-title">Archives illimitées</div>
-      <p class="feature-desc">Accédez à l'intégralité du catalogue — des milliers d'heures d'histoire à portée d'écoute.</p>
+    <div class="player-wrapper">
+      <iframe
+        id="audiomeans-player"
+        style="margin: auto; min-width: 320px; border: 0; display: block;"
+        src=""
+        width="80%"
+        height="480px"
+        allow="clipboard-write; autoplay">
+      </iframe>
     </div>
 
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div class="feature-title">Zéro publicité</div>
-      <p class="feature-desc">L'histoire, rien que l'histoire. Aucune interruption, aucune pub — une écoute pure et immersive.</p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
-      <div class="feature-title">Épisodes exclusifs</div>
-      <p class="feature-desc">Des contenus réservés aux membres Premium — approfondissements, séries spéciales et inédits.</p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg viewBox="0 0 24 24"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-      </div>
-      <div class="feature-title">Bonus chaque mois</div>
-      <p class="feature-desc">Une surprise réservée aux abonnés — bonus, avant-premières ou contenus inattendus.</p>
-    </div>
-
+    <button class="logout-btn" onclick="logout()">
+      ← Se déconnecter
+    </button>
   </div>
-</section>
 
-<!-- QUOTE -->
-<section class="quote-section">
-  <div class="ornament">— ✦ —</div>
-  <p class="quote-text">« Timeline Story s'adresse à celles et ceux qui préfèrent comprendre avant de juger. »</p>
-  <div class="quote-author">La rédaction Timeline Story</div>
-  <div class="ornament">— ✦ —</div>
-</section>
+  <script>
+    const AUDIOMEANS_EMBED_URL = 'https://player.audiomeans.fr/player-v2/5000-ans-dhistoire-premium-98a06fbd/playlist/last?mp=1&leadin=1&embed=0&download=0&std=0&vert=0&playlist=1&color=7d7d7d&theme=dark';
+    const SESSION_KEY = 'podcast_premium_access';
+    const SESSION_DURATION_HOURS = 24;
 
-<!-- CTA -->
-<section class="cta-section">
-  <h2>Rejoignez la communauté Premium</h2>
-  <p>2€ par mois, résiliable à tout moment. Un investissement minimal pour un gain intellectuel maximal.</p>
-  <a class="btn-primary" href="https://m.audiomeans.fr/s/S-tavkjvmo">S'abonner maintenant →</a>
-  <p class="cta-note">Résiliation en un clic · Paiement sécurisé par Stripe</p>
-</section>
+    // Vérifie si une session valide existe déjà
+    (function checkExistingSession() {
+      const stored = localStorage.getItem(SESSION_KEY);
+      if (!stored) return;
+      try {
+        const { email, expires } = JSON.parse(stored);
+        if (Date.now() < expires) {
+          showPlayer(email);
+        } else {
+          localStorage.removeItem(SESSION_KEY);
+        }
+      } catch {
+        localStorage.removeItem(SESSION_KEY);
+      }
+    })();
+
+    async function verifyEmail() {
+      const emailInput = document.getElementById('email-input');
+      const btn = document.getElementById('verify-btn');
+      const msg = document.getElementById('message');
+      const email = emailInput.value.trim().toLowerCase();
+
+      msg.className = '';
+      msg.style.display = 'none';
+      msg.textContent = '';
+
+      if (!email || !email.includes('@')) {
+        showMessage('Veuillez saisir une adresse email valide.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Vérification…';
+
+      try {
+        const res = await fetch('/.netlify/functions/check-subscriber', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+
+        if (!res.ok) throw new Error('Erreur serveur');
+        const data = await res.json();
+
+        if (data.active) {
+          // Sauvegarde la session pour 24h
+          const session = {
+            email,
+            expires: Date.now() + SESSION_DURATION_HOURS * 60 * 60 * 1000
+          };
+          localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+          showPlayer(email);
+        } else {
+          showMessage('❌ Aucun abonnement actif trouvé pour cet email. Vérifiez l\'adresse ou contactez le support.', 'error');
+        }
+      } catch (err) {
+        showMessage('⚠️ Erreur de connexion. Veuillez réessayer dans quelques instants.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Accéder à mes podcasts';
+      }
+    }
+
+    function showPlayer(email) {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('welcome-text').textContent = `Bienvenue ! Accès confirmé pour ${email}`;
+      document.getElementById('audiomeans-player').src = AUDIOMEANS_EMBED_URL;
+      document.getElementById('player-area').style.display = 'block';
+    }
+
+    function logout() {
+      localStorage.removeItem(SESSION_KEY);
+      document.getElementById('audiomeans-player').src = '';
+      document.getElementById('player-area').style.display = 'none';
+      document.getElementById('gate').style.display = 'block';
+      document.getElementById('email-input').value = '';
+    }
+
+    function showMessage(text, type) {
+      const msg = document.getElementById('message');
+      msg.textContent = text;
+      msg.className = type;
+    }
+
+    document.getElementById('email-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') verifyEmail();
+    });
+  </script>
 
 </body>
 </html>
