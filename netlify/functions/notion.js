@@ -1,4 +1,5 @@
 const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
+const SETTINGS_DB = '362011abd129803d8915f72f9c726d33';
 
 exports.handler = async function(event) {
   const dbId = event.queryStringParameters && event.queryStringParameters.db;
@@ -7,12 +8,14 @@ exports.handler = async function(event) {
   }
 
   const cursor = event.queryStringParameters && event.queryStringParameters.cursor;
+  const isSettings = dbId === SETTINGS_DB;
 
   try {
-    const body = {
-      filter: { property: 'Visible', checkbox: { equals: true } },
-      page_size: 20
-    };
+    const body = { page_size: 20 };
+    // Only filter by Visible for non-settings databases
+    if (!isSettings) {
+      body.filter = { property: 'Visible', checkbox: { equals: true } };
+    }
     if (cursor) body.start_cursor = cursor;
 
     const response = await fetch('https://api.notion.com/v1/databases/' + dbId + '/query', {
