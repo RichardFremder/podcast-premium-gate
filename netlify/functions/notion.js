@@ -37,7 +37,7 @@ exports.handler = async function(event) {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600'
+        'Cache-Control': noFilter ? 'no-cache' : 'public, s-maxage=300, stale-while-revalidate=600'
       },
       body: JSON.stringify(data)
     };
