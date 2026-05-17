@@ -775,7 +775,7 @@ footer {
 <div class="episode-page">
   <img id="ep-cover" class="episode-page-cover" src="" alt="" style="display:none">
   <div class="section-eyebrow" id="ep-emission" style="margin-bottom:12px;"></div>
-  <h1 class="episode-page-title" id="ep-title">Chargement...</h1>
+  <h1 class="episode-page-title" id="ep-title"></h1>
   <div class="episode-page-meta"><span id="ep-date"></span><span id="ep-duration"></span></div>
   <div class="episode-page-player" id="ep-player" style="display:none">
     <audio id="ep-audio" preload="none" style="display:none"></audio>
@@ -959,7 +959,8 @@ const EMISSIONS_INFO2 = {"5000ans": {"title": "5.000 ans d'Histoire", "desc": "D
 var params = new URLSearchParams(window.location.search);
 var pageId = params.get('id');
 var emissionId = params.get('emission') || '5000ans';
-document.getElementById('ep-back').href = '/emission.html?id='+emissionId;
+var dbId = DB_MAP2[emissionId] || '';
+document.getElementById('ep-back').href = '/emission.html?id='+emissionId+(dbId?'&db='+dbId:'');
 var emInfo = EMISSIONS_INFO2[emissionId];
 if (emInfo) document.getElementById('ep-emission').textContent = emInfo.title;
 var epAudio = document.getElementById('ep-audio');
