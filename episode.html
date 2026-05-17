@@ -987,6 +987,14 @@ function getYouTubeId(url) {
 }
 async function loadEpisode() {
   if (!pageId) return;
+  
+  // Use audio URL from URL params if available (passed from emission.html)
+  var audioFromUrl = new URLSearchParams(window.location.search).get('audio');
+  if (audioFromUrl) {
+    epAudio.src = decodeURIComponent(audioFromUrl);
+    document.getElementById('ep-player').style.display = 'flex';
+  }
+
   try {
     var res = await fetch('/.netlify/functions/notion-page?id='+pageId);
     var data = await res.json();
