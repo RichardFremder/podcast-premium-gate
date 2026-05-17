@@ -1,4 +1,5 @@
 const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
+
 const NO_FILTER_DBS = [
   '362011abd129803d8915f72f9c726d33', // Paramètres
   '362011abd1298026b0eac357b47036b2', // Équipe
@@ -12,13 +13,26 @@ exports.handler = async function(event) {
   }
 
   const cursor = event.queryStringParameters && event.queryStringParameters.cursor;
+  const jour = event.queryStringParameters && event.queryStringParameters.jour;
   const noFilter = NO_FILTER_DBS.includes(dbId);
 
   try {
     const body = { page_size: 20 };
+
     if (!noFilter) {
-      body.filter = { property: 'Visible', checkbox: { equals: true } };
+      if (jour) {
+        // Filter by day AND visible
+        body.filter = {
+          and: [
+            { property: 'Visible', checkbox: { equals: true } },
+            { property: 'Jour', select: { equals: jour } }
+          ]
+        };
+      } else {
+        body.filter = { property: 'Visible', checkbox: { equals: true } };
+      }
     }
+
     if (cursor) body.start_cursor = cursor;
 
     const response = await fetch('https://api.notion.com/v1/databases/' + dbId + '/query', {
