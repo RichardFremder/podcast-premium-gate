@@ -993,15 +993,28 @@ async function loadEpisode() {
     var props = data.properties;
     var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : 'Sans titre';
     var desc = props.Description && props.Description.rich_text ? props.Description.rich_text.map(function(r){return r.plain_text;}).join('') : '';
-    var temps = props.Temps && props.Temps.rich_text && props.Temps.rich_text[0] ? props.Temps.rich_text[0].plain_text : '';
-    var date = props['Date mise en ligne radio'] && props['Date mise en ligne radio'].date ? new Date(props['Date mise en ligne radio'].date.start).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : '';
+    var temps = (props.Temps && props.Temps.rich_text && props.Temps.rich_text[0]) ? props.Temps.rich_text[0].plain_text :
+               (props['Durée'] && props['Durée'].rich_text && props['Durée'].rich_text[0]) ? props['Durée'].rich_text[0].plain_text : '';
+    var dateRaw = (props['Date mise en ligne radio'] && props['Date mise en ligne radio'].date) ? props['Date mise en ligne radio'].date.start :
+                  (props['Date Publication Radio'] && props['Date Publication Radio'].date) ? props['Date Publication Radio'].date.start : null;
+    var date = dateRaw ? new Date(dateRaw).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : '';
     var imgUrl='';
     if (props['Image URL'] && props['Image URL'].url) imgUrl=props['Image URL'].url;
     else if (props.Image && props.Image.files && props.Image.files[0]) { var f=props.Image.files[0]; imgUrl=f.file?f.file.url:(f.external?f.external.url:''); }
     var audioUrl='';
-    if (props['Lien audio']) {
-      if (props['Lien audio'].url) audioUrl=props['Lien audio'].url;
-      else if (props['Lien audio'].files && props['Lien audio'].files[0]) { var af=props['Lien audio'].files[0]; audioUrl=af.file?af.file.url:(af.external?af.external.url:''); }
+    // Try 'Lien audio' (URL type - RSS imported)
+    if (props['Lien audio'] && props['Lien audio'].url) {
+      audioUrl = props['Lien audio'].url;
+    }
+    // Try 'Lien audio' (files type)
+    else if (props['Lien audio'] && props['Lien audio'].files && props['Lien audio'].files[0]) {
+      var af=props['Lien audio'].files[0];
+      audioUrl=af.file?af.file.url:(af.external?af.external.url:'');
+    }
+    // Try 'Fichiers et médias' (Interviews Histoire)
+    else if (props['Fichiers et médias'] && props['Fichiers et médias'].files && props['Fichiers et médias'].files[0]) {
+      var af2=props['Fichiers et médias'].files[0];
+      audioUrl=af2.file?af2.file.url:(af2.external?af2.external.url:'');
     }
     var ytUrl = props['Lien YouTube'] && props['Lien YouTube'].url ? props['Lien YouTube'].url : '';
     document.title = titre+' — Timeline Story';
