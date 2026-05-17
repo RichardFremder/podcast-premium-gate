@@ -1011,10 +1011,17 @@ async function loadEpisode() {
       var af=props['Lien audio'].files[0];
       audioUrl=af.file?af.file.url:(af.external?af.external.url:'');
     }
-    // Try 'Fichiers et médias' (Interviews Histoire)
-    else if (props['Fichiers et médias'] && props['Fichiers et médias'].files && props['Fichiers et médias'].files[0]) {
-      var af2=props['Fichiers et médias'].files[0];
-      audioUrl=af2.file?af2.file.url:(af2.external?af2.external.url:'');
+    // Try any files property (handles encoding issues with 'Fichiers et médias')
+    else {
+      Object.keys(props).forEach(function(key) {
+        if (!audioUrl && props[key].type === 'files' && props[key].files && props[key].files[0]) {
+          var f = props[key].files[0];
+          var u = f.file ? f.file.url : (f.external ? f.external.url : '');
+          if (u && u.includes('.mp3') || u.includes('.m4a') || u.includes('.ogg') || u.includes('.wav')) {
+            audioUrl = u;
+          }
+        }
+      });
     }
     var ytUrl = props['Lien YouTube'] && props['Lien YouTube'].url ? props['Lien YouTube'].url : '';
     document.title = titre+' — Timeline Story';
