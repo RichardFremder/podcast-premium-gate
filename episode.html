@@ -794,7 +794,7 @@ footer {
     </div>
   </div>
   <div class="episode-page-desc" id="ep-desc"></div>
-  <a id="ep-back" href="/emission.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--blue);text-decoration:none;font-size:14px;margin-bottom:48px;">← Retour à l'émission</a>
+  <a id="ep-back" href="/emission.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--blue);text-decoration:none;font-size:14px;margin-bottom:48px;">← Retour aux émissions</a>
   <div id="disqus_thread"></div>
 </div>
 <!-- FOOTER -->
@@ -959,8 +959,7 @@ const EMISSIONS_INFO2 = {"5000ans": {"title": "5.000 ans d'Histoire", "desc": "D
 var params = new URLSearchParams(window.location.search);
 var pageId = params.get('id');
 var emissionId = params.get('emission') || '5000ans';
-var dbId = DB_MAP2[emissionId] || '';
-document.getElementById('ep-back').href = '/emission.html?id='+emissionId+(dbId?'&db='+dbId:'');
+document.getElementById('ep-back').href = '/podcasts.html';
 var emInfo = EMISSIONS_INFO2[emissionId];
 if (emInfo) document.getElementById('ep-emission').textContent = emInfo.title;
 var epAudio = document.getElementById('ep-audio');
