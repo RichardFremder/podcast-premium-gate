@@ -776,12 +776,12 @@ footer {
   <img id="emission-cover" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.25;display:none;">
   <div style="position:relative;">
     <div class="section-eyebrow" id="emission-eyebrow">Émission</div>
-    <h1 id="emission-title" style="margin-bottom:8px;">Chargement...</h1>
+    <h1 id="emission-title" style="margin-bottom:8px;"></h1>
     <p id="emission-desc"></p>
   </div>
 </div>
 <div class="episodes-list" id="episodes-list">
-  <div style="text-align:center;color:var(--silver);padding:40px;">Chargement...</div>
+  
 </div>
 <div class="pagination" id="pagination"></div>
 <!-- FOOTER -->
@@ -1031,6 +1031,7 @@ function renderItems(items) {
     var date = props['Date mise en ligne radio'] && props['Date mise en ligne radio'].date ? new Date(props['Date mise en ligne radio'].date.start).toLocaleDateString('fr-FR') : '';
     var imgUrl = '';
     if (props['Image URL'] && props['Image URL'].url) imgUrl = props['Image URL'].url;
+    else if (props.Image && props.Image.url) imgUrl = props.Image.url;
     else if (props.Image && props.Image.files && props.Image.files[0]) { var f=props.Image.files[0]; imgUrl=f.file?f.file.url:(f.external?f.external.url:''); }
     if (!imgUrl) imgUrl = 'https://picsum.photos/seed/'+item.id.slice(0,8)+'/80/80';
     var audioUrl2 = '';
