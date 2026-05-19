@@ -1361,6 +1361,42 @@ fetchPodcasts();
 fetchYouTubeSection(NOTION_DB_MATINALE, 'matinale-grid');
 fetchYouTubeSection(NOTION_DB_AFTERWEEK, 'afterweek-grid');
 loadSettings();
+
+async function loadInvitesHome() {
+  try {
+    var res = await fetch('/.netlify/functions/notion?db=' + NOTION_DB_INTERVIEWS);
+    var data = await res.json();
+    var grid = document.getElementById('invite-grid');
+    if (!grid || !data.results || data.results.length === 0) return;
+    var items = data.results.sort(function(a, b) {
+      var da = a.properties['Date mise en ligne radio'] && a.properties['Date mise en ligne radio'].date ? a.properties['Date mise en ligne radio'].date.start : '0000';
+      var db2 = b.properties['Date mise en ligne radio'] && b.properties['Date mise en ligne radio'].date ? b.properties['Date mise en ligne radio'].date.start : '0000';
+      return da < db2 ? 1 : -1;
+    }).slice(0, 5);
+    grid.innerHTML = items.map(function(item) {
+      var props = item.properties;
+      var nom = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
+      var invite = props['Invité'] && props['Invité'].rich_text && props['Invité'].rich_text[0] ? props['Invité'].rich_text[0].plain_text : '';
+      var photo = (props.Photo && props.Photo.url) ? props.Photo.url :
+                  (props['Image URL'] && props['Image URL'].url) ? props['Image URL'].url : '';
+      var audioUrl = props['Lien audio'] && props['Lien audio'].url ? props['Lien audio'].url : '';
+      var lien = '/episode.html?id='+item.id+'&emission=interviews'+(audioUrl?'&audio='+encodeURIComponent(audioUrl):'');
+      if (!photo) return '';
+      return '<div class="invite-card">'+
+        '<a href="'+lien+'" style="text-decoration:none">'+
+        '<div style="overflow:hidden;height:280px">'+
+          '<img class="invite-card-img" src="'+photo+'" alt="'+(invite||nom)+'" style="width:100%;height:280px;object-fit:cover;display:block;transition:transform 0.4s ease;background:#0d1a30">'+
+        '</div>'+
+        '<div class="invite-overlay"></div>'+
+        '<div class="invite-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>'+
+        '<div class="invite-card-body">'+
+          '<div class="invite-ep">L\'invité Histoire</div>'+
+          '<div class="invite-name">'+(invite||nom)+'</div>'+
+        '</div></a></div>';
+    }).join('');
+  } catch(e) { console.log('Invites error:', e); }
+}
+loadInvitesHome();
 </script>
 </body>
 </html>
