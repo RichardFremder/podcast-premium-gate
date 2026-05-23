@@ -1082,7 +1082,7 @@ async function loadAbout() {
       var bio = props.Bio && props.Bio.rich_text && props.Bio.rich_text[0] ? props.Bio.rich_text[0].plain_text : '';
       var photo = props.Photo && props.Photo.url ? props.Photo.url : 'https://picsum.photos/seed/'+item.id.slice(0,8)+'/400/280';
       return '<div class="team-card">' +
-        '<img class="team-card-img" src="' + photo + '" alt="' + nom + '" onerror="this.src='https://picsum.photos/seed/default/400/280'">' +
+        '<img class="team-card-img" src="' + photo + '" alt="' + nom + '" onerror="this.src=\'https://picsum.photos/seed/default/400/280\'">' +
         '<div class="team-card-body">' +
           '<div class="team-card-name">' + nom + '</div>' +
           (role ? '<div class="team-card-role">' + role + '</div>' : '') +
