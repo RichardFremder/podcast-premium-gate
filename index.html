@@ -1284,10 +1284,10 @@ function searchContent(query) {
     var desc = (props.Description && props.Description.rich_text && props.Description.rich_text[0]) ? props.Description.rich_text[0].plain_text.substring(0, 100) + '…' : '';
     var audioUrl3 = '';
     if (item.properties['Lien audio'] && item.properties['Lien audio'].url) audioUrl3 = item.properties['Lien audio'].url;
-    var emissions3 = ['5000ans','interviews','5minutes','matinale','afterweek','planete','business','philosofoot','saviez','booktok','fiction','playlist','xtraordinaire'];
+    var DB_MAP_SEARCH = {"5000ans": "313011abd129808da0facfbe4684e31c", "interviews": "315011abd12980548fbbcab01c3f7a69", "5minutes": "315011abd12980b59f1ddfc511af1bb7"};
     var emId3 = '5000ans';
     var itemDbId = item.parent && item.parent.database_id ? item.parent.database_id.replace(/-/g,'') : '';
-    emissions3.forEach(function(e) { if (DB_MAP && DB_MAP[e] === itemDbId) emId3 = e; });
+    Object.keys(DB_MAP_SEARCH).forEach(function(e) { if (DB_MAP_SEARCH[e] === itemDbId) emId3 = e; });
     var lien3 = '/episode.html?id='+item.id+'&emission='+emId3+(audioUrl3?'&audio='+encodeURIComponent(audioUrl3):'');
     return '<a href="'+lien3+'" class="search-result-item" style="text-decoration:none">' +
       '<div class="search-result-type">Podcast</div>' +
