@@ -1059,7 +1059,7 @@ async function loadAbout() {
     var data2 = await res2.json();
     var grid = document.getElementById('team-grid');
     if (!data2.results || data2.results.length === 0) {
-      grid.innerHTML = '<div style="color:var(--silver);padding:40px;">Aucun membre pour l'instant</div>';
+      grid.innerHTML = '<div style="color:var(--silver);padding:40px;">Aucun membre pour l\'instant</div>';
       return;
     }
     // Sort by Ordre
