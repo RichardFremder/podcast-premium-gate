@@ -848,7 +848,7 @@ function renderPodcasts(items) {
     <li><a href="/invites.html">L'invité Histoire</a></li>
     <li><a href="/articles.html">Nos articles</a></li>
     <li><a href="/grille.html">Grille des programmes</a></li>
-    <li><a href="#" style="display:none">Boutique</a></li>
+    <li id="boutique-nav-item" style="display:none"><a href="/boutique.html">Boutique</a></li>
     <li class="nav-social-group">
       <a href="https://www.youtube.com/@TimelineStory2026" target="_blank" class="nav-social" title="YouTube">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
@@ -906,10 +906,12 @@ function renderPodcasts(items) {
   </div>
 
   <div class="hero-visual">
-    <img class="hero-img-main"
-      id="hero-main-img" src=""
-      alt="Timeline Story"
-      onerror="this.src=''; this.style.background='#1e2d4a';">
+    <a id="hero-img-wrap" href="#" style="display:block;text-decoration:none;">
+      <img class="hero-img-main"
+        id="hero-main-img" src=""
+        alt="Timeline Story"
+        onerror="this.src=''; this.style.background='#1e2d4a';">
+    </a>
   </div>
 </section>
 
@@ -1121,7 +1123,7 @@ function renderPodcasts(items) {
     <li><a href="/qui-sommes-nous.html">Qui sommes-nous</a></li>
     <li><a href="#">Contact</a></li>
     <li><a href="#">Premium</a></li>
-    <li><a href="#" style="display:none">Boutique</a></li>
+    <li id="boutique-nav-item" style="display:none"><a href="/boutique.html">Boutique</a></li>
     <li><a href="#" style="display:none">Éditions</a></li>
   </ul>
   <div class="footer-socials">
@@ -1236,12 +1238,19 @@ async function loadAllItems() {
   var results = document.getElementById('search-results');
   results.innerHTML = '<div style="color:var(--silver);padding:20px;text-align:center;">Chargement...</div>';
   try {
-    var dbs = [NOTION_DB_PODCASTS, NOTION_DB_INTERVIEWS, NOTION_DB_5MIN, NOTION_DB_MATINALE, NOTION_DB_AFTERWEEK];
+    var dbs = [NOTION_DB_PODCASTS, NOTION_DB_INTERVIEWS, NOTION_DB_5MIN];
     var all = [];
     for (var i = 0; i < dbs.length; i++) {
-      var res = await fetch('/.netlify/functions/notion?db=' + dbs[i]);
-      var data = await res.json();
-      if (data.results) all = all.concat(data.results);
+      var cursor = null;
+      var hasMore = true;
+      while (hasMore) {
+        var url = '/.netlify/functions/notion?db=' + dbs[i] + (cursor ? '&cursor=' + cursor : '');
+        var res = await fetch(url);
+        var data = await res.json();
+        if (data.results) all = all.concat(data.results);
+        hasMore = data.has_more || false;
+        cursor = data.next_cursor || null;
+      }
     }
     allItems = all;
     results.innerHTML = '<div style="color:var(--silver);padding:20px;text-align:center;">' + all.length + ' épisodes indexés — tapez pour chercher</div>';
@@ -1273,11 +1282,18 @@ function searchContent(query) {
     var props = item.properties;
     var titre = (props.Titre && props.Titre.title && props.Titre.title[0]) ? props.Titre.title[0].plain_text : 'Sans titre';
     var desc = (props.Description && props.Description.rich_text && props.Description.rich_text[0]) ? props.Description.rich_text[0].plain_text.substring(0, 100) + '…' : '';
-    return '<div class="search-result-item">' +
+    var audioUrl3 = '';
+    if (item.properties['Lien audio'] && item.properties['Lien audio'].url) audioUrl3 = item.properties['Lien audio'].url;
+    var emissions3 = ['5000ans','interviews','5minutes','matinale','afterweek','planete','business','philosofoot','saviez','booktok','fiction','playlist','xtraordinaire'];
+    var emId3 = '5000ans';
+    var itemDbId = item.parent && item.parent.database_id ? item.parent.database_id.replace(/-/g,'') : '';
+    emissions3.forEach(function(e) { if (DB_MAP && DB_MAP[e] === itemDbId) emId3 = e; });
+    var lien3 = '/episode.html?id='+item.id+'&emission='+emId3+(audioUrl3?'&audio='+encodeURIComponent(audioUrl3):'');
+    return '<a href="'+lien3+'" class="search-result-item" style="text-decoration:none">' +
       '<div class="search-result-type">Podcast</div>' +
       '<div class="search-result-title">' + titre + '</div>' +
       (desc ? '<div class="search-result-desc">' + desc + '</div>' : '') +
-      '</div>';
+      '</a>';
   }).join('');
 }
 
@@ -1353,6 +1369,14 @@ async function loadSettings() {
       if (key === 'hero_image' && value) {
         var img = document.getElementById('hero-main-img');
         if (img) img.src = value;
+      }
+      if (key === 'hero_link' && value) {
+        var heroWrap = document.getElementById('hero-img-wrap');
+        if (heroWrap) { heroWrap.href = value; heroWrap.style.cursor = 'pointer'; }
+      }
+      if (key === 'boutique_visible' && value === 'true') {
+        var boutiqueNav = document.getElementById('boutique-nav-item');
+        if (boutiqueNav) boutiqueNav.style.display = 'block';
       }
     });
   } catch(e) { console.log('Settings error:', e); }

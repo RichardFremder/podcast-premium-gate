@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Épisode — Timeline Story</title>
+<title>Boutique — Timeline Story</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-
 @import url('https://fonts.cdnfonts.com/css/alte-haas-grotesk');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -688,38 +687,17 @@ footer {
   .live-bar { padding: 0 20px; }
 }
 
-.page-hero {padding:120px 40px 60px;background:linear-gradient(180deg,#0a1628 0%,var(--ink) 100%);text-align:center;}
-.page-hero h1 {font-size:clamp(28px,5vw,52px);font-weight:400;color:var(--white);margin-bottom:12px;}
-.page-hero p {font-size:16px;color:var(--silver);max-width:560px;margin:0 auto;line-height:1.7;}
-.emission-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px;padding:60px 40px;max-width:1200px;margin:0 auto;}
-.emission-card {background:var(--ink-mid);cursor:pointer;position:relative;overflow:hidden;transition:background 0.2s;text-decoration:none;display:block;}
-.emission-card:hover {background:#162440;}
-.emission-card:hover .emission-card-img {transform:scale(1.04);}
-.emission-card-img-wrap {overflow:hidden;height:180px;}
-.emission-card-img {width:100%;height:180px;object-fit:cover;display:block;transition:transform 0.4s ease;background:#0d1a30;}
-.emission-card-body {padding:20px;}
-.emission-card-title {font-size:17px;color:var(--white);margin-bottom:6px;line-height:1.3;}
-.emission-card-desc {font-size:12px;color:var(--ink-light);line-height:1.5;}
-.episodes-list {max-width:900px;margin:0 auto;padding:40px 40px 60px;}
-.episode-item {display:flex;gap:20px;align-items:center;padding:16px;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:background 0.2s;text-decoration:none;border-radius:4px;}
-.episode-item:hover {background:var(--ink-mid);}
-.episode-thumb {width:80px;height:80px;object-fit:cover;border-radius:4px;flex-shrink:0;background:var(--ink-mid);}
-.episode-info {flex:1;overflow:hidden;}
-.episode-title {font-size:15px;color:var(--white);margin-bottom:6px;line-height:1.4;}
-.episode-meta {font-size:12px;color:var(--ink-light);display:flex;gap:12px;}
-.episode-play {width:40px;height:40px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.2s;}
-.episode-play:hover {background:var(--blue-dark);}
-.episode-play svg {width:14px;height:14px;fill:white;margin-left:2px;}
-.pagination {display:flex;justify-content:center;gap:8px;padding:40px 20px;flex-wrap:wrap;}
-.page-btn {width:40px;height:40px;border:1px solid rgba(255,255,255,0.15);background:none;color:var(--silver);border-radius:4px;cursor:pointer;font-size:14px;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
-.page-btn:hover,.page-btn.active {background:var(--blue);border-color:var(--blue);color:var(--white);}
-.episode-page {max-width:800px;margin:0 auto;padding:100px 40px 60px;}
-.episode-page-cover {width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:32px;background:var(--ink-mid);}
-.episode-page-title {font-size:clamp(24px,4vw,40px);font-weight:400;color:var(--white);margin-bottom:12px;line-height:1.2;}
-.episode-page-meta {font-size:13px;color:var(--ink-light);margin-bottom:28px;display:flex;gap:16px;}
-.episode-page-player {background:var(--blue);border-radius:6px;padding:20px 24px;display:flex;align-items:center;gap:16px;margin-bottom:36px;}
-.episode-page-desc {font-size:16px;color:var(--silver);line-height:1.8;white-space:pre-line;margin-bottom:48px;}
-@media(max-width:768px){.emission-grid{padding:40px 20px;}.episodes-list{padding:20px 20px 40px;}.episode-page{padding:80px 20px 40px;}.page-hero{padding:100px 20px 40px;}}
+.page-hero { padding:120px 40px 60px; background:linear-gradient(180deg,#0a1628 0%,var(--ink) 100%); text-align:center; }
+.page-hero h1 { font-size:clamp(28px,5vw,52px); font-weight:400; color:var(--white); margin-bottom:12px; }
+.boutique-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2px; padding:60px 40px; max-width:1200px; margin:0 auto; }
+.boutique-item { background:var(--ink-mid); overflow:hidden; text-decoration:none; display:block; transition:background 0.2s; }
+.boutique-item:hover { background:#162440; }
+.boutique-img { width:100%; height:280px; object-fit:cover; display:block; background:#0d1a30; }
+.boutique-body { padding:20px; }
+.boutique-name { font-family:"Alte Haas Grotesk",Georgia,serif; font-size:18px; color:var(--white); margin-bottom:8px; }
+.boutique-price { font-size:20px; color:var(--blue); font-weight:600; margin-bottom:12px; }
+.boutique-btn { display:inline-block; background:var(--blue); color:var(--white); padding:10px 20px; font-size:14px; border-radius:4px; text-decoration:none; }
+@media(max-width:768px) { .page-hero { padding:100px 20px 40px; } .boutique-grid { padding:40px 20px; } }
 </style>
 </head>
 <body>
@@ -772,30 +750,13 @@ footer {
     </div>
   </div>
 </nav>
-<div class="episode-page">
-  <img id="ep-cover" class="episode-page-cover" src="" alt="" style="display:none">
-  <div class="section-eyebrow" id="ep-emission" style="margin-bottom:12px;"></div>
-  <h1 class="episode-page-title" id="ep-title"></h1>
-  <div class="episode-page-meta"><span id="ep-date"></span><span id="ep-duration"></span></div>
-  <div class="episode-page-player" id="ep-player" style="display:none">
-    <audio id="ep-audio" preload="none" style="display:none"></audio>
-    <button id="ep-play-btn" onclick="toggleEpisodePlay()" style="width:44px;height:44px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
-      <svg id="ep-icon-play" viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M8 5v14l11-7z"/></svg>
-      <svg id="ep-icon-pause" viewBox="0 0 24 24" fill="white" width="18" height="18" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-    </button>
-    <div style="flex:1">
-      <div style="font-size:15px;color:white" id="ep-player-title"></div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:2px" id="ep-player-time">Cliquez pour écouter</div>
-    </div>
-  </div>
-  <div id="ep-youtube" style="display:none;margin-bottom:36px;border-radius:8px;overflow:hidden">
-    <div style="position:relative;width:100%;padding-bottom:56.25%">
-      <iframe id="ep-yt-frame" src="" style="position:absolute;inset:0;width:100%;height:100%;border:none" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-    </div>
-  </div>
-  <div class="episode-page-desc" id="ep-desc"></div>
-  <a id="ep-back" href="/emission.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--blue);text-decoration:none;font-size:14px;margin-bottom:48px;">← Retour aux émissions</a>
-  <div id="disqus_thread"></div>
+<div class="page-hero">
+  <div class="section-eyebrow">Boutique</div>
+  <h1>La boutique Timeline Story</h1>
+  <p style="color:var(--silver)">Livres, coffrets et produits dérivés</p>
+</div>
+<div class="boutique-grid" id="boutique-grid">
+  <div style="color:var(--silver);padding:40px;text-align:center;grid-column:1/-1;">Bientôt disponible</div>
 </div>
 <!-- FOOTER -->
 <footer>
@@ -832,13 +793,13 @@ footer {
   <div class="footer-copy">© 2026 Timeline Story</div>
 </footer>
 <script>
-
 const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
 const NOTION_DB_PODCASTS = '313011abd129808da0facfbe4684e31c';
 const NOTION_DB_INTERVIEWS = '315011abd12980548fbbcab01c3f7a69';
 const NOTION_DB_5MIN = '315011abd12980b59f1ddfc511af1bb7';
 const NOTION_DB_MATINALE = '361011abd1298002bbb2cf4357ab9209';
 const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
+const NOTION_DB_SETTINGS = '362011abd129803d8915f72f9c726d33';
 
 async function fetchFromNotion(dbId) {
   const res = await fetch('/.netlify/functions/notion?db=' + dbId);
@@ -950,113 +911,6 @@ function renderPodcasts(items) {
 }
 
 
-
-</script>
-<script>
-const DB_MAP2 = {"5000ans": "313011abd129808da0facfbe4684e31c", "interviews": "315011abd12980548fbbcab01c3f7a69", "5minutes": "315011abd12980b59f1ddfc511af1bb7", "matinale": "361011abd1298002bbb2cf4357ab9209", "afterweek": "361011abd1298079a1f2c88c7471f040", "planete": "361011abd12980ee8501dde3e8243aeb", "business": "361011abd129803ba8a0ddfe0a5a95c6", "philosofoot": "361011abd12980e28749ce70b00a3cef", "saviez": "361011abd12980da968ac8d4687aa4c2", "booktok": "361011abd1298093aa4ee10269cc72e6", "fiction": "361011abd12980a99aa6eae5cf24e47b", "playlist": "361011abd129809ca961e554f4688ca1", "xtraordinaire": "361011abd129800d907dedc27ea788d6"};
-const TYPE_MAP2 = {"5000ans": "audio", "interviews": "audio", "5minutes": "audio", "matinale": "youtube", "afterweek": "youtube", "planete": "audio", "business": "both", "philosofoot": "both", "saviez": "audio", "booktok": "both", "fiction": "both", "playlist": "audio", "xtraordinaire": "both"};
-const EMISSIONS_INFO2 = {"5000ans": {"title": "5.000 ans d'Histoire", "desc": "De la pr\u00e9histoire \u00e0 nos jours, l'histoire racont\u00e9e en profondeur."}, "interviews": {"title": "Les Interviews Histoire", "desc": "Des historiens, des experts, des r\u00e9cits qui \u00e9clairent le pr\u00e9sent."}, "5minutes": {"title": "5 Minutes d'Histoire", "desc": "L'histoire en format court \u2014 efficace et passionnant."}, "matinale": {"title": "La Matinale", "desc": "Chaque matin, l'actualit\u00e9 d\u00e9crypt\u00e9e par l'Histoire."}, "afterweek": {"title": "L'After Week", "desc": "Le rendez-vous du week-end \u2014 d\u00e9bats, analyses et r\u00e9v\u00e9lations."}, "planete": {"title": "La Plan\u00e8te des Hommes", "desc": "L'histoire de notre plan\u00e8te et de ceux qui l'ont fa\u00e7onn\u00e9e."}, "business": {"title": "Histoires de Business", "desc": "Les grandes aventures entrepreneuriales d\u00e9crypt\u00e9es par l'Histoire."}, "philosofoot": {"title": "PhilosoFoot", "desc": "Quand le football rencontre la philosophie et l'histoire."}, "saviez": {"title": "Le saviez-vous ?", "desc": "Les anecdotes et curiosit\u00e9s historiques qui changent tout."}, "booktok": {"title": "Le BookTok", "desc": "Les livres d'histoire qui font l'actualit\u00e9."}, "fiction": {"title": "Histoire ou Fiction ?", "desc": "On d\u00e9m\u00eale le vrai du faux dans les grands r\u00e9cits populaires."}, "playlist": {"title": "La Playlist de...", "desc": "Des personnalit\u00e9s partagent leur playlist historique."}, "xtraordinaire": {"title": "Histoire Xtraordinaire", "desc": "Les histoires extraordinaires qui ont chang\u00e9 le monde."}};
-var params = new URLSearchParams(window.location.search);
-var pageId = params.get('id');
-var emissionId = params.get('emission') || '5000ans';
-document.getElementById('ep-back').href = '/podcasts.html';
-var emInfo = EMISSIONS_INFO2[emissionId];
-if (emInfo) document.getElementById('ep-emission').textContent = emInfo.title;
-var epAudio = document.getElementById('ep-audio');
-var epPlaying = false;
-function toggleEpisodePlay() {
-  if (epPlaying) {
-    epAudio.pause();
-    document.getElementById('ep-icon-play').style.display='block';
-    document.getElementById('ep-icon-pause').style.display='none';
-    document.getElementById('ep-player-time').textContent='En pause';
-    epPlaying=false;
-  } else {
-    epAudio.play().then(function() {
-      document.getElementById('ep-icon-play').style.display='none';
-      document.getElementById('ep-icon-pause').style.display='block';
-      document.getElementById('ep-player-time').textContent='En cours de lecture…';
-      epPlaying=true;
-    });
-  }
-}
-function getYouTubeId(url) {
-  if (!url) return null;
-  var m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-  return m?m[1]:null;
-}
-async function loadEpisode() {
-  if (!pageId) return;
-  
-  // Use audio URL from URL params if available (passed from emission.html)
-  var audioFromUrl = new URLSearchParams(window.location.search).get('audio');
-  if (audioFromUrl) {
-    epAudio.src = decodeURIComponent(audioFromUrl);
-    document.getElementById('ep-player').style.display = 'flex';
-  }
-
-  try {
-    var res = await fetch('/.netlify/functions/notion-page?id='+pageId);
-    var data = await res.json();
-    var props = data.properties;
-    var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : 'Sans titre';
-    var desc = props.Description && props.Description.rich_text ? props.Description.rich_text.map(function(r){return r.plain_text;}).join('') : '';
-    var temps = (props.Temps && props.Temps.rich_text && props.Temps.rich_text[0]) ? props.Temps.rich_text[0].plain_text :
-               (props['Durée'] && props['Durée'].rich_text && props['Durée'].rich_text[0]) ? props['Durée'].rich_text[0].plain_text : '';
-    var dateRaw = (props['Date mise en ligne radio'] && props['Date mise en ligne radio'].date) ? props['Date mise en ligne radio'].date.start :
-                  (props['Date Publication Radio'] && props['Date Publication Radio'].date) ? props['Date Publication Radio'].date.start : null;
-    var date = dateRaw ? new Date(dateRaw).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : '';
-    var imgUrl='';
-    if (props['Image URL'] && props['Image URL'].url) imgUrl=props['Image URL'].url;
-    else if (props.Image && props.Image.files && props.Image.files[0]) { var f=props.Image.files[0]; imgUrl=f.file?f.file.url:(f.external?f.external.url:''); }
-    var audioUrl='';
-    // Try 'Lien audio' (URL type - RSS imported)
-    if (props['Lien audio'] && props['Lien audio'].url) {
-      audioUrl = props['Lien audio'].url;
-    }
-    // Try 'Lien audio' (files type)
-    else if (props['Lien audio'] && props['Lien audio'].files && props['Lien audio'].files[0]) {
-      var af=props['Lien audio'].files[0];
-      audioUrl=af.file?af.file.url:(af.external?af.external.url:'');
-    }
-    // Try any files property (handles encoding issues with 'Fichiers et médias')
-    else {
-      Object.keys(props).forEach(function(key) {
-        if (!audioUrl && props[key].type === 'files' && props[key].files && props[key].files[0]) {
-          var f = props[key].files[0];
-          var u = f.file ? f.file.url : (f.external ? f.external.url : '');
-          if (u && u.includes('.mp3') || u.includes('.m4a') || u.includes('.ogg') || u.includes('.wav')) {
-            audioUrl = u;
-          }
-        }
-      });
-    }
-    var ytUrl = props['Lien YouTube'] && props['Lien YouTube'].url ? props['Lien YouTube'].url : '';
-    document.title = titre+' — Timeline Story';
-    document.getElementById('ep-title').textContent=titre;
-    document.getElementById('ep-desc').textContent=desc;
-    document.getElementById('ep-date').textContent=date;
-    document.getElementById('ep-duration').textContent=temps;
-    document.getElementById('ep-player-title').textContent=titre;
-    if (imgUrl) { var c=document.getElementById('ep-cover'); c.src=imgUrl; c.style.display='block'; }
-    var type = TYPE_MAP2[emissionId];
-    // Show YouTube player if available
-    if ((type==='youtube' || type==='both') && ytUrl) {
-      var ytId=getYouTubeId(ytUrl);
-      if (ytId) { document.getElementById('ep-yt-frame').src='https://www.youtube.com/embed/'+ytId; document.getElementById('ep-youtube').style.display='block'; }
-    }
-    // Show audio player if available
-    if ((type==='audio' || type==='both') && audioUrl) {
-      epAudio.src=audioUrl;
-      document.getElementById('ep-player').style.display='flex';
-    }
-  } catch(e) { console.log('Error:',e); }
-}
-loadEpisode();
-</script>
-<script>
-var disqus_config=function(){this.page.url=window.location.href;this.page.identifier=new URLSearchParams(window.location.search).get('id');};
-(function(){var d=document,s=d.createElement('script');s.src='https://timeline-story-fr.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();
 </script>
 </body>
 </html>
