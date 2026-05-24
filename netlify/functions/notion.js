@@ -1,4 +1,4 @@
-const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
+const NOTION_TOKEN = process.env.NOTION_TOKEN;
 
 const NO_FILTER_DBS = [
   '362011abd129803d8915f72f9c726d33', // Paramètres
@@ -21,7 +21,6 @@ exports.handler = async function(event) {
 
     if (!noFilter) {
       if (jour) {
-        // Filter by day AND visible
         body.filter = {
           and: [
             { property: 'Visible', checkbox: { equals: true } },
