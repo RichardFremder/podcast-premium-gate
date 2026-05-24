@@ -1,5 +1,4 @@
-const NOTION_TOKEN = 'ntn_qX2964728737TqNlm3ebAoKwMRpBH0QiokSPzv1D6VLgBZ';
-
+const NOTION_TOKEN = process.env.NOTION_TOKEN;
 exports.handler = async function(event) {
   const pageId = event.queryStringParameters && event.queryStringParameters.id;
   if (!pageId) {
