@@ -1,4 +1,4 @@
-const BREVO_API_KEY = process.env.BREVO_API_KEY || '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';
+const BREVO_API_KEY = process.env.BREVO_API_KEY || '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';
 const BREVO_LIST_ID = parseInt(process.env.BREVO_LIST_ID || '14');
 
 exports.handler = async function(event) {

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timeline Story — L'avenir est à l'Histoire</title>
+<title>Timeline Story — L'Avenir a une Histoire</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.cdnfonts.com/css/alte-haas-grotesk');
@@ -893,7 +893,7 @@ function renderPodcasts(items) {
 
   <div class="hero-content">
     <div class="hero-eyebrow">Radio & Podcasts d'Histoire</div>
-    <h1>L'avenir est à<br><em>l'Histoire</em></h1>
+    <h1>L'avenir<br><em>a une Histoire</em></h1>
     <p class="hero-sub">Comprendre le monde d'aujourd'hui par le prisme du passé — avec des historiens, des débats, des récits qui changent votre regard</p>
     <div class="hero-actions">
       <a href="#podcasts" class="btn-blue">
@@ -1043,33 +1043,10 @@ function renderPodcasts(items) {
       <div class="section-eyebrow">Édito</div>
       <h2 class="section-title" style="color:var(--ink)">Nos articles</h2>
     </div>
-    <a href="#" class="see-all">Voir tous les articles →</a>
+    <a href="/articles.html" class="see-all">Voir tous les articles →</a>
   </div>
-  <div class="edito-grid">
-
-    <div class="edito-main">
-      <img class="edito-main-img"
-        src="https://picsum.photos/seed/edito/700/400"
-        alt="Édito principal">
-      <div class="edito-main-overlay"></div>
-      <div class="edito-main-body">
-        <div class="edito-quote">« Comprendre avant de juger — c'est le fil conducteur de tout ce que nous faisons. »</div>
-        <div class="edito-author">Richard Fremder · Fondateur</div>
-      </div>
-    </div>
-
-    <div class="edito-card">
-      <div class="edito-card-tag">Actualité</div>
-      <div class="edito-card-title">Pourquoi les élections de 2024 ressemblent à celles de 1932</div>
-      <div class="edito-card-desc">Les parallèles historiques ne sont jamais des prophéties, mais ils éclairent ce que les médias ne voient pas</div>
-    </div>
-
-    <div class="edito-card">
-      <div class="edito-card-tag">Dossier</div>
-      <div class="edito-card-title">L'intelligence artificielle a-t-elle une histoire ?</div>
-      <div class="edito-card-desc">De Turing à ChatGPT — retour sur 80 ans de rêves, d'échecs et de révolutions technologiques</div>
-    </div>
-
+  <div class="edito-grid" id="edito-grid">
+    <div style="color:var(--ink-light);padding:40px;text-align:center;grid-column:1/-1;">Chargement...</div>
   </div>
 </section>
 
@@ -1421,5 +1398,6 @@ async function loadInvitesHome() {
 }
 loadInvitesHome();
 </script>
+<script src="/edito-script.js"></script>
 </body>
 </html>

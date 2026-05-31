@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Portail d'accès podcasts Premium avec vérification Stripe",
   "dependencies": {
-    "stripe": "^14.21.0"
+    "dotenv": "^17.4.2",
+    "stripe": "^14.25.0"
   }
 }

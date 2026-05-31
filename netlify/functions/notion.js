@@ -33,6 +33,7 @@ exports.handler = async function(event) {
     }
 
     if (cursor) body.start_cursor = cursor;
+    if (!noFilter) body.sorts = [{ property: "Date mise en ligne radio", direction: "descending" }];
 
     const response = await fetch('https://api.notion.com/v1/databases/' + dbId + '/query', {
       method: 'POST',

@@ -1057,8 +1057,6 @@ function renderPodcasts(items) {
 
 <script>
 // Brevo (Sendinblue) API
-const BREVO_API_KEY = 'VOTRE_CLE_API_BREVO'; // À remplacer par votre clé API Brevo
-const BREVO_LIST_ID = 0; // À remplacer par l'ID de votre liste Brevo
 
 async function subscribeNewsletter() {
   var email = document.getElementById('nl-email').value.trim();
@@ -1089,13 +1087,13 @@ async function subscribeNewsletter() {
       document.getElementById('nl-form').style.display = 'none';
       document.getElementById('nl-success').style.display = 'block';
     } else {
-      throw new Error(data.message || 'Erreur lors de l'inscription');
+      throw new Error(data.message || 'Erreur lors de l inscription');
     }
   } catch(e) {
     error.textContent = e.message || 'Une erreur est survenue, veuillez réessayer';
     error.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = 'S'abonner gratuitement';
+    btn.textContent = "S'abonner gratuitement";
   }
 }
 
@@ -1103,6 +1101,7 @@ async function subscribeNewsletter() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') subscribeNewsletter();
 });
+</script>
 <script src="/search-widget.js"></script>
 
 </body>

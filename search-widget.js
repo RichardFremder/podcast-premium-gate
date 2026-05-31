@@ -202,17 +202,41 @@
       });
   }
 
+  function getEmissionId(emission) {
+    var map = {
+      'Les Interviews Histoire': 'interviews',
+      '5000 ans d\'Histoire': '5000ans',
+      '5 Minutes d\'Histoire': '5minutes',
+      'La Matinale de l\'Histoire': 'matinale',
+      'After Week': 'afterweek',
+      'La Planète des Hommes': 'planete',
+      'Histoires de Business': 'business',
+      'PhilosoFoot': 'philosofoot',
+      'Le saviez-vous ?': 'saviez',
+      'Le BookTok de l\'Histoire': 'booktok',
+      'Histoire ou Fiction ?': 'fiction',
+      'La Playlist de...': 'playlist',
+      'Histoire Xtraordinaire': 'xtraordinaire'
+    };
+    return map[emission] || null;
+  }
+
   function renderItem(r) {
     var thumb = r.image
       ? '<img class="sr-thumb" src="' + escAttr(r.image) + '" alt="" onerror="this.style.display=\'none\'">'
       : '<div class="sr-thumb"></div>';
 
     var playBtn = r.audioUrl
-      ? '<button class="sr-play" onclick="event.preventDefault();window.tsPlayAudio(\'' + escAttr(r.audioUrl) + '\',\'' + escAttr(r.titre) + '\')">' +
+      ? '<button class="sr-play" onclick="event.stopPropagation();event.preventDefault();window.tsPlayAudio(\'' + escAttr(r.audioUrl) + '\',\'' + escAttr(r.titre) + '\')">' +
         '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>'
       : '';
 
-    return '<div class="sr-item">' +
+    var emId = getEmissionId(r.emission);
+    var url = emId ? '/episode.html?id=' + r.id.replace(/-/g,'') + '&emission=' + emId : null;
+    var tag = url ? 'a' : 'div';
+    var href = url ? ' href="' + url + '"' : '';
+
+    return '<' + tag + ' class="sr-item"' + href + '>' +
       thumb +
       '<div class="sr-body">' +
         '<div class="sr-emission">' + escHtml(r.emission) + '</div>' +
@@ -220,7 +244,7 @@
         (r.desc ? '<div class="sr-desc">' + escHtml(r.desc) + '</div>' : '') +
       '</div>' +
       playBtn +
-    '</div>';
+    '</' + tag + '>';
   }
 
   function escHtml(s) {
