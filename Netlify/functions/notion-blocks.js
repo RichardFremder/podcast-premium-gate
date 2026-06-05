@@ -12,7 +12,7 @@ exports.handler = async function(event) {
       headers: {
         'Authorization': 'Bearer ' + NOTION_TOKEN,
         'Notion-Version': '2022-06-28',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json; charset=utf-8'
       }
     });
 
@@ -21,7 +21,7 @@ exports.handler = async function(event) {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
         'Access-Control-Allow-Origin': '*',
         'Cache-Control': 'public, s-maxage=300'
       },
