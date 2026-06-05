@@ -1331,13 +1331,63 @@ function renderYouTubeSection(items, gridId) {
   });
 }
 
-async function fetchYouTubeSection(dbId, gridId) {
+async function loadYouTubeSections() {
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + dbId);
+    var res = await fetch('/.netlify/functions/youtube');
     var data = await res.json();
-    if (data.results) renderYouTubeSection(data.results, gridId);
+
+    var matGrid = document.getElementById('matinale-grid');
+    if (matGrid) {
+      matGrid.innerHTML = '';
+      if (data.matinale && data.matinale.last) {
+        var v = data.matinale.last;
+        matGrid.innerHTML += '<div><a href="'+v.url+'" target="_blank" style="text-decoration:none">'
+          + '<div style="position:relative;width:100%;padding-bottom:56.25%;background:#000">'
+          + '<img src="'+v.thumbnail+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="">'
+          + '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">'
+          + '<div style="width:48px;height:48px;background:rgba(22,107,245,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center">'
+          + '<svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>'
+          + '</div>'
+          + '<div style="padding:10px;background:var(--ink-mid)">'
+          + '<div style="font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Dernière émission</div>'
+          + '<div style="font-size:13px;color:var(--white)">'+v.title+'</div>'
+          + '</div></a></div>';
+      }
+      if (data.matinale && data.matinale.next) {
+        var v = data.matinale.next;
+        matGrid.innerHTML += '<div><a href="'+v.url+'" target="_blank" style="text-decoration:none">'
+          + '<div style="position:relative;width:100%;padding-bottom:56.25%;background:#0d1a30;display:flex;align-items:center;justify-content:center">'
+          + '<svg viewBox="0 0 24 24" width="48" height="48" fill="rgba(22,107,245,0.5)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>'
+          + '</div>'
+          + '<div style="padding:10px;background:var(--ink-mid)">'
+          + '<div style="font-size:10px;color:#ff3d6b;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Prochaine émission</div>'
+          + '<div style="font-size:13px;color:var(--white)">'+v.title+'</div>'
+          + '</div></a></div>';
+      }
+      if (!data.matinale || (!data.matinale.last && !data.matinale.next)) {
+        matGrid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:13px;grid-column:1/-1">Aucune émission disponible</div>';
+      }
+    }
+
+    var awGrid = document.getElementById('afterweek-grid');
+    if (awGrid) {
+      awGrid.innerHTML = '';
+      if (data.afterweek && data.afterweek.next) {
+        var v = data.afterweek.next;
+        awGrid.innerHTML = '<div style="grid-column:1/-1"><a href="'+v.url+'" target="_blank" style="text-decoration:none">'
+          + '<div style="position:relative;width:100%;padding-bottom:56.25%;background:#0d1a30;display:flex;align-items:center;justify-content:center">'
+          + '<svg viewBox="0 0 24 24" width="48" height="48" fill="rgba(22,107,245,0.5)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>'
+          + '</div>'
+          + '<div style="padding:10px;background:var(--ink-mid)">'
+          + '<div style="font-size:10px;color:#ff3d6b;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Prochaine émission</div>'
+          + '<div style="font-size:13px;color:var(--white)">'+v.title+'</div>'
+          + '</div></a></div>';
+      } else {
+        awGrid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:13px;grid-column:1/-1">Aucune émission programmée</div>';
+      }
+    }
   } catch(e) {
-    console.log('Notion fetch error:', e);
+    console.log('YouTube fetch error:', e);
   }
 }
 </script>
@@ -1367,8 +1417,7 @@ async function loadSettings() {
   } catch(e) { console.log('Settings error:', e); }
 }
 fetchPodcasts();
-fetchYouTubeSection(NOTION_DB_MATINALE, 'matinale-grid');
-fetchYouTubeSection(NOTION_DB_AFTERWEEK, 'afterweek-grid');
+loadYouTubeSections();
 loadSettings();
 
 async function loadInvitesHome() {
