@@ -61,9 +61,12 @@ exports.handler = async function(event) {
 
     // Récupère l'image depuis Notion
     function getNotionImage(notionData) {
-      if (!notionData.results || !notionData.results[0]) return null;
-      const props = notionData.results[0].properties;
-      return (props['Image URL'] && props['Image URL'].url) ? props['Image URL'].url : null;
+      if (!notionData.results) return null;
+      for (const page of notionData.results) {
+        const url = page.properties['Image URL'] && page.properties['Image URL'].url;
+        if (url) return url;
+      }
+      return null;
     }
 
     const matinaleImage = getNotionImage(notionMat);
