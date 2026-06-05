@@ -17,3 +17,6 @@
   for = "/index.html"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+
+[functions."cron-import"]
+  schedule = "0 3 * * *"
