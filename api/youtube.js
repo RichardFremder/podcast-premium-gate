@@ -48,8 +48,9 @@ async function getLives(eventType) {
   return fetchUrl(url);
 }
 
-module.exports = async (req, res) {
-  if (!API_KEY) return res.status(500).json(JSON.parse(JSON.stringify({ error: 'YOUTUBE_API_KEY missing' ))) };
+module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (!API_KEY) return res.status(500).json({ error: 'YOUTUBE_API_KEY missing' });
 
   try {
     const [completed, upcoming, notionMat, notionAw] = await Promise.all([
@@ -103,10 +104,7 @@ module.exports = async (req, res) {
       v.title.toLowerCase().includes('after') || v.title.toLowerCase().includes('week')
     ).slice(0, 1);
 
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({
+    return res.status(200).json({
         matinale: {
           last: matinaleCompleted[0] || (allCompleted[0] ? {...allCompleted[0], thumbnail: matinaleImage || allCompleted[0].thumbnail} : null),
           next: matinaleUpcoming[0] || (allUpcoming[0] ? {...allUpcoming[0], thumbnail: matinaleImage || allUpcoming[0].thumbnail} : null)
@@ -114,9 +112,8 @@ module.exports = async (req, res) {
         afterweek: {
           next: afterweekUpcoming[0] || (allUpcoming[1] ? {...allUpcoming[1], thumbnail: afterweekImage || allUpcoming[1].thumbnail} : null)
         }
-      })
-    };
+      });
   } catch(e) {
-    return res.status(500).json(JSON.parse(JSON.stringify({ error: e.message ))) };
+    return res.status(500).json({ error: e.message });
   }
 };

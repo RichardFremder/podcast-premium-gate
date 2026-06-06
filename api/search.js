@@ -77,23 +77,18 @@ async function queryDB(dbId, label, query) {
   }).filter(function(r) { return r.titre.length > 0; });
 }
 
-module.exports = async (req, res) {
-  const query = event.queryStringParameters && event.queryStringParameters.q;
+module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json');
+
+  const query = req.query.q;
 
   if (!query || query.trim().length < 2) {
-    return {
-      statusCode: 400,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: 'Query too short', results: [] })
-    };
+    return res.status(400).json({ error: 'Query too short', results: [] });
   }
 
   if (!NOTION_TOKEN) {
-    return {
-      statusCode: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: 'NOTION_TOKEN not set', results: [] })
-    };
+    return res.status(500).json({ error: 'NOTION_TOKEN not set', results: [] });
   }
 
   try {
@@ -103,27 +98,14 @@ module.exports = async (req, res) {
 
     const flat = [].concat.apply([], allResults);
 
-    // Tri par date décroissante
     flat.sort(function(a, b) {
       if (!a.date) return 1;
       if (!b.date) return -1;
       return a.date < b.date ? 1 : -1;
     });
 
-    return {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'public, s-maxage=60'
-      },
-      body: JSON.stringify({ results: flat.slice(0, 20), total: flat.length })
-    };
+    return res.status(200).json({ results: flat.slice(0, 20), total: flat.length });
   } catch(e) {
-    return {
-      statusCode: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: e.message, results: [] })
-    };
+    return res.status(500).json({ error: e.message, results: [] });
   }
 };

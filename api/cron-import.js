@@ -132,7 +132,7 @@ async function processFeed(feed) {
   return imported;
 }
 
-module.exports = async (req, res) {
+module.exports = async (req, res) => {
   if (!NOTION_TOKEN) return res.status(500).json(JSON.parse('NOTION_TOKEN missing' ));
   console.log('Starting scheduled RSS import - ' + new Date().toISOString());
   let total = 0;
