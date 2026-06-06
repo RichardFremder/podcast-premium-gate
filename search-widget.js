@@ -178,7 +178,7 @@
     setStatus('Recherche…');
     setResults('<div class="sr-loader"><div class="sr-spinner"></div> Chargement…</div>');
 
-    fetch('/.netlify/functions/search?q=' + encodeURIComponent(q))
+    fetch('/api/search?q=' + encodeURIComponent(q))
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (data.error) {

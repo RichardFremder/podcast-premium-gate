@@ -564,7 +564,7 @@ async function loadArticle() {
 
   try {
     // 1. Récupérer les métadonnées depuis la base Articles
-    var dbRes = await fetch('/.netlify/functions/notion?db=' + ARTICLES_DB);
+    var dbRes = await fetch('/api/notion?db=' + ARTICLES_DB);
     var dbData = await dbRes.json();
     var article = null;
     if (dbData.results) {
@@ -609,7 +609,7 @@ async function loadArticle() {
     document.getElementById('loading').style.display = 'none';
 
     // 3. Récupérer les blocs de contenu
-    var blocksRes = await fetch('/.netlify/functions/notion-blocks?id=' + pageId);
+    var blocksRes = await fetch('/api/notion-blocks?id=' + pageId);
     var blocksData = await blocksRes.json();
 
     if (blocksData.results && blocksData.results.length > 0) {
@@ -637,7 +637,7 @@ var liveStream = '';
 
 async function loadLiveSettings() {
   try {
-    var res = await fetch('/.netlify/functions/notion?db=362011abd129803d8915f72f9c726d33');
+    var res = await fetch('/api/notion?db=362011abd129803d8915f72f9c726d33');
     var data = await res.json();
     if (!data.results) return;
     data.results.forEach(function(item) {

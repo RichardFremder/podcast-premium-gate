@@ -828,7 +828,7 @@ const NOTION_DB_MATINALE = '361011abd1298002bbb2cf4357ab9209';
 const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
 
 async function fetchFromNotion(dbId) {
-  const res = await fetch('/.netlify/functions/notion?db=' + dbId);
+  const res = await fetch('/api/notion?db=' + dbId);
   return await res.json();
 }
 
@@ -964,7 +964,7 @@ if (info) {
 // Load emission image from Emissions DB
 async function loadEmissionImage() {
   try {
-    var res = await fetch('/.netlify/functions/notion?db=362011abd129805ba540e25179bfd472');
+    var res = await fetch('/api/notion?db=362011abd129805ba540e25179bfd472');
     var data = await res.json();
     if (!data.results) return;
     var dbId = DB_MAP[emissionId];
@@ -994,7 +994,7 @@ async function loadNotionPage(page, cursor) {
   var list = document.getElementById('episodes-list');
   list.innerHTML = '<div style="text-align:center;padding:40px;"><div style="font-size:32px;margin-bottom:12px;">🎙</div><div style="color:var(--white);font-size:18px;margin-bottom:8px)">Chargement en cours…</div><div style="color:var(--silver);font-size:14px;">Nos 1.000 émissions arrivent dans quelques secondes</div></div>';
   
-  var url = '/.netlify/functions/notion?db=' + dbId + (cursor ? '&cursor=' + cursor : '');
+  var url = '/api/notion?db=' + dbId + (cursor ? '&cursor=' + cursor : '');
   var res = await fetch(url);
   var data = await res.json();
   var items = data.results || [];

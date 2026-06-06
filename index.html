@@ -700,7 +700,7 @@ const NOTION_DB_SAVIEZ = '361011abd12980da968ac8d4687aa4c2';
 const NOTION_DB_SETTINGS = '362011abd129803d8915f72f9c726d33';
 
 async function fetchFromNotion(dbId) {
-  const res = await fetch('/.netlify/functions/notion?db=' + dbId);
+  const res = await fetch('/api/notion?db=' + dbId);
   return await res.json();
 }
 
@@ -1229,7 +1229,7 @@ async function loadAllItems() {
       var cursor = null;
       var hasMore = true;
       while (hasMore) {
-        var url = '/.netlify/functions/notion?db=' + dbs[i] + (cursor ? '&cursor=' + cursor : '');
+        var url = '/api/notion?db=' + dbs[i] + (cursor ? '&cursor=' + cursor : '');
         var res = await fetch(url);
         var data = await res.json();
         if (data.results) all = all.concat(data.results);
@@ -1333,7 +1333,7 @@ function renderYouTubeSection(items, gridId) {
 
 async function loadYouTubeSections() {
   try {
-    var res = await fetch('/.netlify/functions/youtube');
+    var res = await fetch('/api/youtube');
     var data = await res.json();
 
     var matGrid = document.getElementById('matinale-grid');
@@ -1394,7 +1394,7 @@ async function loadYouTubeSections() {
 <script>
 async function loadSettings() {
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + NOTION_DB_SETTINGS);
+    var res = await fetch('/api/notion?db=' + NOTION_DB_SETTINGS);
     var data = await res.json();
     if (!data.results) return;
     data.results.forEach(function(item) {
@@ -1422,7 +1422,7 @@ loadSettings();
 
 async function loadInvitesHome() {
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + NOTION_DB_INTERVIEWS);
+    var res = await fetch('/api/notion?db=' + NOTION_DB_INTERVIEWS);
     var data = await res.json();
     var grid = document.getElementById('invite-grid');
     if (!grid || !data.results || data.results.length === 0) return;

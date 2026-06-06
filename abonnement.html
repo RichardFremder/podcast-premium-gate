@@ -257,7 +257,7 @@
       btn.innerHTML = '<span class="spinner"></span>Vérification…';
 
       try {
-        const res = await fetch('/.netlify/functions/check-subscriber', {
+        const res = await fetch('/api/check-subscriber', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email })

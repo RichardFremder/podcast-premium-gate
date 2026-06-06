@@ -905,7 +905,7 @@ const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
 const NOTION_DB_SETTINGS = '362011abd129803d8915f72f9c726d33';
 
 async function fetchFromNotion(dbId) {
-  const res = await fetch('/.netlify/functions/notion?db=' + dbId);
+  const res = await fetch('/api/notion?db=' + dbId);
   return await res.json();
 }
 
@@ -1046,7 +1046,7 @@ async function showJour(index, btn) {
   grid.innerHTML = '<div class="grille-empty">Chargement...</div>';
 
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + GRILLE_DB_ID + '&jour=' + encodeURIComponent(JOURS[index]));
+    var res = await fetch('/api/notion?db=' + GRILLE_DB_ID + '&jour=' + encodeURIComponent(JOURS[index]));
     var data = await res.json();
     if (!data.results || data.results.length === 0) {
       grid.innerHTML = '<div class="grille-empty">Aucun programme pour ce jour</div>';
@@ -1099,7 +1099,7 @@ async function showJour(index, btn) {
 var liveAudio = null, liveStream = "";
 async function loadLiveSettings() {
   try {
-    var res = await fetch("/.netlify/functions/notion?db=362011abd129803d8915f72f9c726d33");
+    var res = await fetch("/api/notion?db=362011abd129803d8915f72f9c726d33");
     var data = await res.json();
     if (!data.results) return;
     data.results.forEach(function(item) {

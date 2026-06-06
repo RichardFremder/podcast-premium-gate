@@ -213,7 +213,7 @@ function togglePlay() {
     document.getElementById('icon-pause').style.display = 'none';
     isPlaying = false;
   } else {
-    fetch('/.netlify/functions/notion?db=362011abd129803d8915f72f9c726d33')
+    fetch('/api/notion?db=362011abd129803d8915f72f9c726d33')
       .then(function(r) { return r.json(); })
       .then(function(data) {
         var results = data.results || [];
@@ -238,7 +238,7 @@ function togglePlay() {
 }
 
 // ── Boutique visible ─────────────────────────────────────────────────────────
-fetch('/.netlify/functions/notion?db=362011abd129803d8915f72f9c726d33')
+fetch('/api/notion?db=362011abd129803d8915f72f9c726d33')
   .then(function(r) { return r.json(); })
   .then(function(data) {
     var results = data.results || [];
@@ -258,7 +258,7 @@ var EMISSIONS_LIST_DB = '362011abd129805ba540e25179bfd472';
 
 async function loadEmissions() {
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + EMISSIONS_LIST_DB);
+    var res = await fetch('/api/notion?db=' + EMISSIONS_LIST_DB);
     var data = await res.json();
     var grid = document.getElementById('emission-grid');
 

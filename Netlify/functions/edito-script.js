@@ -4,7 +4,7 @@ async function loadEdito() {
   var grid = document.getElementById('edito-grid');
   if (!grid) return;
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + ARTICLES_DB);
+    var res = await fetch('/api/notion?db=' + ARTICLES_DB);
     var data = await res.json();
     if (!data.results || data.results.length === 0) { grid.innerHTML = ''; return; }
     var articles = data.results.slice(0, 4);

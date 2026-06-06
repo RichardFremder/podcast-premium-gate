@@ -878,7 +878,7 @@ const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
 const NOTION_DB_SETTINGS = '362011abd129803d8915f72f9c726d33';
 
 async function fetchFromNotion(dbId) {
-  const res = await fetch('/.netlify/functions/notion?db=' + dbId);
+  const res = await fetch('/api/notion?db=' + dbId);
   return await res.json();
 }
 
@@ -995,7 +995,7 @@ const ARTICLES_DB = '363011abd129806abe22d688affef423'; // ID de la base Notion 
 
 async function loadArticles() {
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + ARTICLES_DB);
+    var res = await fetch('/api/notion?db=' + ARTICLES_DB);
     var data = await res.json();
     var grid = document.getElementById('articles-grid');
 
@@ -1055,7 +1055,7 @@ loadArticles();
 var liveAudio = null, liveStream = "";
 async function loadLiveSettings() {
   try {
-    var res = await fetch("/.netlify/functions/notion?db=362011abd129803d8915f72f9c726d33");
+    var res = await fetch("/api/notion?db=362011abd129803d8915f72f9c726d33");
     var data = await res.json();
     if (!data.results) return;
     data.results.forEach(function(item) {

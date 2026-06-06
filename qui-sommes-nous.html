@@ -921,7 +921,7 @@ const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
 const NOTION_DB_SETTINGS = '362011abd129803d8915f72f9c726d33';
 
 async function fetchFromNotion(dbId) {
-  const res = await fetch('/.netlify/functions/notion?db=' + dbId);
+  const res = await fetch('/api/notion?db=' + dbId);
   return await res.json();
 }
 
@@ -1040,7 +1040,7 @@ const NOTION_DB_SETTINGS2 = '362011abd129803d8915f72f9c726d33';
 async function loadAbout() {
   // Load settings
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + NOTION_DB_SETTINGS2);
+    var res = await fetch('/api/notion?db=' + NOTION_DB_SETTINGS2);
     var data = await res.json();
     if (data.results) {
       data.results.forEach(function(item) {
@@ -1055,7 +1055,7 @@ async function loadAbout() {
 
   // Load team
   try {
-    var res2 = await fetch('/.netlify/functions/notion?db=' + NOTION_DB_TEAM);
+    var res2 = await fetch('/api/notion?db=' + NOTION_DB_TEAM);
     var data2 = await res2.json();
     var grid = document.getElementById('team-grid');
     if (!data2.results || data2.results.length === 0) {

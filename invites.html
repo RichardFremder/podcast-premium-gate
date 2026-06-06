@@ -879,7 +879,7 @@ const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
 const NOTION_DB_SETTINGS = '362011abd129803d8915f72f9c726d33';
 
 async function fetchFromNotion(dbId) {
-  const res = await fetch('/.netlify/functions/notion?db=' + dbId);
+  const res = await fetch('/api/notion?db=' + dbId);
   return await res.json();
 }
 
@@ -996,7 +996,7 @@ const INVITES_DB = '363011abd129808bb861f4a0e47a9c5e'; // ID de la base Notion "
 
 async function loadInvites() {
   try {
-    var res = await fetch('/.netlify/functions/notion?db=' + INVITES_DB);
+    var res = await fetch('/api/notion?db=' + INVITES_DB);
     var data = await res.json();
     var grid = document.getElementById('invites-grid');
 
@@ -1060,7 +1060,7 @@ loadInvites();
 var liveAudio = null, liveStream = "";
 async function loadLiveSettings() {
   try {
-    var res = await fetch("/.netlify/functions/notion?db=362011abd129803d8915f72f9c726d33");
+    var res = await fetch("/api/notion?db=362011abd129803d8915f72f9c726d33");
     var data = await res.json();
     if (!data.results) return;
     data.results.forEach(function(item) {

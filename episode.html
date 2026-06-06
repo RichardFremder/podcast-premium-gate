@@ -841,7 +841,7 @@ const NOTION_DB_MATINALE = '361011abd1298002bbb2cf4357ab9209';
 const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
 
 async function fetchFromNotion(dbId) {
-  const res = await fetch('/.netlify/functions/notion?db=' + dbId);
+  const res = await fetch('/api/notion?db=' + dbId);
   return await res.json();
 }
 
@@ -996,7 +996,7 @@ async function loadEpisode() {
   }
 
   try {
-    var res = await fetch('/.netlify/functions/notion-page?id='+pageId);
+    var res = await fetch('/api/notion-page?id='+pageId);
     var data = await res.json();
     var props = data.properties;
     var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : 'Sans titre';
