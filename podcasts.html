@@ -258,7 +258,7 @@ var EMISSIONS_LIST_DB = '362011abd129805ba540e25179bfd472';
 
 async function loadEmissions() {
   try {
-    var res = await fetch('/api/notion?db=' + EMISSIONS_LIST_DB);
+    var res = await fetch('/api/notion?db=' + EMISSIONS_LIST_DB + '&nosort=1');
     var data = await res.json();
     var grid = document.getElementById('emission-grid');
 
