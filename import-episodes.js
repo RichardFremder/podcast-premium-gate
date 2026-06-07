@@ -4,31 +4,21 @@ const https = require('https');
 const NOTION_TOKEN = process.env.NOTION_TOKEN;
 const NOTION_VERSION = '2022-06-28';
 
+const DATE_30J = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+
 const FEEDS = [
-  {
-    name: '5.000 ans d\'Histoire',
-    rss: 'https://feeds.audiomeans.fr/feed/b4de9333-deb0-4c99-82e3-3c21cfac3f2a.xml',
-    dbId: '313011abd129808da0facfbe4684e31c',
-    dateFrom: new Date('2026-05-16')
-  },
-  {
-    name: 'Histoires de Business',
-    rss: 'https://feeds.audiomeans.fr/feed/f455c695-8a88-40fd-b8f2-7ab517df29b5.xml',
-    dbId: '361011abd129803ba8a0ddfe0a5a95c6',
-    dateFrom: new Date('2026-05-16')
-  },
-  {
-    name: 'La Planete des Hommes',
-    rss: 'https://feeds.audiomeans.fr/feed/8056a31b-a92a-4eb6-bf1f-7ba3bf49c189.xml',
-    dbId: '361011abd12980ee8501dde3e8243aeb',
-    dateFrom: new Date('2024-10-17')
-  },
-  {
-    name: 'Le Saviez-vous',
-    rss: 'https://feeds.audiomeans.fr/feed/da2ba7d5-4019-4f11-b613-dc17fafce4a8.xml',
-    dbId: '361011abd12980da968ac8d4687aa4c2',
-    dateFrom: new Date('2026-05-24')
-  },
+  { name: '5.000 ans d\'Histoire',      rss: 'https://feeds.audiomeans.fr/feed/b4de9333-deb0-4c99-82e3-3c21cfac3f2a.xml', dbId: '313011abd129808da0facfbe4684e31c', dateFrom: DATE_30J },
+  { name: 'Les Interviews Histoire',     rss: 'https://feeds.audiomeans.fr/feed/3dd7da91-1386-44a5-ad2b-108ac7086e0a.xml', dbId: '315011abd12980548fbbcab01c3f7a69', dateFrom: DATE_30J },
+  { name: 'Cinq Minutes Histoire',       rss: 'https://feeds.audiomeans.fr/feed/db9500f3-fa94-4948-adab-340fc9980c6c.xml', dbId: '315011abd12980b59f1ddfc511af1bb7', dateFrom: DATE_30J },
+  { name: 'Histoires de Business',       rss: 'https://feeds.audiomeans.fr/feed/f455c695-8a88-40fd-b8f2-7ab517df29b5.xml', dbId: '361011abd129803ba8a0ddfe0a5a95c6', dateFrom: DATE_30J },
+  { name: 'La Planete des Hommes',       rss: 'https://feeds.audiomeans.fr/feed/8056a31b-a92a-4eb6-bf1f-7ba3bf49c189.xml', dbId: '361011abd12980ee8501dde3e8243aeb', dateFrom: DATE_30J },
+  { name: 'PhilosoFoot',                 rss: 'https://feeds.audiomeans.fr/feed/68a18ed4-1845-4a49-bf01-d8d3f3f67f25.xml', dbId: '361011abd12980e28749ce70b00a3cef', dateFrom: DATE_30J },
+  { name: 'Le Saviez-vous',              rss: 'https://feeds.audiomeans.fr/feed/da2ba7d5-4019-4f11-b613-dc17fafce4a8.xml', dbId: '361011abd12980da968ac8d4687aa4c2', dateFrom: DATE_30J },
+  { name: 'La Grande Illusion',          rss: 'https://feeds.audiomeans.fr/feed/8760b923-29b8-4323-8474-85907da43854.xml', dbId: '361011abd1298093aa4ee10269cc72e6', dateFrom: DATE_30J },
+  { name: 'La Playlist de',              rss: 'https://feeds.audiomeans.fr/feed/abd09c68-7c00-49cb-9d55-13e5d016125d.xml', dbId: '361011abd129809ca961e554f4688ca1', dateFrom: DATE_30J },
+  { name: 'Histoire Xtraordinaire',      rss: 'https://feeds.audiomeans.fr/feed/9291e90b-6772-4d4a-8abe-9e150bc8f40f.xml', dbId: '361011abd129800d907dedc27ea788d6', dateFrom: DATE_30J },
+  { name: 'Atmospheres',                 rss: 'https://feeds.audiomeans.fr/feed/8cd4636f-62f0-4aff-9602-aabcb95f9ac7.xml', dbId: '376011abd12980cf9274eccaf3e6efae', dateFrom: DATE_30J },
+  { name: 'Le BookTok',                  rss: 'https://feeds.audiomeans.fr/feed/12873be2-e4f8-412b-921a-62fbd2f8c8cf.xml', dbId: '376011abd129801ea35ff6fa6e375575', dateFrom: DATE_30J },
 ];
 
 function fetchUrl(url) {
