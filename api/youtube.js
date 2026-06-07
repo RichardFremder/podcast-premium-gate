@@ -76,7 +76,7 @@ module.exports = async (req, res) => {
     const allCompleted = (completed.items || []).map(item => ({
       id: item.id.videoId,
       title: item.snippet.title.replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/À/g,'À').replace(/Ã©/g,'é').replace(/Ã¹/g,'ù').replace(/Ã /g,'à').replace(/Ã«/g,'ë'),
-      thumbnail: matinaleImage || item.snippet.thumbnails.medium.url,
+      thumbnail: item.snippet.thumbnails.medium.url,
       publishedAt: item.snippet.publishedAt,
       url: `https://www.youtube.com/watch?v=${item.id.videoId}`
     }));
