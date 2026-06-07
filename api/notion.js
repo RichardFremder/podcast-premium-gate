@@ -33,7 +33,8 @@ module.exports = async (req, res) => {
   if (!dbId) return res.status(400).json({ error: 'Missing db parameter' });
 
   try {
-    const body = { page_size: 100, sorts: [{ property: 'Date mise en ligne radio', direction: 'descending' }] };
+    const noSort = req.query.nosort === '1';
+    const body = { page_size: 100, ...(noSort ? {} : { sorts: [{ property: 'Date mise en ligne radio', direction: 'descending' }] }) };
     const cursor = req.query.cursor;
     if (cursor) body.start_cursor = cursor;
 

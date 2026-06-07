@@ -1394,7 +1394,7 @@ async function loadYouTubeSections() {
 <script>
 async function loadSettings() {
   try {
-    var res = await fetch('/api/notion?db=' + NOTION_DB_SETTINGS);
+    var res = await fetch('/api/notion?db=' + NOTION_DB_SETTINGS + '&nosort=1');
     var data = await res.json();
     if (!data.results) return;
     data.results.forEach(function(item) {
