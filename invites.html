@@ -996,7 +996,7 @@ const INVITES_DB = '363011abd129808bb861f4a0e47a9c5e'; // ID de la base Notion "
 
 async function loadInvites() {
   try {
-    var res = await fetch('/api/notion?db=' + INVITES_DB);
+    var res = await fetch('/api/notion?db=' + NOTION_DB_INTERVIEWS + '&nosort=1');
     var data = await res.json();
     var grid = document.getElementById('invites-grid');
 
@@ -1016,12 +1016,13 @@ async function loadInvites() {
 
     grid.innerHTML = items.map(function(item) {
       var props = item.properties;
-      var nom = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : 'Sans nom';
-      var date = props.Date && props.Date.date ? new Date(props.Date.date.start).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'}) : '';
-      var phrase = props['Phrase clé'] && props['Phrase clé'].rich_text && props['Phrase clé'].rich_text[0] ? props['Phrase clé'].rich_text[0].plain_text : '';
+      var nom = props['Invité'] && props['Invité'].rich_text && props['Invité'].rich_text[0] ? props['Invité'].rich_text[0].plain_text : '';
+      if (!nom) return '';
+      var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
+      var date = props['Date mise en ligne radio'] && props['Date mise en ligne radio'].date ? new Date(props['Date mise en ligne radio'].date.start).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'}) : '';
       var desc = props.Description && props.Description.rich_text && props.Description.rich_text[0] ? props.Description.rich_text[0].plain_text.substring(0, 150) + '…' : '';
-      var photo = props.Photo && props.Photo.url ? props.Photo.url : 'https://picsum.photos/seed/'+item.id.slice(0,8)+'/400/240';
-      var lienEmission = props['Lien émission'] && props['Lien émission'].url ? props['Lien émission'].url : '#';
+      var photo = props['Image URL'] && props['Image URL'].url ? props['Image URL'].url : 'https://picsum.photos/seed/'+item.id.slice(0,8)+'/400/240';
+      var lienEmission = '/episode.html?id=' + item.id + '&emission=interviews';
 
       return '<a href="'+lienEmission+'" class="invite-page-card">' +
         '<div class="invite-page-img-wrap"><img class="invite-page-img" src="'+photo+'" alt="'+nom+'" onerror="this.src=&apos;https://picsum.photos/seed/default/400/240&apos;"></div>' +
