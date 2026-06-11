@@ -1034,7 +1034,14 @@ async function loadEpisode() {
     var ytUrl = props['Lien YouTube'] && props['Lien YouTube'].url ? props['Lien YouTube'].url : '';
     document.title = titre+' — Timeline Story';
     document.getElementById('ep-title').textContent=titre;
-    document.getElementById('ep-desc').textContent=desc;
+    // Mise en forme : paragraphes séparés par sauts de ligne
+    var formatted = desc
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .split(/\n\s*\n/)
+      .filter(function(p){ return p.trim().length > 0; })
+      .map(function(p){ return '<p style="margin:0 0 16px 0">' + p.trim().replace(/\n/g, '<br>') + '</p>'; })
+      .join('');
+    document.getElementById('ep-desc').innerHTML = formatted || desc;
     document.getElementById('ep-date').textContent=date;
     document.getElementById('ep-duration').textContent=temps;
     document.getElementById('ep-player-title').textContent=titre;
