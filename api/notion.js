@@ -34,7 +34,12 @@ module.exports = async (req, res) => {
 
   try {
     const noSort = req.query.nosort === '1';
-    const body = { page_size: 100, ...(noSort ? {} : { sorts: [{ property: 'Date mise en ligne radio', direction: 'descending' }] }) };
+    const withInvite = req.query.withinvite === '1';
+    const body = { 
+      page_size: 100, 
+      ...(noSort ? {} : { sorts: [{ property: 'Date mise en ligne radio', direction: 'descending' }] }),
+      ...(withInvite ? { filter: { property: 'Invité', rich_text: { is_not_empty: true } } } : {})
+    };
     const cursor = req.query.cursor;
     if (cursor) body.start_cursor = cursor;
 

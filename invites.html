@@ -996,7 +996,7 @@ const INVITES_DB = '363011abd129808bb861f4a0e47a9c5e'; // ID de la base Notion "
 
 async function loadInvites() {
   try {
-    var res = await fetch('/api/notion?db=' + NOTION_DB_INTERVIEWS + '&nosort=1');
+    var res = await fetch('/api/notion?db=' + NOTION_DB_INTERVIEWS + '&withinvite=1');
     var data = await res.json();
     var grid = document.getElementById('invites-grid');
 
