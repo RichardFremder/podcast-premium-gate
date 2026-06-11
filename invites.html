@@ -879,7 +879,7 @@ const NOTION_DB_AFTERWEEK = '361011abd1298079a1f2c88c7471f040';
 const NOTION_DB_SETTINGS = '362011abd129803d8915f72f9c726d33';
 
 async function fetchFromNotion(dbId) {
-  const res = await fetch('/api/notion?db=' + dbId);
+  const res = await fetch('/api/notion?db=' + dbId + '&nosort=1');
   return await res.json();
 }
 
