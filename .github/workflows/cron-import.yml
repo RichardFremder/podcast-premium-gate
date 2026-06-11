@@ -1,0 +1,16 @@
+name: Import RSS quotidien
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Chaque nuit à 3h UTC
+  workflow_dispatch:      # Permet de lancer manuellement
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Appel cron-import
+        run: |
+          curl -X GET "https://podcast-premium-gate.vercel.app/api/cron-import" \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
+            --max-time 60

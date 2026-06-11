@@ -133,6 +133,11 @@ async function processFeed(feed) {
 }
 
 module.exports = async (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && authHeader !== 'Bearer ' + cronSecret) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
   if (!NOTION_TOKEN) return res.status(500).json(JSON.parse('NOTION_TOKEN missing' ));
   console.log('Starting scheduled RSS import - ' + new Date().toISOString());
   let total = 0;
