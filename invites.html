@@ -1001,7 +1001,7 @@ async function loadInvites() {
     var grid = document.getElementById('invites-grid');
 
     if (!data.results || data.results.length === 0) {
-      grid.innerHTML = '<div style="color:var(--silver);padding:40px;text-align:center;">Aucun invité pour l'instant</div>';
+      grid.innerHTML = '<div style="color:var(--silver);padding:40px;text-align:center;">Aucun invité pour le moment</div>';
       return;
     }
 
@@ -1077,11 +1077,11 @@ function toggleLive() {
   var btn = document.getElementById("live-play-btn");
   if (liveAudio && !liveAudio.paused) {
     liveAudio.pause();
-    btn.innerHTML = "<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>";
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
   } else {
     if (!liveAudio) liveAudio = new Audio(liveStream);
     liveAudio.play();
-    btn.innerHTML = "<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>";
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
   }
 }
 loadLiveSettings();
