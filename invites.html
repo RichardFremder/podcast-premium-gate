@@ -1024,7 +1024,7 @@ async function loadInvites() {
       var lienEmission = props['Lien émission'] && props['Lien émission'].url ? props['Lien émission'].url : '#';
 
       return '<a href="'+lienEmission+'" class="invite-page-card">' +
-        '<div class="invite-page-img-wrap"><img class="invite-page-img" src="'+photo+'" alt="'+nom+'" onerror="this.src='https://picsum.photos/seed/default/400/240'"></div>' +
+        '<div class="invite-page-img-wrap"><img class="invite-page-img" src="'+photo+'" alt="'+nom+'" onerror="this.src=&apos;https://picsum.photos/seed/default/400/240&apos;"></div>' +
         '<div class="invite-page-body">' +
           (date ? '<div class="invite-page-date">'+date+'</div>' : '') +
           '<div class="invite-page-name">'+nom+'</div>' +
