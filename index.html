@@ -800,6 +800,9 @@ function renderPodcasts(items) {
     const card = document.createElement('div');
     card.className = 'podcast-card';
     const btnId = 'btn-' + item.id.slice(0,8);
+    card.style.cursor = 'pointer';
+    const emissionKey = item.parent && item.parent.database_id ? item.parent.database_id.replace(/-/g,'') : '';
+    const lien = '/episode.html?id=' + item.id + '&emission=' + emissionKey + (audioUrl ? '&audio=' + encodeURIComponent(audioUrl) : '');
     card.innerHTML = '<img class="podcast-card-img" src="' + image + '" alt="' + titre + '" onerror="this.src=\'https://picsum.photos/seed/default/600/170\'">' +
       '<div class="podcast-card-body">' +
         '<div class="podcast-ep">Timeline Story</div>' +
@@ -810,6 +813,7 @@ function renderPodcasts(items) {
           (audioUrl ? '<button id="' + btnId + '" class="play-btn" onclick="togglePodcastPlay(this, \'' + audioUrl + '\')" style="border:none;cursor:pointer;"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>' : '<div class="play-btn" style="opacity:0.3"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>') +
         '</div>' +
       '</div>';
+    card.onclick = function() { window.location.href = lien; };
     grid.appendChild(card);
   });
 }
