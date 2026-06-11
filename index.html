@@ -1429,7 +1429,7 @@ loadSettings();
 
 async function loadInvitesHome() {
   try {
-    var res = await fetch('/api/notion?db=' + NOTION_DB_INTERVIEWS);
+    var res = await fetch('/api/notion?db=' + NOTION_DB_INTERVIEWS + '&nosort=1');
     var data = await res.json();
     var grid = document.getElementById('invite-grid');
     if (!grid || !data.results || data.results.length === 0) return;
