@@ -706,13 +706,21 @@ async function fetchFromNotion(dbId) {
 
 async function fetchPodcasts() {
   try {
-    const [d1, d2, d3, d4, d5, d6] = await Promise.all([
+    const [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14] = await Promise.all([
       fetchFromNotion(NOTION_DB_PODCASTS),
       fetchFromNotion(NOTION_DB_INTERVIEWS),
       fetchFromNotion(NOTION_DB_5MIN),
       fetchFromNotion('361011abd12980ee8501dde3e8243aeb'),
       fetchFromNotion('361011abd129803ba8a0ddfe0a5a95c6'),
-      fetchFromNotion('361011abd12980da968ac8d4687aa4c2')
+      fetchFromNotion('361011abd12980da968ac8d4687aa4c2'),
+      fetchFromNotion('361011abd1298093aa4ee10269cc72e6'),
+      fetchFromNotion('361011abd129809ca961e554f4688ca1'),
+      fetchFromNotion('361011abd129800d907dedc27ea788d6'),
+      fetchFromNotion('37d011abd12980cf9274eccaf3e6efae'),
+      fetchFromNotion('376011abd129801ea35ff6fa6e375575'),
+      fetchFromNotion('361011abd12980e28749ce70b00a3cef'),
+      fetchFromNotion('37d011abd129805ab3fee23af798725d'),
+      fetchFromNotion('37d011abd12980c0bb4ce4e2d55705c6')
     ]);
     const all = [
       ...(d1.results || []),
@@ -720,7 +728,15 @@ async function fetchPodcasts() {
       ...(d3.results || []),
       ...(d4.results || []),
       ...(d5.results || []),
-      ...(d6.results || [])
+      ...(d6.results || []),
+      ...(d7.results || []),
+      ...(d8.results || []),
+      ...(d9.results || []),
+      ...(d10.results || []),
+      ...(d11.results || []),
+      ...(d12.results || []),
+      ...(d13.results || []),
+      ...(d14.results || [])
     ];
     // Trier par date décroissante, sans date = en dernier
     all.sort(function(a, b) {

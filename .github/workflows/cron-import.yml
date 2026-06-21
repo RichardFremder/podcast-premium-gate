@@ -2,7 +2,7 @@ name: Import RSS quotidien
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # Chaque nuit à 3h UTC
+    - cron: '30 6 * * *'  # Chaque nuit à 3h UTC
   workflow_dispatch:      # Permet de lancer manuellement
 
 jobs:
