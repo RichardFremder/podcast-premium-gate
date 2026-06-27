@@ -188,7 +188,7 @@ async function fetchSourceEpisodes() {
         notionUrl:      page.url,
         titre,
         description:    p['Description']?.rich_text?.[0]?.plain_text || '',
-        image:          p['Image']?.url || '',
+        image:          p['Image URL']?.url || p['Image']?.url || '',
         audioUrl:       p['Lien audio']?.url || p['Audio URL']?.url || '',
         dateISO:        p['Date mise en ligne radio']?.date?.start || p['Date de publication']?.date?.start || '',
         duree:          p['Temps']?.rich_text?.[0]?.plain_text || p['Durée']?.rich_text?.[0]?.plain_text || '',
@@ -206,20 +206,28 @@ async function fetchSourceEpisodes() {
 // ── Lecture des slugs déjà présents dans une base cible ──────────────────────
 
 async function fetchExistingSlugSet(dbId) {
-  const slugs = new Set();
+  // Retourne un Map: titre_minuscule -> { pageId, hasImage }
+  const map = new Map();
   let cursor;
   do {
     const body = { page_size: 100 };
     if (cursor) body.start_cursor = cursor;
     const data = await notionRequest('POST', '/v1/databases/' + dbId + '/query', body);
     for (const page of (data.results || [])) {
-      // On utilise le titre en minuscule comme clé de déduplication
       const t = page.properties['Titre']?.title?.[0]?.plain_text;
-      if (t) slugs.add(t.toLowerCase().trim());
+      const hasImage = !!(page.properties['Image']?.url);
+      if (t) map.set(t.toLowerCase().trim(), { pageId: page.id, hasImage });
     }
     cursor = data.has_more ? data.next_cursor : undefined;
   } while (cursor);
-  return slugs;
+  return map;
+}
+
+// ── Mise à jour d'un champ Image sur une page existante ──────────────────────
+async function patchImage(pageId, imageUrl) {
+  return notionRequest('PATCH', '/v1/pages/' + pageId, {
+    properties: { 'Image': { url: imageUrl } }
+  });
 }
 
 // ── Création d'un épisode dans une base cible ─────────────────────────────────
@@ -283,7 +291,17 @@ async function main() {
 
     const slug = ep.titre.toLowerCase().trim();
     if (existingSlugs[period].has(slug)) {
-      stats.skipped++;
+      // Si l'image est manquante, on la patch
+      const existing = existingSlugs[period].get(slug);
+      if (!existing.hasImage && ep.image) {
+        try {
+          await patchImage(existing.pageId, ep.image);
+          stats.patched = (stats.patched || 0) + 1;
+        } catch(e) { /* silencieux */ }
+        await sleep(350);
+      } else {
+        stats.skipped++;
+      }
       continue;
     }
 
@@ -291,7 +309,7 @@ async function main() {
       const result = await createInTarget(PERIOD_DB[period], ep, period);
       if (result.id) {
         console.log('  ✅  [' + period + '] ' + ep.titre.substring(0, 65));
-        existingSlugs[period].add(slug); // évite les doublons intra-session
+        existingSlugs[period].set(slug, { pageId: result.id, hasImage: true }); // évite les doublons intra-session
         stats.synced++;
       } else {
         console.log('  ❌  Erreur Notion : ' + (result.message || JSON.stringify(result).substring(0, 100)));
