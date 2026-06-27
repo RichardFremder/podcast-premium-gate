@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Périodes historiques — Timeline Story</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.cdnfonts.com/css/alte-haas-grotesk');
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue: #166bf5; --blue-dark: #0d4fd4; --blue-glow: rgba(22,107,245,0.18);
+  --ink: #080f1e; --ink-mid: #1e2d4a; --ink-light: #4a607f;
+  --silver: #c8d6e8; --white: #ffffff; --off-white: #f4f7fc;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--white); overflow-x: hidden; padding-bottom: 80px; }
+h1, h2, h3, .section-title, .nav-logo-text, .live-show, .ep-title {
+  font-family: 'Alte Haas Grotesk', Georgia, serif;
+}
+
+/* ═══ BANDEAU EN DIRECT ═══ */
+.live-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; background: #0a1628; height: 64px; display: flex; align-items: center; padding: 0 40px; gap: 18px; border-top: 2px solid var(--blue); box-shadow: 0 -4px 32px rgba(22,107,245,0.2); }
+.live-badge { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+.live-dot { width: 8px; height: 8px; background: #ff3d6b; border-radius: 50%; animation: blink 1.5s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.35); } }
+.live-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #ff3d6b; }
+.live-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
+.live-play { width: 38px; height: 38px; background: var(--blue); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.2s; }
+.live-play:hover { background: var(--blue-dark); }
+.live-play svg { width: 15px; height: 15px; fill: white; margin-left: 2px; }
+.live-info { flex: 1; overflow: hidden; }
+.live-show { font-size: 14px; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.live-track { font-size: 11px; color: var(--silver); margin-top: 1px; }
+.live-waves { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+.wave { width: 3px; background: var(--blue); border-radius: 2px; animation: wave 1s ease-in-out infinite; }
+.wave:nth-child(1){height:8px;animation-delay:0s}.wave:nth-child(2){height:16px;animation-delay:.1s}.wave:nth-child(3){height:22px;animation-delay:.2s}.wave:nth-child(4){height:16px;animation-delay:.3s}.wave:nth-child(5){height:8px;animation-delay:.4s}
+@keyframes wave { 0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.4)} }
+
+/* ═══ NAV ═══ */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; background: rgba(8,15,30,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(22,107,245,0.12); }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo img { height: 32px; width: auto; }
+.nav-logo-text { font-size: 17px; color: var(--white); letter-spacing: 0.01em; }
+.nav-links { display: flex; list-style: none; gap: 28px; align-items: center; }
+.nav-links a { color: var(--silver); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+
+/* ═══ HERO PÉRIODE ═══ */
+.periode-hero {
+  margin-top: 68px;
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+.periode-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.periode-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8,15,30,1) 0%, rgba(8,15,30,0.55) 50%, rgba(8,15,30,0.15) 100%);
+}
+.periode-hero-content {
+  position: relative;
+  padding: 0 48px 40px;
+}
+.periode-hero-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+.periode-hero-title {
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.05;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.periode-hero-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.55);
+}
+
+/* ═══ SÉLECTEUR DE PÉRIODE ═══ */
+.periode-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 0 48px;
+  margin-top: -1px;
+  background: var(--ink);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.periode-tabs::-webkit-scrollbar { display: none; }
+.periode-tab {
+  flex-shrink: 0;
+  padding: 16px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--silver);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.periode-tab:hover { color: var(--white); }
+.periode-tab.active { color: var(--white); border-bottom-color: var(--blue); }
+
+/* ═══ GRILLE ÉPISODES ═══ */
+.episodes-section { padding: 40px 48px; }
+.episodes-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.episodes-count { font-size: 13px; color: var(--ink-light); }
+
+.episodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.ep-card {
+  background: #0d1726;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  display: block;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.ep-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); border-color: rgba(22,107,245,0.25); }
+.ep-card img {
+  width: 100%; aspect-ratio: 16/9;
+  object-fit: cover; display: block;
+  transition: transform 0.3s ease;
+}
+.ep-card:hover img { transform: scale(1.03); }
+.ep-card-body { padding: 16px 18px 18px; }
+.ep-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 8px;
+}
+.ep-title {
+  font-size: 16px; line-height: 1.3;
+  color: var(--white); margin-bottom: 8px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.ep-desc {
+  font-size: 13px; color: var(--ink-light); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  margin-bottom: 12px;
+}
+.ep-footer { display: flex; align-items: center; justify-content: space-between; }
+.ep-duration { font-size: 12px; color: var(--silver); }
+.ep-play {
+  width: 32px; height: 32px; background: var(--blue); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ep-play svg { width: 13px; height: 13px; fill: white; margin-left: 2px; }
+.ep-premium {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #f4a22d;
+}
+
+.episodes-empty { text-align: center; padding: 80px 20px; color: var(--ink-light); font-size: 15px; }
+.episodes-loading { text-align: center; padding: 80px 20px; color: var(--silver); font-size: 14px; }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .periode-hero { height: 260px; }
+  .periode-hero-content { padding: 0 20px 28px; }
+  .periode-tabs { padding: 0 20px; }
+  .episodes-section { padding: 28px 20px; }
+  .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- BANDEAU EN DIRECT FIXE -->
+<div class="live-bar">
+  <div class="live-badge">
+    <div class="live-dot"></div>
+    <span class="live-label">En direct</span>
+  </div>
+  <div class="live-sep"></div>
+  <audio id="radio-stream" preload="none"></audio>
+  <button class="live-play" id="play-btn" onclick="togglePlay()">
+    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  </button>
+  <div class="live-info">
+    <div class="live-show">Timeline Story — Radio en direct</div>
+    <div class="live-track">L'Histoire en continu · 24h/24 · 7j/7</div>
+  </div>
+  <div class="live-waves">
+    <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+    <div class="wave"></div><div class="wave"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/TimelineStory.png" alt="Timeline Story" onerror="this.style.display='none'">
+    <span class="nav-logo-text">Timeline Story</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/podcasts.html">Podcasts</a></li>
+    <li><a href="/invites.html">L'invité Histoire</a></li>
+    <li><a href="/articles.html">Nos articles</a></li>
+    <li><a href="/grille.html">Grille des programmes</a></li>
+  </ul>
+</nav>
+
+<!-- HERO PÉRIODE (image + titre dynamiques) -->
+<div class="periode-hero" id="periode-hero">
+  <img class="periode-hero-img" id="hero-img" src="" alt="">
+  <div class="periode-hero-overlay"></div>
+  <div class="periode-hero-content">
+    <div class="periode-hero-eyebrow">Explorer par époque</div>
+    <h1 class="periode-hero-title" id="hero-title">Périodes historiques</h1>
+    <div class="periode-hero-sub" id="hero-sub">5 000 ans d'Histoire</div>
+  </div>
+</div>
+
+<!-- ONGLETS DE PÉRIODE -->
+<div class="periode-tabs" id="periode-tabs">
+  <button class="periode-tab" data-periode="antiquite"       onclick="switchPeriode('antiquite', this)">📜 Antiquité</button>
+  <button class="periode-tab" data-periode="moyen-age"       onclick="switchPeriode('moyen-age', this)">⚔️ Moyen Âge</button>
+  <button class="periode-tab" data-periode="moderne"         onclick="switchPeriode('moderne', this)">🏰 Époque Moderne</button>
+  <button class="periode-tab" data-periode="contemporaine"   onclick="switchPeriode('contemporaine', this)">🌍 Époque Contemporaine</button>
+</div>
+
+<!-- GRILLE D'ÉPISODES -->
+<div class="episodes-section">
+  <div class="episodes-header">
+    <div class="episodes-count" id="ep-count"></div>
+  </div>
+  <div class="episodes-grid" id="episodes-grid">
+    <div class="episodes-loading">Chargement des épisodes…</div>
+  </div>
+</div>
+
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const PERIODES = {
+  'antiquite': {
+    dbId: 'c0765a4ad10a4dd2b2825b392f5a2d38',
+    label: 'Antiquité',
+    sub: 'Jusqu\'au Ve siècle · Grèce · Rome · Égypte · Orient',
+    image: '/images/periode-antiquite.jpg',
+  },
+  'moyen-age': {
+    dbId: '565c9b58e3994073beebbecbd364d0b9',
+    label: 'Moyen Âge',
+    sub: 'Ve – XVe siècle · Croisades · Féodalité · Byzance',
+    image: '/images/periode-moyen-age.jpg',
+  },
+  'moderne': {
+    dbId: 'ef86c85092104df0aaec21b495c5734a',
+    label: 'Époque Moderne',
+    sub: 'XVe – XVIIIe siècle · Renaissance · Lumières · Explorations',
+    image: '/images/periode-moderne.jpg',
+  },
+  'contemporaine': {
+    dbId: '00fd4842aa3a45118c57eaf4ac66c1c6',
+    label: 'Époque Contemporaine',
+    sub: '1789 – nos jours · Révolutions · Guerres · Monde actuel',
+    image: '/images/periode-contemporaine.jpg',
+  },
+};
+
+// ── Lecture du paramètre URL ──────────────────────────────────────────────────
+function getPeriodeFromURL() {
+  const p = new URLSearchParams(window.location.search).get('periode');
+  return PERIODES[p] ? p : 'antiquite';
+}
+
+// ── Mise à jour du hero ───────────────────────────────────────────────────────
+function updateHero(slug) {
+  const cfg = PERIODES[slug];
+  document.getElementById('hero-img').src = cfg.image;
+  document.getElementById('hero-img').alt = cfg.label;
+  document.getElementById('hero-title').textContent = cfg.label;
+  document.getElementById('hero-sub').textContent = cfg.sub;
+  document.title = cfg.label + ' — Timeline Story';
+}
+
+// ── Chargement des épisodes depuis l'API Notion ───────────────────────────────
+async function loadEpisodes(slug) {
+  const cfg = PERIODES[slug];
+  const grid = document.getElementById('episodes-grid');
+  const count = document.getElementById('ep-count');
+  grid.innerHTML = '<div class="episodes-loading">Chargement…</div>';
+  count.textContent = '';
+
+  try {
+    // On interroge la base période via l'API Notion existante
+    // avec nosort=1 (le tri est fait côté client par date)
+    const url = '/api/notion?db=' + cfg.dbId + '&nosort=1';
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.results || data.results.length === 0) {
+      grid.innerHTML = '<div class="episodes-empty">Aucun épisode pour cette période pour l\'instant.</div>';
+      return;
+    }
+
+    // Filtrer les visibles, trier par date décroissante
+    const episodes = data.results
+      .filter(function(p) { return p.properties.Visible && p.properties.Visible.checkbox; })
+      .sort(function(a, b) {
+        const da = a.properties['Date de publication']?.date?.start || '';
+        const db = b.properties['Date de publication']?.date?.start || '';
+        return db.localeCompare(da);
+      });
+
+    if (episodes.length === 0) {
+      grid.innerHTML = '<div class="episodes-empty">Aucun épisode visible pour cette période.</div>';
+      return;
+    }
+
+    count.textContent = episodes.length + ' épisode' + (episodes.length > 1 ? 's' : '');
+
+    grid.innerHTML = episodes.map(function(item) {
+      const p = item.properties;
+      const titre  = p.Titre?.title?.[0]?.plain_text || 'Sans titre';
+      const desc   = p.Description?.rich_text?.[0]?.plain_text || '';
+      const image  = p.Image?.url || 'https://picsum.photos/seed/' + item.id.slice(0,8) + '/640/360';
+      const duree  = p.Durée?.rich_text?.[0]?.plain_text || p['Temps']?.rich_text?.[0]?.plain_text || '';
+      const audio  = p['Audio URL']?.url || '';
+      const premium = p.Premium?.checkbox || false;
+      const lien   = '/episode.html?id=' + item.id + '&emission=' + cfg.dbId.replace(/-/g,'') + (audio ? '&audio=' + encodeURIComponent(audio) : '');
+
+      return '<a class="ep-card" href="' + lien + '">' +
+        '<img src="' + image + '" alt="' + titre.replace(/"/g, '&quot;') + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/default/640/360\'">' +
+        '<div class="ep-card-body">' +
+          '<div class="ep-tag">' + (cfg.label) + '</div>' +
+          '<div class="ep-title">' + titre + '</div>' +
+          (desc ? '<div class="ep-desc">' + desc + '</div>' : '') +
+          '<div class="ep-footer">' +
+            '<span class="ep-duration">' + (duree || '') + '</span>' +
+            (premium ? '<span class="ep-premium">★ Premium</span>' : '<div class="ep-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>') +
+          '</div>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+
+  } catch(e) {
+    grid.innerHTML = '<div class="episodes-empty">Erreur de chargement. Réessayez.</div>';
+    console.error(e);
+  }
+}
+
+// ── Changement d'onglet ───────────────────────────────────────────────────────
+function switchPeriode(slug, btn) {
+  // Onglet actif
+  document.querySelectorAll('.periode-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+
+  // Hero + épisodes
+  updateHero(slug);
+  loadEpisodes(slug);
+
+  // Mise à jour de l'URL sans rechargement
+  const url = new URL(window.location.href);
+  url.searchParams.set('periode', slug);
+  history.pushState({}, '', url.toString());
+}
+
+// ── Init au chargement ────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  const slug = getPeriodeFromURL();
+  const activeTab = document.querySelector('[data-periode="' + slug + '"]');
+  if (activeTab) activeTab.classList.add('active');
+  updateHero(slug);
+  loadEpisodes(slug);
+});
+
+// ── Bouton radio live (minimal) ───────────────────────────────────────────────
+var liveStream = 'https://streaming.radio.co/s3a9b9b9b9/listen'; // remplacé dynamiquement
+async function togglePlay() {
+  try {
+    var res = await fetch('/api/notion?db=362011abd129803d8915f72f9c726d33');
+    var data = await res.json();
+    if (data.results) data.results.forEach(function(item) {
+      var props = item.properties;
+      var name = props.Nom?.title?.[0]?.plain_text || '';
+      if (name === 'live_stream_url' && props.Valeur?.url) liveStream = props.Valeur.url;
+    });
+  } catch(e) {}
+  var audio = document.getElementById('radio-stream');
+  if (!audio.src || audio.src !== liveStream) audio.src = liveStream;
+  if (audio.paused) { audio.play(); } else { audio.pause(); }
+}
+</script>
+
+</body>
+</html>

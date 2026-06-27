@@ -664,6 +664,67 @@ footer {
 .footer-social { color: var(--ink-light); transition: color 0.2s; display: flex; }
 .footer-social:hover { color: var(--silver); }
 
+/* ═══ PÉRIODES HISTORIQUES ═══ */
+.periodes-section { padding: 72px 40px; background: var(--ink); }
+.periodes-section .section-eyebrow { color: var(--blue); }
+.periodes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 36px;
+}
+.periode-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.periode-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.5); }
+.periode-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.periode-card:hover img { transform: scale(1.05); }
+.periode-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6,12,24,0.92) 0%, rgba(6,12,24,0.2) 55%, transparent 100%);
+  transition: background 0.3s;
+}
+.periode-card:hover .periode-card-overlay {
+  background: linear-gradient(to top, rgba(22,107,245,0.80) 0%, rgba(6,12,24,0.25) 60%, transparent 100%);
+}
+.periode-card-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 20px 18px;
+}
+.periode-card-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 5px;
+}
+.periode-card-title {
+  font-family: 'Alte Haas Grotesk', Georgia, serif;
+  font-size: 20px;
+  color: var(--white);
+  line-height: 1.15;
+}
+.periode-card-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 900px) {
   nav { padding: 0 20px; }
@@ -673,6 +734,8 @@ footer {
   .hero-img-main { height: 280px; }
   .section { padding: 52px 20px; }
   .invite-section { padding: 52px 20px; }
+  .periodes-section { padding: 52px 20px; }
+  .periodes-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .invite-grid { grid-template-columns: repeat(2, 1fr); }
   .invite-card:nth-child(n+3):nth-child(-n+5) { display: none; }
   .edito-section { padding: 52px 20px; }
@@ -875,6 +938,7 @@ function renderPodcasts(items) {
     <li><a href="/podcasts.html">Podcasts</a></li>
     <li><a href="/invites.html">L'invité Histoire</a></li>
     <li><a href="/articles.html">Nos articles</a></li>
+    <li><a href="/periodes.html">5 000 ans d'Histoire</a></li>
     <li><a href="/grille.html">Grille des programmes</a></li>
     <li id="boutique-nav-item" style="display:none"><a href="/boutique.html">Boutique</a></li>
     <li class="nav-social-group">
@@ -1040,6 +1104,60 @@ function renderPodcasts(items) {
 </section>
 
 
+<!-- PÉRIODES HISTORIQUES -->
+<section class="periodes-section">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Explorer par époque</div>
+      <h2 class="section-title">5 000 ans d'Histoire</h2>
+    </div>
+    <a href="/periodes.html" class="see-all" style="color:var(--blue)">Toutes les périodes →</a>
+  </div>
+  <div class="periodes-grid">
+
+    <a class="periode-card" href="/periodes.html?periode=antiquite">
+      <img src="/images/periode-antiquite.jpg" alt="Antiquité" loading="lazy">
+      <div class="periode-card-overlay"></div>
+      <div class="periode-card-label">
+        <div class="periode-card-eyebrow">Jusqu'au Ve siècle</div>
+        <div class="periode-card-title">Antiquité</div>
+        <div class="periode-card-sub">Grèce · Rome · Égypte · Orient</div>
+      </div>
+    </a>
+
+    <a class="periode-card" href="/periodes.html?periode=moyen-age">
+      <img src="/images/periode-moyen-age.jpg" alt="Moyen Âge" loading="lazy">
+      <div class="periode-card-overlay"></div>
+      <div class="periode-card-label">
+        <div class="periode-card-eyebrow">Ve – XVe siècle</div>
+        <div class="periode-card-title">Moyen Âge</div>
+        <div class="periode-card-sub">Croisades · Féodalité · Byzance</div>
+      </div>
+    </a>
+
+    <a class="periode-card" href="/periodes.html?periode=moderne">
+      <img src="/images/periode-moderne.jpg" alt="Époque Moderne" loading="lazy">
+      <div class="periode-card-overlay"></div>
+      <div class="periode-card-label">
+        <div class="periode-card-eyebrow">XVe – XVIIIe siècle</div>
+        <div class="periode-card-title">Époque Moderne</div>
+        <div class="periode-card-sub">Renaissance · Lumières · Explorations</div>
+      </div>
+    </a>
+
+    <a class="periode-card" href="/periodes.html?periode=contemporaine">
+      <img src="/images/periode-contemporaine.jpg" alt="Époque Contemporaine" loading="lazy">
+      <div class="periode-card-overlay"></div>
+      <div class="periode-card-label">
+        <div class="periode-card-eyebrow">1789 – nos jours</div>
+        <div class="periode-card-title">Époque Contemporaine</div>
+        <div class="periode-card-sub">Révolutions · Guerres · Monde actuel</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
 <!-- LA MATINALE + L'AFTER WEEK -->
 <section class="invite-section" id="matinale">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;">
@@ -1132,6 +1250,7 @@ function renderPodcasts(items) {
     <li><a href="#">Radio</a></li>
     <li><a href="/invites.html">L'invité Histoire</a></li>
     <li><a href="/articles.html">Nos articles</a></li>
+    <li><a href="/periodes.html">5 000 ans d'Histoire</a></li>
     <li><a href="/grille.html">Grille des programmes</a></li>
     <li><a href="/qui-sommes-nous.html">Qui sommes-nous</a></li>
     <li><a href="#">Contact</a></li>
