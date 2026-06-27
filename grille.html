@@ -1077,6 +1077,7 @@ async function showJour(index, btn) {
     grid.innerHTML = '<div class="grille-empty">Erreur de chargement</div>';
   }
 }
+</script>
 <script src="/search-widget.js"></script>
 
 <div class="live-bar" style="justify-content:center;height:auto;padding:12px 0;border-top:2px solid #166bf5;box-shadow:0 -4px 32px rgba(22,107,245,0.2);"><iframe src="https://player.radioking.io/timelineradio/?c=%231e7fcb&c2=%23ffffff&f=h&i=0&p=1&s=1&alb=1&li=1&popup=1&plc=0&h=undefined&l=470&v=2" style="border-radius:5px;width:470px;height:145px;box-shadow:0px 0px 20px 0px rgba(0,0,0,0.3);" frameBorder="0"></iframe></div>
@@ -1116,11 +1117,11 @@ function toggleLive() {
   var btn = document.getElementById("live-play-btn");
   if (liveAudio && !liveAudio.paused) {
     liveAudio.pause();
-    btn.innerHTML = "<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>";
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
   } else {
     if (!liveAudio) liveAudio = new Audio(liveStream);
     liveAudio.play();
-    btn.innerHTML = "<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>";
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
   }
 }
 loadLiveSettings();
