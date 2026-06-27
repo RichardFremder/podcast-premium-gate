@@ -177,6 +177,20 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .episodes-empty { text-align: center; padding: 80px 20px; color: var(--ink-light); font-size: 15px; }
 .episodes-loading { text-align: center; padding: 80px 20px; color: var(--silver); font-size: 14px; }
 
+/* Badges émissions */
+.ep-emission {
+  display: inline-block;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 3px; margin-bottom: 6px;
+}
+.badge-5000    { background: rgba(22,107,245,0.18); color: #5b9ef8; }
+.badge-interview { background: rgba(168,85,247,0.18); color: #c084fc; }
+.badge-business  { background: rgba(245,158,11,0.18); color: #fbbf24; }
+.badge-planete   { background: rgba(16,185,129,0.18); color: #34d399; }
+.badge-saviez    { background: rgba(239,68,68,0.18);  color: #f87171; }
+.badge-philosofoot { background: rgba(236,72,153,0.18); color: #f472b6; }
+.badge-default   { background: rgba(100,116,139,0.18); color: #94a3b8; }
+
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
@@ -300,6 +314,19 @@ function updateHero(slug) {
   document.title = cfg.label + ' — Timeline Story';
 }
 
+// ── Badge couleur par émission ────────────────────────────────────────────────
+function emissionBadgeClass(emission) {
+  if (!emission) return 'badge-default';
+  const e = emission.toLowerCase();
+  if (e.includes('5000') || e.includes('5 000')) return 'badge-5000';
+  if (e.includes('interview')) return 'badge-interview';
+  if (e.includes('business')) return 'badge-business';
+  if (e.includes('planète') || e.includes('planete')) return 'badge-planete';
+  if (e.includes('saviez')) return 'badge-saviez';
+  if (e.includes('philosofoot') || e.includes('foot')) return 'badge-philosofoot';
+  return 'badge-default';
+}
+
 // ── Chargement des épisodes depuis l'API Notion ───────────────────────────────
 async function loadEpisodes(slug) {
   const cfg = PERIODES[slug];
@@ -340,16 +367,20 @@ async function loadEpisodes(slug) {
       const p = item.properties;
       const titre  = p.Titre?.title?.[0]?.plain_text || 'Sans titre';
       const desc   = p.Description?.rich_text?.[0]?.plain_text || '';
-      const image  = p.Image?.url || 'https://picsum.photos/seed/' + item.id.slice(0,8) + '/640/360';
+      const image  = p.Image?.url || '';
       const duree  = p.Durée?.rich_text?.[0]?.plain_text || p['Temps']?.rich_text?.[0]?.plain_text || '';
       const audio  = p['Audio URL']?.url || '';
       const premium = p.Premium?.checkbox || false;
+      const emission = p.Slug?.rich_text?.[0]?.plain_text || '';
       const lien   = '/episode.html?id=' + item.id + '&emission=' + cfg.dbId.replace(/-/g,'') + (audio ? '&audio=' + encodeURIComponent(audio) : '');
+      const badgeClass = emissionBadgeClass(emission);
+      const badgeLabel = emission || cfg.label;
+      const imgSrc = image || ('https://picsum.photos/seed/' + item.id.slice(0,8) + '/640/360');
 
       return '<a class="ep-card" href="' + lien + '">' +
-        '<img src="' + image + '" alt="' + titre.replace(/"/g, '&quot;') + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/default/640/360\'">' +
+        '<img src="' + imgSrc + '" alt="' + titre.replace(/"/g, '&quot;') + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/default/640/360\'">' +
         '<div class="ep-card-body">' +
-          '<div class="ep-tag">' + (cfg.label) + '</div>' +
+          '<div class="ep-emission ' + badgeClass + '">' + badgeLabel + '</div>' +
           '<div class="ep-title">' + titre + '</div>' +
           (desc ? '<div class="ep-desc">' + desc + '</div>' : '') +
           '<div class="ep-footer">' +
