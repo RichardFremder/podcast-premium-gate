@@ -1,16 +1,45 @@
-name: Import RSS quotidien
+name: Import RSS + Sync périodes historiques
 
 on:
   schedule:
-    - cron: '30 6 * * *'  # Chaque nuit à 3h UTC
-  workflow_dispatch:      # Permet de lancer manuellement
+    # Étape 1 : Import RSS → base principale (03h30 UTC = 05h30 Paris heure été)
+    - cron: '30 3 * * *'
+  workflow_dispatch:  # Permet de lancer manuellement depuis GitHub
 
 jobs:
-  import:
+  # ── Job 1 : Import RSS via l'API Vercel (comportement inchangé) ─────────────
+  import-rss:
+    name: 📥 Import RSS Audiomeans → Notion
     runs-on: ubuntu-latest
     steps:
-      - name: Appel cron-import
+      - name: Appel API cron-import (Vercel)
         run: |
           curl -X GET "https://podcast-premium-gate.vercel.app/api/cron-import" \
             -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
-            --max-time 60
+            --max-time 90 \
+            --fail \
+            --silent \
+            --show-error
+        continue-on-error: false
+
+  # ── Job 2 : Sync périodes (démarre après le job 1) ─────────────────────────
+  sync-periodes:
+    name: 🗂️ Sync → bases Antiquité / Moyen Âge / Moderne / Contemporaine
+    runs-on: ubuntu-latest
+    needs: import-rss          # attend la fin de l'import RSS
+    steps:
+      - name: Checkout du repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Installation des dépendances
+        run: npm ci --omit=dev
+
+      - name: Lancement sync-periodes.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: node sync-periodes.js

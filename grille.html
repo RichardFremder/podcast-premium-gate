@@ -1064,7 +1064,7 @@ async function showJour(index, btn) {
       var props = item.properties;
       var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : 'Sans titre';
       var heure = props.Heure && props.Heure.rich_text && props.Heure.rich_text[0] ? props.Heure.rich_text[0].plain_text : '';
-      var emission = props.Émission && props.Émission.rich_text && props.Émission.rich_text[0] ? props.Émission.rich_text[0].plain_text : '';
+      var emission = props.Emission && props.Emission.rich_text && props.Emission.rich_text[0] ? props.Emission.rich_text[0].plain_text : '';
       return '<div class="grille-item">' +
         '<div class="grille-time">' + heure + '</div>' +
         '<div class="grille-info">' +

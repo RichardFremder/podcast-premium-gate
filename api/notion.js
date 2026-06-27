@@ -33,13 +33,31 @@ module.exports = async (req, res) => {
   if (!dbId) return res.status(400).json({ error: 'Missing db parameter' });
 
   try {
-    const noSort = req.query.nosort === '1';
+    const noSort   = req.query.nosort === '1';
     const withInvite = req.query.withinvite === '1';
-    const body = { 
-      page_size: 100, 
-      ...(noSort ? {} : { sorts: [{ property: 'Date mise en ligne radio', direction: 'descending' }] }),
-      ...(withInvite ? { filter: { property: 'Invité', rich_text: { is_not_empty: true } } } : {})
+    const jour     = req.query.jour || null;   // ← filtre grille des programmes
+
+    // Construction du filtre principal
+    let filter = null;
+
+    if (jour) {
+      // Grille : filtre par jour + Visible = true
+      filter = {
+        and: [
+          { property: 'Jour',    select:   { equals: jour } },
+          { property: 'Visible', checkbox: { equals: true } }
+        ]
+      };
+    } else if (withInvite) {
+      filter = { property: 'Invité', rich_text: { is_not_empty: true } };
+    }
+
+    const body = {
+      page_size: 100,
+      ...(filter ? { filter } : {}),
+      ...(noSort || jour ? {} : { sorts: [{ property: 'Date mise en ligne radio', direction: 'descending' }] })
     };
+
     const cursor = req.query.cursor;
     if (cursor) body.start_cursor = cursor;
 
