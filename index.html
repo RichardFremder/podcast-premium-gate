@@ -130,7 +130,8 @@ nav {
   justify-content: space-between;
   padding: 0 40px;
   height: 68px;
-  background: rgba(8,15,30,0.92);
+  background: rgba(8,15,30,0.95);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(22,107,245,0.12);
 }
@@ -218,6 +219,7 @@ nav {
     linear-gradient(rgba(22,107,245,0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(22,107,245,0.05) 1px, transparent 1px);
   background-size: 56px 56px;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
 }
 
@@ -293,7 +295,7 @@ h1 em { font-style: normal; color: var(--blue); }
 .hero-img-caption {
   position: absolute; bottom: 18px; left: 18px; right: 18px;
   background: rgba(8,15,30,0.82);
-  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   border-radius: 6px; padding: 14px 18px;
   display: flex; align-items: center; justify-content: space-between;
 }
@@ -757,6 +759,7 @@ footer {
   position: fixed;
   top: 68px; left: 0; right: 0; bottom: 64px;
   background: rgba(8,15,30,0.97);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   overflow-y: auto;
   z-index: 150;
@@ -1031,7 +1034,7 @@ function renderPodcasts(items) {
   </ul>
 
   <!-- Bouton hamburger mobile -->
-  <button class="nav-hamburger" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+  <button class="nav-hamburger" id="hamburger-btn" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -1441,6 +1444,11 @@ audio.addEventListener('error', function() {
 // Search
 var searchOpen = false;
 var allItems = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.getElementById('hamburger-btn');
+  if (btn) btn.addEventListener('click', toggleMobileMenu);
+});
 
 function toggleMobileMenu() {
   var btn = document.getElementById('hamburger-btn');
