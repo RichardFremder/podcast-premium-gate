@@ -1251,36 +1251,17 @@ function renderPodcasts(items) {
   </div>
 </section>
 
-<!-- LA MATINALE + L'AFTER WEEK -->
-<section class="invite-section" id="matinale">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;">
-
+<!-- LES DERNIÈRES VIDÉOS -->
+<section class="invite-section" id="dernieres-videos">
+  <div class="section-header" style="margin-bottom:24px;">
     <div>
-      <div class="section-header" style="margin-bottom:24px;">
-        <div>
-          <div class="section-eyebrow">Vidéos</div>
-          <h2 class="section-title">La Matinale</h2>
-        </div>
-        <a href="#" class="see-all" style="color:var(--blue)">Toutes →</a>
-      </div>
-      <div id="matinale-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px;">
-        <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
-      </div>
+      <div class="section-eyebrow">Vidéos</div>
+      <h2 class="section-title">Les dernières vidéos</h2>
     </div>
-
-    <div>
-      <div class="section-header" style="margin-bottom:24px;">
-        <div>
-          <div class="section-eyebrow">Vidéos</div>
-          <h2 class="section-title">L'After Week</h2>
-        </div>
-        <a href="#" class="see-all" style="color:var(--blue)">Tous →</a>
-      </div>
-      <div id="afterweek-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px;">
-        <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
-      </div>
-    </div>
-
+    <a href="https://www.youtube.com/@Podcast_Timeline" target="_blank" class="see-all" style="color:var(--blue)">Voir la chaîne →</a>
+  </div>
+  <div id="videos-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
+    <div style="color:var(--ink-light);padding:20px;font-size:13px;">Chargement...</div>
   </div>
 </section>
 
@@ -1596,65 +1577,33 @@ function renderYouTubeSection(items, gridId) {
   });
 }
 
-async function loadYouTubeSections() {
+async function fetchDernieresVideos() {
+  var grid = document.getElementById('videos-grid');
+  if (!grid) return;
   try {
     var res = await fetch('/api/youtube');
     var data = await res.json();
-
-    var matGrid = document.getElementById('matinale-grid');
-    if (matGrid) {
-      matGrid.innerHTML = '';
-      if (data.matinale && data.matinale.last) {
-        var v = data.matinale.last;
-        matGrid.innerHTML += '<div><a href="'+v.url+'" target="_blank" style="text-decoration:none">'
-          + '<div style="position:relative;width:100%;padding-bottom:56.25%;background:#000">'
-          + '<img src="'+v.thumbnail+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="">'
-          + '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">'
-          + '<div style="width:48px;height:48px;background:rgba(22,107,245,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center">'
-          + '<svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>'
-          + '</div>'
-          + '<div style="padding:10px;background:var(--ink-mid)">'
-          + '<div style="font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Dernière émission</div>'
-          + '<div style="font-size:13px;color:var(--white)">'+v.title+'</div>'
-          + '</div></a></div>';
-      }
-      if (data.matinale && data.matinale.next) {
-        var v = data.matinale.next;
-        matGrid.innerHTML += '<div><a href="'+v.url+'" target="_blank" style="text-decoration:none">'
-          + '<div style="position:relative;width:100%;padding-bottom:56.25%;background:#0d1a30">'
-          + (v.thumbnail ? '<img src="'+v.thumbnail+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="">' : '')
-          + '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">'
-          + '<div style="width:48px;height:48px;background:rgba(22,107,245,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center">'
-          + '<svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>'
-          + '</div>'
-          + '<div style="padding:10px;background:var(--ink-mid)">'
-          + '<div style="font-size:10px;color:#ff3d6b;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Prochaine émission</div>'
-          + '<div style="font-size:13px;color:var(--white)">'+v.title+'</div>'
-          + '</div></a></div>';
-      }
-      if (!data.matinale || (!data.matinale.last && !data.matinale.next)) {
-        matGrid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:13px;grid-column:1/-1">Aucune émission disponible</div>';
-      }
+    var videos = data.videos || [];
+    if (!videos.length) {
+      grid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:13px;">Aucune vidéo pour le moment.</div>';
+      return;
     }
-
-    var awGrid = document.getElementById('afterweek-grid');
-    if (awGrid) {
-      awGrid.innerHTML = '';
-      if (data.afterweek && data.afterweek.next) {
-        var v = data.afterweek.next;
-        awGrid.innerHTML = '<div style="grid-column:1/-1"><a href="'+v.url+'" target="_blank" style="text-decoration:none">'
-          + '<div style="position:relative;width:100%;padding-bottom:56.25%;background:#0d1a30;display:flex;align-items:center;justify-content:center">'
-          + '<svg viewBox="0 0 24 24" width="48" height="48" fill="rgba(22,107,245,0.5)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>'
-          + '</div>'
-          + '<div style="padding:10px;background:var(--ink-mid)">'
-          + '<div style="font-size:10px;color:#ff3d6b;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Prochaine émission</div>'
-          + '<div style="font-size:13px;color:var(--white)">'+v.title+'</div>'
-          + '</div></a></div>';
-      } else {
-        awGrid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:13px;grid-column:1/-1">Aucune émission programmée</div>';
-      }
-    }
+    grid.innerHTML = '';
+    videos.forEach(function(v) {
+      var card = document.createElement('a');
+      card.href = v.url;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.style.cssText = 'display:block;text-decoration:none;color:inherit;';
+      card.innerHTML =
+        '<div style="position:relative;padding-top:56.25%;border-radius:8px;overflow:hidden;background:#000;">' +
+          '<img src="' + v.thumbnail + '" alt="' + v.title + '" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">' +
+        '</div>' +
+        '<div style="font-size:13px;font-weight:600;margin-top:8px;line-height:1.3;color:var(--white)">' + v.title + '</div>';
+      grid.appendChild(card);
+    });
   } catch(e) {
+    grid.innerHTML = '<div style="color:var(--ink-light);padding:20px;font-size:13px;">Erreur de chargement.</div>';
     console.log('YouTube fetch error:', e);
   }
 }
@@ -1685,7 +1634,7 @@ async function loadSettings() {
   } catch(e) { console.log('Settings error:', e); }
 }
 fetchPodcasts();
-loadYouTubeSections();
+fetchDernieresVideos();
 loadSettings();
 
 async function loadInvitesHome() {
