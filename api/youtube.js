@@ -2,7 +2,7 @@ const https = require('https');
 
 const API_KEY = process.env.YOUTUBE_API_KEY;
 const CHANNEL_ID = 'UCMkZzR3EhNfDalFMxhl4iKA';
-const MAX_RESULTS = 8;
+const MAX_RESULTS = 4;
 
 function fetchUrl(url) {
   return new Promise((resolve, reject) => {
@@ -38,6 +38,10 @@ module.exports = async (req, res) => {
   try {
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&order=date&maxResults=${MAX_RESULTS}&key=${API_KEY}`;
     const data = await fetchUrl(url);
+
+    if (data.error) {
+      return res.status(200).json({ videos: [], debug: data.error.message || data.error });
+    }
 
     const videos = (data.items || [])
       .filter(item => item.id && item.id.videoId)
