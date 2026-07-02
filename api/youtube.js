@@ -2,6 +2,8 @@ const https = require('https');
 
 const API_KEY = process.env.YOUTUBE_API_KEY;
 const CHANNEL_ID = 'UCMkZzR3EhNfDalFMxhl4iKA';
+// Playlist "uploads" de la chaîne = même ID que la chaîne avec UC -> UU (convention YouTube)
+const UPLOADS_PLAYLIST_ID = 'UU' + CHANNEL_ID.slice(2);
 const MAX_RESULTS = 4;
 
 function fetchUrl(url) {
@@ -36,7 +38,7 @@ module.exports = async (req, res) => {
   if (!API_KEY) return res.status(500).json({ error: 'YOUTUBE_API_KEY missing' });
 
   try {
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&order=date&maxResults=${MAX_RESULTS}&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${UPLOADS_PLAYLIST_ID}&maxResults=${MAX_RESULTS}&key=${API_KEY}`;
     const data = await fetchUrl(url);
 
     if (data.error) {
@@ -44,13 +46,13 @@ module.exports = async (req, res) => {
     }
 
     const videos = (data.items || [])
-      .filter(item => item.id && item.id.videoId)
+      .filter(item => item.snippet && item.snippet.resourceId && item.snippet.resourceId.videoId)
       .map(item => ({
-        id: item.id.videoId,
+        id: item.snippet.resourceId.videoId,
         title: decodeEntities(item.snippet.title),
-        thumbnail: item.snippet.thumbnails.medium.url,
+        thumbnail: (item.snippet.thumbnails.medium || item.snippet.thumbnails.default).url,
         publishedAt: item.snippet.publishedAt,
-        url: `https://www.youtube.com/watch?v=${item.id.videoId}`
+        url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`
       }));
 
     return res.status(200).json({ videos });
