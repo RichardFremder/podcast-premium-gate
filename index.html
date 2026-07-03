@@ -786,7 +786,7 @@ footer {
 .mobile-menu .mobile-social-row a { border-bottom: none; padding: 0; color: var(--ink-light); }
 
 /* ═══ RESPONSIVE ═══ */
-@media (max-width: 900px) {
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
@@ -1101,9 +1101,9 @@ function renderPodcasts(items) {
   <div class="hero-visual">
     <a id="hero-img-wrap" href="#" style="display:block;text-decoration:none;">
       <img class="hero-img-main"
-        id="hero-main-img" src=""
+        id="hero-main-img"
         alt="Timeline Story"
-        onerror="this.src=''; this.style.background='#1e2d4a';">
+        onerror="this.style.background='#1e2d4a';">
     </a>
   </div>
 </section>
@@ -1609,60 +1609,18 @@ async function fetchDernieresVideos() {
 }
 </script>
 <script>
-function showDebug(msg) {
-  var box = document.getElementById('debug-box');
-  if (!box) {
-    box = document.createElement('div');
-    box.id = 'debug-box';
-    box.style.cssText = 'position:fixed;top:70px;left:8px;right:8px;z-index:99999;background:#ff3d6b;color:white;font-size:11px;padding:8px;white-space:pre-wrap;border-radius:6px;max-height:200px;overflow:auto;';
-    document.body.appendChild(box);
-  }
-  box.textContent += msg + '\n';
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  var hbtn = document.getElementById('hamburger-btn');
-  showDebug('DOMContentLoaded — hamburger-btn trouvé: ' + (hbtn ? 'OUI' : 'NON'));
-  showDebug('window.innerWidth: ' + window.innerWidth + ' / devicePixelRatio: ' + window.devicePixelRatio);
-  if (hbtn) {
-    var cs = getComputedStyle(hbtn);
-    showDebug('hamburger display: ' + cs.display + ' / visibility: ' + cs.visibility + ' / width: ' + cs.width);
-  }
-  var navLinks = document.querySelector('.nav-links');
-  if (navLinks) {
-    var cs2 = getComputedStyle(navLinks);
-    showDebug('nav-links display: ' + cs2.display);
-  }
-  var heroImg = document.getElementById('hero-main-img');
-  if (heroImg) {
-    heroImg.addEventListener('load', function() { showDebug('hero-img: LOAD OK, naturalWidth=' + heroImg.naturalWidth); });
-    heroImg.addEventListener('error', function() { showDebug('hero-img: ERROR au chargement'); });
-    var cs3 = getComputedStyle(heroImg);
-    showDebug('hero-img display: ' + cs3.display + ' / width: ' + cs3.width + ' / height: ' + cs3.height);
-  }
-});
-
 async function loadSettings() {
   try {
-    showDebug('loadSettings: début');
     var res = await fetch('/api/notion?db=' + NOTION_DB_SETTINGS + '&nosort=1');
-    showDebug('loadSettings: réponse reçue, status ' + res.status);
     var data = await res.json();
-    if (!data.results) { showDebug('loadSettings: pas de data.results'); return; }
-    var found = false;
+    if (!data.results) return;
     data.results.forEach(function(item) {
       var props = item.properties;
       var key = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
       var value = props.Valeur && props.Valeur.url ? props.Valeur.url : '';
       if (key === 'hero_image' && value) {
-        found = true;
         var img = document.getElementById('hero-main-img');
-        if (img) {
-          img.src = value;
-          showDebug('hero_image trouvé: ' + value.substring(0,60));
-        } else {
-          showDebug('ERREUR: element hero-main-img introuvable dans le DOM');
-        }
+        if (img) img.src = value;
       }
       if (key === 'hero_link' && value) {
         var heroWrap = document.getElementById('hero-img-wrap');
@@ -1673,8 +1631,7 @@ async function loadSettings() {
         if (boutiqueNav) boutiqueNav.style.display = 'block';
       }
     });
-    if (!found) showDebug('hero_image NON trouvé dans la liste des ' + data.results.length + ' résultats');
-  } catch(e) { showDebug('EXCEPTION loadSettings: ' + e.name + ' — ' + e.message); }
+  } catch(e) { console.log('Settings error:', e); }
 }
 fetchPodcasts();
 fetchDernieresVideos();
