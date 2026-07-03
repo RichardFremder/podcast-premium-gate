@@ -1623,6 +1623,23 @@ function showDebug(msg) {
 document.addEventListener('DOMContentLoaded', function() {
   var hbtn = document.getElementById('hamburger-btn');
   showDebug('DOMContentLoaded — hamburger-btn trouvé: ' + (hbtn ? 'OUI' : 'NON'));
+  showDebug('window.innerWidth: ' + window.innerWidth + ' / devicePixelRatio: ' + window.devicePixelRatio);
+  if (hbtn) {
+    var cs = getComputedStyle(hbtn);
+    showDebug('hamburger display: ' + cs.display + ' / visibility: ' + cs.visibility + ' / width: ' + cs.width);
+  }
+  var navLinks = document.querySelector('.nav-links');
+  if (navLinks) {
+    var cs2 = getComputedStyle(navLinks);
+    showDebug('nav-links display: ' + cs2.display);
+  }
+  var heroImg = document.getElementById('hero-main-img');
+  if (heroImg) {
+    heroImg.addEventListener('load', function() { showDebug('hero-img: LOAD OK, naturalWidth=' + heroImg.naturalWidth); });
+    heroImg.addEventListener('error', function() { showDebug('hero-img: ERROR au chargement'); });
+    var cs3 = getComputedStyle(heroImg);
+    showDebug('hero-img display: ' + cs3.display + ' / width: ' + cs3.width + ' / height: ' + cs3.height);
+  }
 });
 
 async function loadSettings() {
