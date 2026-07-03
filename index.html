@@ -1609,18 +1609,43 @@ async function fetchDernieresVideos() {
 }
 </script>
 <script>
+function showDebug(msg) {
+  var box = document.getElementById('debug-box');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'debug-box';
+    box.style.cssText = 'position:fixed;top:70px;left:8px;right:8px;z-index:99999;background:#ff3d6b;color:white;font-size:11px;padding:8px;white-space:pre-wrap;border-radius:6px;max-height:200px;overflow:auto;';
+    document.body.appendChild(box);
+  }
+  box.textContent += msg + '\n';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var hbtn = document.getElementById('hamburger-btn');
+  showDebug('DOMContentLoaded — hamburger-btn trouvé: ' + (hbtn ? 'OUI' : 'NON'));
+});
+
 async function loadSettings() {
   try {
+    showDebug('loadSettings: début');
     var res = await fetch('/api/notion?db=' + NOTION_DB_SETTINGS + '&nosort=1');
+    showDebug('loadSettings: réponse reçue, status ' + res.status);
     var data = await res.json();
-    if (!data.results) return;
+    if (!data.results) { showDebug('loadSettings: pas de data.results'); return; }
+    var found = false;
     data.results.forEach(function(item) {
       var props = item.properties;
       var key = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
       var value = props.Valeur && props.Valeur.url ? props.Valeur.url : '';
       if (key === 'hero_image' && value) {
+        found = true;
         var img = document.getElementById('hero-main-img');
-        if (img) img.src = value;
+        if (img) {
+          img.src = value;
+          showDebug('hero_image trouvé: ' + value.substring(0,60));
+        } else {
+          showDebug('ERREUR: element hero-main-img introuvable dans le DOM');
+        }
       }
       if (key === 'hero_link' && value) {
         var heroWrap = document.getElementById('hero-img-wrap');
@@ -1631,7 +1656,8 @@ async function loadSettings() {
         if (boutiqueNav) boutiqueNav.style.display = 'block';
       }
     });
-  } catch(e) { console.log('Settings error:', e); }
+    if (!found) showDebug('hero_image NON trouvé dans la liste des ' + data.results.length + ' résultats');
+  } catch(e) { showDebug('EXCEPTION loadSettings: ' + e.name + ' — ' + e.message); }
 }
 fetchPodcasts();
 fetchDernieresVideos();
