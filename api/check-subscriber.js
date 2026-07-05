@@ -2,16 +2,6 @@ const Stripe = require('stripe');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-
-  if (req.method === 'GET' && req.query && req.query.debug === '1') {
-    const key = process.env.STRIPE_SECRET_KEY || '';
-    return res.status(200).json({
-      keyPresent: key.length > 0,
-      keyLength: key.length,
-      keyPrefix: key.slice(0, 7)
-    });
-  }
-
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   let email;
