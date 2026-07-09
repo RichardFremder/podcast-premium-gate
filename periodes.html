@@ -207,6 +207,46 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
   .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
 }
 </style>
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@graph": [
+{
+"@type": "Organization",
+"@id": "https://www.timeline-story.fr/#org",
+"name": "Timeline Story",
+"url": "https://www.timeline-story.fr/",
+"foundingDate": "2012",
+"founder": { "@id": "https://www.timeline-story.fr/#fremder" },
+"sameAs": [
+"https://www.youtube.com/@TimelineStory2026",
+"https://www.facebook.com/TimelineHistoire",
+"https://www.instagram.com/timelinestory2026",
+"https://x.com/TimelineStory",
+"https://www.twitch.tv/timeline_podcast",
+"https://podcasts.apple.com/fr/podcast/id524299145",
+"https://open.spotify.com/show/4yRHe5RybxcddGKnVzODQN",
+"https://thestorycast.fr/"
+]
+},
+{
+"@type": "Person",
+"@id": "https://www.timeline-story.fr/#fremder",
+"name": "Richard Fremder",
+"jobTitle": "Historien, fondateur de Timeline",
+"worksFor": { "@id": "https://www.timeline-story.fr/#org" }
+},
+{
+"@type": "PodcastSeries",
+"name": "Timeline, 5000 ans d'Histoire",
+"url": "https://www.timeline-story.fr/podcasts.html",
+"inLanguage": "fr",
+"publisher": { "@id": "https://www.timeline-story.fr/#org" },
+"webFeed": "https://feeds.audiomeans.fr/feed/b4de9333-deb0-4c99-82e3-3c21cfac3f2a.xml"
+}
+]
+}
+</script>
 </head>
 <body>
 
