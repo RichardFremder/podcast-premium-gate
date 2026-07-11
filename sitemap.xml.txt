@@ -10,4 +10,5 @@
 <url><loc>https://www.timeline-story.fr/newsletter.html</loc></url>
 <url><loc>https://www.timeline-story.fr/app.html</loc></url>
 <url><loc>https://www.timeline-story.fr/qui-sommes-nous.html</loc></url>
+<url><loc>https://www.timeline-story.fr/premium.html</loc></url>
 </urlset>
