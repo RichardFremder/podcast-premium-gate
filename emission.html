@@ -1014,6 +1014,8 @@ if (isCollegePlanete) {
   document.getElementById('emission-desc').textContent = 'La Planète des Hommes est le podcast d\'Histoire de Timeline conçu pour les collégiens de la 6e à la 3e : des épisodes alignés sur le programme scolaire d\'histoire, racontés simplement par des historiens, pour réviser ou découvrir — de la Préhistoire au monde contemporain.';
   document.title = 'La Planète des Hommes — le podcast d\'Histoire pour les collégiens (6e-3e) — Timeline Story';
 
+  var creditsStd = 'Écriture : Richard Fremder — Voix et comédiens : Isabelle Turschwell et Pascal Toutain';
+
   var planeteEp6 = [
     { titre: 'Le Temps des Hommes',                id: '372011abd12981b3a54cd6982ec9f4cb', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/e98f5a52-19c5-4971-8ae2-8373d2c55a2b.mp3?_=1700584343',
       sections: [
@@ -1031,15 +1033,66 @@ if (isCollegePlanete) {
       ],
       credits: 'Écriture : Richard Fremder — Voix et comédiens : <a href="http://www.isabelleturschwell.com/" target="_blank" rel="noopener" style="color:var(--blue);">Isabelle Turschwell</a> et <a href="http://desmotsdacteur.com/portfolio-item/pascal-toutain" target="_blank" rel="noopener" style="color:var(--blue);">Pascal Toutain</a>'
     },
-    { titre: 'Le Temps des Agriculteurs',           id: '372011abd129818bbb66db8161799da3', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/2a445c97-6ba2-4e3e-b093-384944a18dcd.mp3?_=1704364376' },
-    { titre: "Le Temps de l'Écriture et des États", id: '372011abd129811f9005d3a8f55aee72', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/94328f6c-70ff-4cf7-bdcf-14bf72b33c63.mp3?_=1705506314' },
-    { titre: 'Le Temps des cités grecques',         id: '372011abd12981b5a072efd8da83ef7c', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/25afd1fe-3c12-4475-9a0c-0c32f11b305a.mp3?_=1706118192' },
-    { titre: 'Le Temps de Rome',                    id: '372011abd129810cbd0ec6f29785b194', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/1bb422e4-edfb-4053-a7ca-8f86220dd192.mp3?_=1706715668' },
-    { titre: "De la République à l'Empire Romain",  id: '372011abd12981ce9016fea0e5c65460', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/19b0a546-9836-4a3c-a713-c143a37170ba.mp3?_=1707342855' },
-    { titre: 'Le Temps de la Paix romaine',         id: '372011abd1298106bf35cbfaf50df3f8', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/32ad41ec-312e-4356-ba9b-a75d9b14081f.mp3?_=1708328585' },
-    { titre: 'Le Temps des Invasions',              id: '372011abd129819485b5ed4bdbbd1279', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/d950949e-8a8e-48c2-bc9a-5e4be0e91175.mp3?_=1708528283' },
+    { titre: 'Le Temps des Agriculteurs',           id: '372011abd129818bbb66db8161799da3', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/2a445c97-6ba2-4e3e-b093-384944a18dcd.mp3?_=1704364376',
+      sections: [
+        { titre: "Début de l'agriculture", texte: "L'épisode aborde l'émergence de l'agriculture il y a environ 10 000 ans au Proche-Orient. Avec cette révolution, les premiers humains ont adopté la sédentarité, ce qui mène à la création de villages permanents. Ce passage à une vie stable favorise l'apparition de nouveaux métiers, tels que paysans et bergers, et initie des échanges culturels et matériels avec d'autres communautés." },
+        { titre: "L'amélioration des techniques agricoles", texte: "Au fil du temps, les techniques agricoles se perfectionnent. Les Néolithiques inventent la traction animale, la roue et l'araire, des avancées qui facilitent la culture de sols difficiles. Ces innovations permettent aux communautés de prospérer, tandis que l'invention de la métallurgie (d'abord le cuivre, puis le fer) élargit les outils disponibles, accélérant ainsi les récoltes et le stockage." },
+        { titre: "La structuration sociale", texte: "Avec la sédentarisation, les populations augmentent, et des hiérarchies sociales émergent. La sécurité des récoltes et la propriété des terres deviennent essentielles, conduisant aux premières formes de gouvernance pour organiser et protéger ces ressources. La sédentarité et l'organisation qui en découle marquent les bases des futures cités et des premiers États, annonçant une nouvelle ère de civilisation." }
+      ],
+      credits: creditsStd
+    },
+    { titre: "Le Temps de l'Écriture et des États", id: '372011abd129811f9005d3a8f55aee72', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/94328f6c-70ff-4cf7-bdcf-14bf72b33c63.mp3?_=1705506314',
+      sections: [
+        { titre: "Les débuts de l'écriture", texte: "Dans cet épisode, nous découvrons les premiers systèmes d'écriture qui émergent vers 3300 avant J.-C. en Mésopotamie, avec des pictogrammes gravés dans l'argile. Utilisée pour les inventaires, les lois et les rituels, l'écriture devient un puissant outil de gestion et de mémoire pour les sociétés, garantissant la préservation de leur savoir et de leurs pratiques." },
+        { titre: "La formation des premiers États", texte: "Le long des grands fleuves, comme le Nil et l'Euphrate, apparaissent les premiers États structurés. En Mésopotamie, chaque cité-État est gouvernée par un roi qui incarne la divinité tutélaire de la ville, illustrant l'union du religieux et du politique. Les temples imposants et les ziggourats symbolisent cette connexion entre le ciel et la terre, consolidant le pouvoir royal au sein de chaque cité." },
+        { titre: "La codification des lois", texte: "L'écriture permet également l'élaboration des premières lois, qui régissent les rapports entre les membres de ces sociétés et stabilisent les États en plein développement. En Égypte, l'écriture hiéroglyphique consigne les croyances religieuses et accompagne les défunts dans l'au-delà, marquant l'écriture comme le socle culturel et spirituel des civilisations anciennes." }
+      ],
+      credits: creditsStd
+    },
+    { titre: 'Le Temps des cités grecques',         id: '372011abd12981b5a072efd8da83ef7c', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/25afd1fe-3c12-4475-9a0c-0c32f11b305a.mp3?_=1706118192',
+      sections: [
+        { titre: "Naissance et expansion des cités grecques", texte: "Les cités grecques, entourées de montagnes et de plaines côtières, émergent comme des unités indépendantes en Méditerranée. Vers le VIIIe siècle avant J.-C., certains Grecs, fuyant la pauvreté ou la persécution, s'aventurent au-delà de la mer et fondent des colonies comme Massilia (Marseille), qui permettent de tisser des liens commerciaux et culturels avec d'autres civilisations." },
+        { titre: "La diversité politique des cités", texte: "Chaque cité grecque développe un système politique unique, allant de l'oligarchie, où quelques familles détiennent le pouvoir, à la tyrannie, dirigée par un chef unique, ou encore à la démocratie, comme à Athènes, où les citoyens participent directement aux décisions politiques. Ces régimes distincts permettent l'adaptabilité et la diversité des systèmes grecs selon leur contexte local." },
+        { titre: "Une culture unifiée par les mythes et la religion", texte: "Malgré les rivalités, les cités grecques partagent une culture commune, comprenant la langue, la religion et les récits d'Homère. Les Grecs se rassemblent dans les sanctuaires et les temples pour honorer les mêmes dieux, forgeant une identité culturelle collective qui transcende les frontières politiques et géographiques des cités." }
+      ],
+      credits: creditsStd
+    },
+    { titre: 'Le Temps de Rome',                    id: '372011abd129810cbd0ec6f29785b194', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/1bb422e4-edfb-4053-a7ca-8f86220dd192.mp3?_=1706715668',
+      sections: [
+        { titre: "Fondations légendaires et début de la République", texte: "Selon la légende, Rome est fondée en -753 par Romulus, qui devient le premier roi après une querelle avec son frère Rémus. Cette origine mythique confère un caractère sacré à la cité, perçue comme bénie des dieux et destinée à la grandeur. Les rois étrusques règnent sur la ville jusqu'à ce que, vers -509, les Romains chassent le dernier roi, Tarquin le Superbe, instaurant alors la République. Cette nouvelle forme de gouvernement permet aux citoyens les plus riches de participer aux élections et d'amorcer une ère de croissance politique et militaire." },
+        { titre: "Expansion militaire et suprématie sur l'Italie", texte: "Après l'instauration de la République, Rome se lance dans la conquête de la péninsule italienne, intégrant progressivement les peuples voisins à son empire. En moins de deux siècles, Rome devient la puissance dominante de l'Italie, soumettant les Étrusques, les Ombriens et d'autres peuples. Cette extension rapide est facilitée par l'organisation rigoureuse de l'armée romaine et le développement d'infrastructures comme les routes, qui permettent le contrôle des territoires conquis et renforcent la cohésion de la République." },
+        { titre: "Guerres puniques et domination méditerranéenne", texte: "Rome affronte Carthage dans les guerres puniques, une série de conflits décisifs qui débutent en -264 et culminent avec la victoire de Rome, assurant sa domination sur la Méditerranée. La défaite de Carthage marque le début de l'Empire maritime de Rome, qui étend alors son influence en Afrique du Nord, en Espagne et, plus tard, en Grèce. Cette expansion projette Rome au rang de superpuissance et pose les fondements d'une société où les échanges culturels et économiques atteignent des proportions inédites dans l'histoire antique." }
+      ],
+      credits: creditsStd
+    },
+    { titre: "De la République à l'Empire Romain",  id: '372011abd12981ce9016fea0e5c65460', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/19b0a546-9836-4a3c-a713-c143a37170ba.mp3?_=1707342855',
+      sections: [
+        { titre: "L'ascension de Jules César et les prémices de la guerre civile", texte: "À la fin de la République, Rome est déchirée par des querelles de pouvoir entre ses généraux. Jules César, gouverneur de la Gaule, remporte de brillantes victoires militaires qui accroissent sa popularité et sa puissance. Cependant, cette ascension fulgurante inquiète le Sénat. En -49 avant J.-C., lorsqu'il franchit le Rubicon avec ses légions, César défie ouvertement le pouvoir en place, marquant ainsi le début d'une guerre civile qui bouleversera Rome pour toujours." },
+        { titre: "César, dictateur à vie et l'assassinat tragique", texte: "Après avoir triomphé de ses rivaux, César est nommé dictateur à vie, instaurant une autorité inédite et controversée dans une Rome autrefois républicaine. Cette concentration de pouvoir suscite la méfiance et l'hostilité de nombreux sénateurs, qui voient en lui une menace pour la liberté de la cité. Le 15 mars -44 avant J.-C., César est assassiné lors d'une conjuration menée par ceux qui espéraient restaurer l'ancien régime républicain, marquant la fin d'une ère." },
+        { titre: "Octave Auguste et l'avènement de l'Empire", texte: "Après la mort de César, Rome sombre de nouveau dans la guerre civile. Son fils adoptif, Octave, finit par émerger comme le dirigeant incontesté après sa victoire sur Marc Antoine et Cléopâtre. En -27 avant J.-C., Octave devient Auguste, le premier empereur, instaurant l'Empire romain et une ère de paix appelée Pax Romana. Ce nouveau régime, fondé sur l'autorité impériale, marque un tournant décisif, consacrant Rome comme la puissance dominante du monde antique." }
+      ],
+      credits: creditsStd
+    },
+    { titre: 'Le Temps de la Paix romaine',         id: '372011abd1298106bf35cbfaf50df3f8', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/32ad41ec-312e-4356-ba9b-a75d9b14081f.mp3?_=1708328585',
+      sections: [
+        { titre: "L'apogée de l'Empire", texte: "Dans l'an 117 de notre ère, l'Empire romain atteint son apogée, couvrant la totalité du Bassin méditerranéen. Ce vaste territoire est surveillé par des fortifications et des camps militaires, où les légions assurent une protection stratégique. Cette période, souvent désignée sous le nom de « Pax Romana », est caractérisée par une stabilité politique qui favorise le commerce et les échanges culturels, assurant la prospérité et la sécurité aux populations sous domination romaine." },
+        { titre: "Les voies romaines, artères de l'Empire", texte: "Les ingénieurs romains bâtissent un impressionnant réseau de routes pavées qui relient les cités et facilitent les déplacements militaires et commerciaux à travers l'Empire. Ces voies, solidement construites, permettent la circulation des marchandises, comme des produits exotiques et des richesses qui affluent vers Rome. Les routes romaines deviennent alors des symboles de l'ingéniosité romaine et des artères vitales pour l'économie de l'Empire." },
+        { titre: "La romanisation des provinces", texte: "La Pax Romana introduit une influence culturelle profonde dans les provinces, où l'architecture, la langue latine et le culte des dieux romains se diffusent. Cependant, loin d'être uniforme, l'Empire reste un kaléidoscope de cultures locales qui cohabitent et s'adaptent au modèle romain. Les cités provinciales, telles que Lugdunum (Lyon), adoptent l'élégance romaine tout en préservant leurs traditions, créant ainsi une mosaïque culturelle unique dans l'histoire antique." }
+      ],
+      credits: creditsStd
+    },
+    { titre: 'Le Temps des Invasions',              id: '372011abd129819485b5ed4bdbbd1279', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/d950949e-8a8e-48c2-bc9a-5e4be0e91175.mp3?_=1708528283',
+      sections: [
+        { titre: "L'affaiblissement de l'Empire et la montée des menaces", texte: "L'Empire romain, autrefois puissant et étendu, commence à montrer des signes de faiblesse dès le IIIe siècle. La difficulté de maintenir l'ordre sur des territoires aussi vastes épuise les ressources militaires et économiques de Rome. Les frontières, particulièrement celles situées en Germanie et en Orient, subissent les premières incursions des peuples barbares, qui exploitent les faiblesses de l'Empire pour y pénétrer progressivement." },
+        { titre: "La déstabilisation interne et l'influence du christianisme", texte: "À cette époque, le christianisme, autrefois religion persécutée, s'impose de plus en plus et modifie l'identité culturelle de l'Empire. En 313, il devient religion officielle, mais les anciens cultes païens perdent leur autorité. Au même moment, les tensions internes s'intensifient, et l'Empire, fragilisé par des guerres civiles et des luttes de pouvoir, se divise finalement en deux entités : l'Empire d'Occident, avec Rome pour capitale, et l'Empire d'Orient, centré à Constantinople." },
+        { titre: "La chute de Rome et la fin de l'Antiquité", texte: "Face à une pression barbare toujours plus intense, l'Empire d'Occident s'effondre progressivement. En 378, les armées romaines subissent une défaite écrasante face aux Goths à Andrinople, et en 410, Rome est mise à sac par les Wisigoths sous la conduite d'Alaric. Cette époque marque la fin de l'Empire d'Occident en 476, année qui symbolise la fin de l'Antiquité et le début du Moyen Âge, laissant place à un nouveau chapitre de l'histoire européenne." }
+      ],
+      credits: creditsStd
+    },
     { titre: 'Le Temps des Francs',                 id: '372011abd12981189681fe8fb066723e', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/771b73cf-b46f-4f6d-b3d6-5618691da73a.mp3?_=1709144357' }
   ];
+
+  var creditsStd = 'Écriture : Richard Fremder — Voix et comédiens : Isabelle Turschwell et Pascal Toutain';
 
   var ep6Html = planeteEp6.map(function(ep, idx) {
     var sectionsHtml = ep.sections ? ep.sections.map(function(s) {
