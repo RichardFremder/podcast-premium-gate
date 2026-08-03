@@ -1014,6 +1014,23 @@ if (isCollegePlanete) {
   document.getElementById('emission-desc').textContent = 'La Planète des Hommes est le podcast d\'Histoire de Timeline conçu pour les collégiens de la 6e à la 3e : des épisodes alignés sur le programme scolaire d\'histoire, racontés simplement par des historiens, pour réviser ou découvrir — de la Préhistoire au monde contemporain.';
   document.title = 'La Planète des Hommes — le podcast d\'Histoire pour les collégiens (6e-3e) — Timeline Story';
 
+  var planeteEp6 = [
+    { titre: 'Le Temps des Hommes',                id: '372011abd12981b3a54cd6982ec9f4cb', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/e98f5a52-19c5-4971-8ae2-8373d2c55a2b.mp3?_=1700584343' },
+    { titre: 'Le Temps des Éleveurs',               id: '372011abd12981288889e5b464d77af4', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/3a6bf645-b4ff-42bf-ba0b-59a671ac5a86.mp3?_=1701297988' },
+    { titre: 'Le Temps des Agriculteurs',           id: '372011abd129818bbb66db8161799da3', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/2a445c97-6ba2-4e3e-b093-384944a18dcd.mp3?_=1704364376' },
+    { titre: "Le Temps de l'Écriture et des États", id: '372011abd129811f9005d3a8f55aee72', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/94328f6c-70ff-4cf7-bdcf-14bf72b33c63.mp3?_=1705506314' },
+    { titre: 'Le Temps des cités grecques',         id: '372011abd12981b5a072efd8da83ef7c', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/25afd1fe-3c12-4475-9a0c-0c32f11b305a.mp3?_=1706118192' },
+    { titre: 'Le Temps de Rome',                    id: '372011abd129810cbd0ec6f29785b194', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/1bb422e4-edfb-4053-a7ca-8f86220dd192.mp3?_=1706715668' },
+    { titre: "De la République à l'Empire Romain",  id: '372011abd12981ce9016fea0e5c65460', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/19b0a546-9836-4a3c-a713-c143a37170ba.mp3?_=1707342855' },
+    { titre: 'Le Temps de la Paix romaine',         id: '372011abd1298106bf35cbfaf50df3f8', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/32ad41ec-312e-4356-ba9b-a75d9b14081f.mp3?_=1708328585' },
+    { titre: 'Le Temps des Invasions',              id: '372011abd129819485b5ed4bdbbd1279', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/d950949e-8a8e-48c2-bc9a-5e4be0e91175.mp3?_=1708528283' },
+    { titre: 'Le Temps des Francs',                 id: '372011abd12981189681fe8fb066723e', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/771b73cf-b46f-4f6d-b3d6-5618691da73a.mp3?_=1709144357' }
+  ];
+  var ep6Html = planeteEp6.map(function(ep) {
+    var href = '/episode.html?id=' + ep.id + '&emission=planete&audio=' + encodeURIComponent(ep.audio);
+    return '<li><a href="' + href + '" style="color:var(--silver);text-decoration:none;">' + ep.titre + '</a></li>';
+  }).join('');
+
   var collegeBlock = document.getElementById('planete-college-block');
   if (collegeBlock) {
     collegeBlock.style.display = 'block';
@@ -1021,16 +1038,7 @@ if (isCollegePlanete) {
       <h2 style="font-family:'Alte Haas Grotesk',Georgia,serif;color:var(--white);font-size:26px;margin:8px 0 6px;">En 6e</h2>
       <div style="color:var(--blue);font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;">Des débuts de l'humanité aux invasions barbares</div>
       <ol style="color:var(--silver);font-size:15px;line-height:1.9;padding-left:20px;margin-bottom:8px;">
-        <li>Le Temps des Hommes</li>
-        <li>Le Temps des Hommes</li>
-        <li>Le Temps des Éleveurs</li>
-        <li>Le Temps des Agriculteurs</li>
-        <li>Le Temps de l'Écriture et des États</li>
-        <li>Le Temps des cités grecques</li>
-        <li>Le Temps de Rome</li>
-        <li>De la République à l'Empire Romain</li>
-        <li>Le Temps de la Paix romaine</li>
-        <li>Le Temps des Invasions</li>
+        ${ep6Html}
       </ol>
 
       <div style="background:var(--ink-mid);border-radius:8px;padding:24px 28px;margin:20px 0 40px;">
@@ -1093,7 +1101,7 @@ async function loadNotionPage(page, cursor) {
   var list = document.getElementById('episodes-list');
   list.innerHTML = '<div style="text-align:center;padding:40px;"><div style="font-size:32px;margin-bottom:12px;">🎙</div><div style="color:var(--white);font-size:18px;margin-bottom:8px)">Chargement en cours…</div><div style="color:var(--silver);font-size:14px;">Nos 1.000 émissions arrivent dans quelques secondes</div></div>';
   
-  var url = '/api/notion?db=' + dbId + (cursor ? '&cursor=' + cursor : '');
+  var url = '/api/notion?db=' + dbId + (cursor ? '&cursor=' + cursor : '') + (isCollegePlanete ? '&order=asc' : '');
   var res = await fetch(url);
   var data = await res.json();
   var items = data.results || [];

@@ -36,6 +36,7 @@ module.exports = async (req, res) => {
     const noSort   = req.query.nosort === '1';
     const withInvite = req.query.withinvite === '1';
     const jour     = req.query.jour || null;   // ← filtre grille des programmes
+    const sortDir  = req.query.order === 'asc' ? 'ascending' : 'descending'; // ← ordre chronologique optionnel
 
     // Construction du filtre principal
     let filter = null;
@@ -55,7 +56,7 @@ module.exports = async (req, res) => {
     const body = {
       page_size: 100,
       ...(filter ? { filter } : {}),
-      ...(noSort || jour ? {} : { sorts: [{ property: 'Date mise en ligne radio', direction: 'descending' }] })
+      ...(noSort || jour ? {} : { sorts: [{ property: 'Date mise en ligne radio', direction: sortDir }] })
     };
 
     const cursor = req.query.cursor;
