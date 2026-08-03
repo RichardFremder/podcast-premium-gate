@@ -1015,8 +1015,22 @@ if (isCollegePlanete) {
   document.title = 'La Planète des Hommes — le podcast d\'Histoire pour les collégiens (6e-3e) — Timeline Story';
 
   var planeteEp6 = [
-    { titre: 'Le Temps des Hommes',                id: '372011abd12981b3a54cd6982ec9f4cb', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/e98f5a52-19c5-4971-8ae2-8373d2c55a2b.mp3?_=1700584343' },
-    { titre: 'Le Temps des Éleveurs',               id: '372011abd12981288889e5b464d77af4', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/3a6bf645-b4ff-42bf-ba0b-59a671ac5a86.mp3?_=1701297988' },
+    { titre: 'Le Temps des Hommes',                id: '372011abd12981b3a54cd6982ec9f4cb', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/e98f5a52-19c5-4971-8ae2-8373d2c55a2b.mp3?_=1700584343',
+      sections: [
+        { titre: "La temporalité de l'histoire humaine", texte: "L'épisode commence par une contextualisation de l'histoire de l'humanité par rapport au temps géologique. En imaginant la création de la Terre sur une journée de 24 heures, les humains apparaissent à la dernière seconde. Cela souligne la brièveté de l'existence humaine comparée à l'âge de la Terre, et introduit la série comme un voyage pour explorer cette courte mais riche histoire humaine." },
+        { titre: "Les origines de l'humanité", texte: "L'épisode explore les premiers pas de l'homme en Afrique avec Homo habilis, il y a 2,4 millions d'années, capable de tailler des outils, puis Homo erectus, qui maîtrise le feu et voyage hors d'Afrique. Ensuite, Homo sapiens apparaît, perfectionne les outils, exprime des idées et s'étend à travers le monde. La narration introduit également les méthodes scientifiques employées pour dater ces découvertes, comme l'analyse de squelettes et d'outils retrouvés." },
+        { titre: "La sédentarisation et l'évolution sociale", texte: "L'épisode présente la transition de l'humanité vers l'élevage, notamment avec l'apprivoisement des animaux, comme le chien, et l'établissement de camps fixes. Les hommes commencent à construire des abris durables et à organiser leur vie en communauté. Cette période marque les débuts de la vie sédentaire, posant les bases de l'agriculture, de l'élevage et de la structure sociale." }
+      ],
+      credits: 'Écriture : Richard Fremder — Voix et comédiens : Isabelle Turschwell et Pascal Toutain'
+    },
+    { titre: 'Le Temps des Éleveurs',               id: '372011abd12981288889e5b464d77af4', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/3a6bf645-b4ff-42bf-ba0b-59a671ac5a86.mp3?_=1701297988',
+      sections: [
+        { titre: "Domestication des animaux", texte: "L'épisode débute avec la domestication du chien, un compagnon de chasse qui devient peu à peu gardien des troupeaux. Après le chien, le mouton est le premier animal apprivoisé en France pour sa nature grégaire et pacifique. Le narrateur, l'historien Richard Fremder, relate également l'introduction de l'élevage, qui marque un changement radical dans les habitudes de vie des humains, passant de chasseurs-cueilleurs à éleveurs." },
+        { titre: "Vie sédentaire et premiers enclos", texte: "Les hommes commencent à se sédentariser, construisant des maisons proches de l'eau et des forêts pour répondre aux besoins en ressources. Cela mène à la naissance des premiers villages organisés et au développement d'une vie communautaire. La domestication permet d'assurer un approvisionnement constant en lait, viande, et peaux, ce qui enrichit le quotidien des populations sédentaires." },
+        { titre: "Transition vers l'agriculture", texte: "La dernière partie introduit le Néolithique, une époque marquée par la transition vers l'agriculture. Avec les techniques de domestication en place, les communautés se préparent à explorer l'agriculture dans l'épisode suivant, où elles découvriront de nouvelles pratiques pour cultiver et élever de manière plus organisée." }
+      ],
+      credits: 'Écriture : Richard Fremder — Voix et comédiens : <a href="http://www.isabelleturschwell.com/" target="_blank" rel="noopener" style="color:var(--blue);">Isabelle Turschwell</a> et <a href="http://desmotsdacteur.com/portfolio-item/pascal-toutain" target="_blank" rel="noopener" style="color:var(--blue);">Pascal Toutain</a>'
+    },
     { titre: 'Le Temps des Agriculteurs',           id: '372011abd129818bbb66db8161799da3', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/2a445c97-6ba2-4e3e-b093-384944a18dcd.mp3?_=1704364376' },
     { titre: "Le Temps de l'Écriture et des États", id: '372011abd129811f9005d3a8f55aee72', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/94328f6c-70ff-4cf7-bdcf-14bf72b33c63.mp3?_=1705506314' },
     { titre: 'Le Temps des cités grecques',         id: '372011abd12981b5a072efd8da83ef7c', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/25afd1fe-3c12-4475-9a0c-0c32f11b305a.mp3?_=1706118192' },
@@ -1026,9 +1040,19 @@ if (isCollegePlanete) {
     { titre: 'Le Temps des Invasions',              id: '372011abd129819485b5ed4bdbbd1279', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/d950949e-8a8e-48c2-bc9a-5e4be0e91175.mp3?_=1708528283' },
     { titre: 'Le Temps des Francs',                 id: '372011abd12981189681fe8fb066723e', audio: 'https://audio.audiomeans.fr/file/fPenDGoxpI/771b73cf-b46f-4f6d-b3d6-5618691da73a.mp3?_=1709144357' }
   ];
-  var ep6Html = planeteEp6.map(function(ep) {
-    var href = '/episode.html?id=' + ep.id + '&emission=planete&audio=' + encodeURIComponent(ep.audio);
-    return '<li><a href="' + href + '" style="color:var(--silver);text-decoration:none;">' + ep.titre + '</a></li>';
+
+  var ep6Html = planeteEp6.map(function(ep, idx) {
+    var sectionsHtml = ep.sections ? ep.sections.map(function(s) {
+      return '<h4 style="color:var(--blue);font-size:14px;margin:16px 0 6px;">' + s.titre + '</h4>' +
+             '<p style="color:var(--silver);font-size:14px;line-height:1.8;">' + s.texte + '</p>';
+    }).join('') : '<p style="color:var(--ink-light);font-size:14px;font-style:italic;margin-top:12px;">Résumé à venir prochainement.</p>';
+    var creditsHtml = ep.credits ? '<p style="color:var(--ink-light);font-size:12px;margin-top:18px;">' + ep.credits + '</p>' : '';
+    return '<div style="background:var(--ink-mid);border-radius:8px;padding:24px 28px;margin-bottom:16px;">' +
+      '<h3 style="color:var(--white);font-size:18px;margin-bottom:14px;">Épisode ' + (idx + 1) + ' : ' + ep.titre + '</h3>' +
+      '<audio controls preload="none" style="width:100%;margin-bottom:8px;"><source src="' + ep.audio + '"></audio>' +
+      sectionsHtml +
+      creditsHtml +
+      '</div>';
   }).join('');
 
   var collegeBlock = document.getElementById('planete-college-block');
@@ -1037,23 +1061,8 @@ if (isCollegePlanete) {
     collegeBlock.innerHTML = `
       <h2 style="font-family:'Alte Haas Grotesk',Georgia,serif;color:var(--white);font-size:26px;margin:8px 0 6px;">En 6e</h2>
       <div style="color:var(--blue);font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;">Des débuts de l'humanité aux invasions barbares</div>
-      <ol style="color:var(--silver);font-size:15px;line-height:1.9;padding-left:20px;margin-bottom:8px;">
+      <div style="margin-bottom:24px;">
         ${ep6Html}
-      </ol>
-
-      <div style="background:var(--ink-mid);border-radius:8px;padding:24px 28px;margin:20px 0 40px;">
-        <h3 style="color:var(--white);font-size:18px;margin-bottom:14px;">Épisode 1 : Le Temps des Hommes</h3>
-
-        <h4 style="color:var(--blue);font-size:14px;margin:16px 0 6px;">La temporalité de l'histoire humaine</h4>
-        <p style="color:var(--silver);font-size:14px;line-height:1.8;">L'épisode commence par une contextualisation de l'histoire de l'humanité par rapport au temps géologique. En imaginant la création de la Terre sur une journée de 24 heures, les humains apparaissent à la dernière seconde. Cela souligne la brièveté de l'existence humaine comparée à l'âge de la Terre, et introduit la série comme un voyage pour explorer cette courte mais riche histoire humaine.</p>
-
-        <h4 style="color:var(--blue);font-size:14px;margin:16px 0 6px;">Les origines de l'humanité</h4>
-        <p style="color:var(--silver);font-size:14px;line-height:1.8;">L'épisode explore les premiers pas de l'homme en Afrique avec Homo habilis, il y a 2,4 millions d'années, capable de tailler des outils, puis Homo erectus, qui maîtrise le feu et voyage hors d'Afrique. Ensuite, Homo sapiens apparaît, perfectionne les outils, exprime des idées et s'étend à travers le monde. La narration introduit également les méthodes scientifiques employées pour dater ces découvertes, comme l'analyse de squelettes et d'outils retrouvés.</p>
-
-        <h4 style="color:var(--blue);font-size:14px;margin:16px 0 6px;">La sédentarisation et l'évolution sociale</h4>
-        <p style="color:var(--silver);font-size:14px;line-height:1.8;">L'épisode présente la transition de l'humanité vers l'élevage, notamment avec l'apprivoisement des animaux, comme le chien, et l'établissement de camps fixes. Les hommes commencent à construire des abris durables et à organiser leur vie en communauté. Cette période marque les débuts de la vie sédentaire, posant les bases de l'agriculture, de l'élevage et de la structure sociale.</p>
-
-        <p style="color:var(--ink-light);font-size:12px;margin-top:18px;">Écriture : Richard Fremder — Voix et comédiens : Isabelle Turschwell et Pascal Toutain</p>
       </div>
 
       <h2 style="font-family:'Alte Haas Grotesk',Georgia,serif;color:var(--white);font-size:26px;margin:8px 0 6px;">En 5e</h2>
