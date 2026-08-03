@@ -825,6 +825,7 @@ footer {
     <p id="emission-desc"></p>
   </div>
 </div>
+<div id="planete-college-block" style="max-width:900px;margin:0 auto;padding:0 40px;display:none;"></div>
 <div class="episodes-list" id="episodes-list">
   
 </div>
@@ -1004,6 +1005,59 @@ if (info) {
   document.getElementById('emission-title').textContent = info.title;
   document.getElementById('emission-desc').textContent = info.desc;
   document.title = info.title + ' — Timeline Story';
+}
+
+// ── Contenu spécial "La Planète des Hommes" (collégiens 6e-3e) ───────────────
+var isCollegePlanete = (dbOverride === '361011abd12980ee8501dde3e8243aeb') || (emissionId === 'planete');
+if (isCollegePlanete) {
+  document.getElementById('emission-title').innerHTML = 'La Planète des Hommes — le podcast d\'Histoire pour les collégiens <span style="color:var(--blue)">(6e-3e)</span>';
+  document.getElementById('emission-desc').textContent = 'La Planète des Hommes est le podcast d\'Histoire de Timeline conçu pour les collégiens de la 6e à la 3e : des épisodes alignés sur le programme scolaire d\'histoire, racontés simplement par des historiens, pour réviser ou découvrir — de la Préhistoire au monde contemporain.';
+  document.title = 'La Planète des Hommes — le podcast d\'Histoire pour les collégiens (6e-3e) — Timeline Story';
+
+  var collegeBlock = document.getElementById('planete-college-block');
+  if (collegeBlock) {
+    collegeBlock.style.display = 'block';
+    collegeBlock.innerHTML = `
+      <h2 style="font-family:'Alte Haas Grotesk',Georgia,serif;color:var(--white);font-size:26px;margin:8px 0 6px;">En 6e</h2>
+      <div style="color:var(--blue);font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;">Des débuts de l'humanité aux invasions barbares</div>
+      <ol style="color:var(--silver);font-size:15px;line-height:1.9;padding-left:20px;margin-bottom:8px;">
+        <li>Le Temps des Hommes</li>
+        <li>Le Temps des Hommes</li>
+        <li>Le Temps des Éleveurs</li>
+        <li>Le Temps des Agriculteurs</li>
+        <li>Le Temps de l'Écriture et des États</li>
+        <li>Le Temps des cités grecques</li>
+        <li>Le Temps de Rome</li>
+        <li>De la République à l'Empire Romain</li>
+        <li>Le Temps de la Paix romaine</li>
+        <li>Le Temps des Invasions</li>
+      </ol>
+
+      <div style="background:var(--ink-mid);border-radius:8px;padding:24px 28px;margin:20px 0 40px;">
+        <h3 style="color:var(--white);font-size:18px;margin-bottom:14px;">Épisode 1 : Le Temps des Hommes</h3>
+
+        <h4 style="color:var(--blue);font-size:14px;margin:16px 0 6px;">La temporalité de l'histoire humaine</h4>
+        <p style="color:var(--silver);font-size:14px;line-height:1.8;">L'épisode commence par une contextualisation de l'histoire de l'humanité par rapport au temps géologique. En imaginant la création de la Terre sur une journée de 24 heures, les humains apparaissent à la dernière seconde. Cela souligne la brièveté de l'existence humaine comparée à l'âge de la Terre, et introduit la série comme un voyage pour explorer cette courte mais riche histoire humaine.</p>
+
+        <h4 style="color:var(--blue);font-size:14px;margin:16px 0 6px;">Les origines de l'humanité</h4>
+        <p style="color:var(--silver);font-size:14px;line-height:1.8;">L'épisode explore les premiers pas de l'homme en Afrique avec Homo habilis, il y a 2,4 millions d'années, capable de tailler des outils, puis Homo erectus, qui maîtrise le feu et voyage hors d'Afrique. Ensuite, Homo sapiens apparaît, perfectionne les outils, exprime des idées et s'étend à travers le monde. La narration introduit également les méthodes scientifiques employées pour dater ces découvertes, comme l'analyse de squelettes et d'outils retrouvés.</p>
+
+        <h4 style="color:var(--blue);font-size:14px;margin:16px 0 6px;">La sédentarisation et l'évolution sociale</h4>
+        <p style="color:var(--silver);font-size:14px;line-height:1.8;">L'épisode présente la transition de l'humanité vers l'élevage, notamment avec l'apprivoisement des animaux, comme le chien, et l'établissement de camps fixes. Les hommes commencent à construire des abris durables et à organiser leur vie en communauté. Cette période marque les débuts de la vie sédentaire, posant les bases de l'agriculture, de l'élevage et de la structure sociale.</p>
+
+        <p style="color:var(--ink-light);font-size:12px;margin-top:18px;">Écriture : Richard Fremder — Voix et comédiens : Isabelle Turschwell et Pascal Toutain</p>
+      </div>
+
+      <h2 style="font-family:'Alte Haas Grotesk',Georgia,serif;color:var(--white);font-size:26px;margin:8px 0 6px;">En 5e</h2>
+      <p style="color:var(--silver);font-size:14px;line-height:1.8;margin-bottom:32px;">Programme en préparation — les épisodes seront ajoutés prochainement.</p>
+
+      <h2 style="font-family:'Alte Haas Grotesk',Georgia,serif;color:var(--white);font-size:26px;margin:8px 0 6px;">En 4e</h2>
+      <p style="color:var(--silver);font-size:14px;line-height:1.8;margin-bottom:32px;">Programme en préparation — les épisodes seront ajoutés prochainement.</p>
+
+      <h2 style="font-family:'Alte Haas Grotesk',Georgia,serif;color:var(--white);font-size:26px;margin:8px 0 6px;">En 3e</h2>
+      <p style="color:var(--silver);font-size:14px;line-height:1.8;margin-bottom:8px;">Programme en préparation — les épisodes seront ajoutés prochainement.</p>
+    `;
+  }
 }
 
 // Load emission image from Emissions DB
