@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Grille de programmation — Vivement Demain ?</title>
+<style>
+  :root{
+    --bg:#F7F5EF;
+    --surface:#FFFFFF;
+    --ink:#141414;
+    --ink-soft:#55534A;
+    --ink-faint:#A6A290;
+    --line:#E7E2D2;
+    --accent:#F4C430;
+    --accent-deep:#C79A0F;
+    --accent-tint:#FDF4D8;
+    --present:#3F7D5C;
+    --present-tint:#E4EEE7;
+    --absent:#C0392B;
+    --absent-tint:#F7E4E1;
+    --radius:14px;
+    --shadow: 0 1px 2px rgba(20,20,20,0.06), 0 6px 20px rgba(20,20,20,0.07);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{
+    font-family: "Arial Black", "Helvetica Neue", Arial, sans-serif;
+    font-weight:900;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family: "SF Mono", "Menlo", "Consolas", monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+  button{ font-family:inherit; cursor:pointer; }
+  input, textarea, select{ font-family:inherit; }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--accent);
+    color:var(--ink);
+    padding:14px 18px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px;
+    box-shadow: 0 2px 0 rgba(20,20,20,0.08);
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand .mic{ width:22px; height:22px; flex:none; }
+  .brand-text{ line-height:1.1; }
+  .brand-text .name{ font-size:16px; font-weight:900; letter-spacing:-0.01em; text-transform:uppercase; font-family:"Arial Black", Arial, sans-serif; }
+  .brand-text .sub{ font-size:10.5px; color:#3A3212; text-transform:uppercase; letter-spacing:0.09em; font-weight:700; }
+  .whoami{
+    display:flex; align-items:center; gap:8px;
+    font-size:13px;
+  }
+  .whoami .pill{
+    background:rgba(20,20,20,0.08);
+    border:1px solid rgba(20,20,20,0.18);
+    padding:6px 12px;
+    border-radius:999px;
+    display:flex; align-items:center; gap:8px;
+    font-weight:600;
+  }
+  .whoami button{
+    background:none; border:none; color:#3A3212; font-size:12px;
+    text-decoration:underline; padding:0; font-weight:600;
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap{ max-width:760px; margin:0 auto; padding:22px 16px 90px; }
+  .page-head{ margin-bottom:20px; }
+  .page-head h1{
+    font-size:26px; margin:0 0 4px; font-weight:600;
+  }
+  .page-head p{ margin:0; color:var(--ink-soft); font-size:14px; }
+
+  .toolbar{
+    display:flex; gap:10px; margin:18px 0 22px; flex-wrap:wrap;
+  }
+  .btn{
+    border-radius:10px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink);
+    padding:10px 16px; font-size:14px; font-weight:600;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .1s ease, box-shadow .15s ease;
+  }
+  .btn:active{ transform: scale(0.97); }
+  .btn-primary{
+    background:var(--ink); color:var(--accent); border-color:var(--ink); font-weight:700;
+  }
+  .btn-ghost{
+    background:transparent; border-color:transparent; color:var(--ink-soft);
+  }
+  .btn-ghost:hover{ color:var(--ink); }
+  .btn-small{ padding:7px 12px; font-size:13px; border-radius:8px; }
+
+  .section-label{
+    font-size:12px; text-transform:uppercase; letter-spacing:0.09em;
+    color:var(--ink-faint); font-weight:700; margin:26px 2px 10px;
+  }
+
+  /* ---------- Show card ---------- */
+  .card{
+    background:var(--surface);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    margin-bottom:14px;
+    overflow:hidden;
+    border:1px solid rgba(34,38,43,0.04);
+  }
+  .card-head{
+    display:flex; cursor:pointer; user-select:none;
+  }
+  .cue-tab{
+    flex:0 0 74px;
+    background:var(--ink);
+    color:#FFFFFF;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:12px 6px;
+    text-align:center;
+    gap:2px;
+  }
+  .cue-tab .dow{ font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#A6A290; }
+  .cue-tab .dnum{ font-size:22px; font-weight:900; line-height:1; font-family:"Arial Black", Arial, sans-serif; }
+  .cue-tab .mon{ font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#D8D2BC; }
+  .cue-tab .time{ font-size:11px; margin-top:4px; color:var(--accent); font-weight:700; }
+  .card-body{
+    flex:1; padding:14px 16px; min-width:0;
+  }
+  .card-title{ font-size:16px; font-weight:800; margin:0 0 4px; }
+  .card-meta{ font-size:13px; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:6px 14px; }
+  .card-meta span b{ color:var(--ink); font-weight:600; }
+  .presence-summary{
+    display:flex; align-items:center; gap:4px; margin-top:8px; flex-wrap:wrap;
+  }
+  .avatar{
+    width:24px; height:24px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:10px; font-weight:700; color:#fff;
+    border:2px solid var(--surface);
+    margin-left:-6px;
+  }
+  .avatar:first-child{ margin-left:0; }
+  .avatar.present{ background:var(--present); }
+  .avatar.absent{ background:var(--absent); }
+  .avatar.pending{ background:var(--ink-faint); }
+  .chev{ padding:14px 14px 0 0; color:var(--ink-faint); font-size:18px; }
+
+  .card-detail{
+    border-top:1px solid var(--line);
+    padding:16px;
+    background:#FBFAF7;
+    display:none;
+  }
+  .card-detail.open{ display:block; }
+
+  .my-presence{ margin-bottom:16px; }
+  .my-presence .label{ font-size:12px; color:var(--ink-soft); margin-bottom:8px; font-weight:600; }
+  .presence-btns{ display:flex; gap:8px; }
+  .pbtn{
+    flex:1; border-radius:10px; border:1.5px solid var(--line);
+    background:var(--surface); padding:10px 8px; font-size:13px; font-weight:600;
+    color:var(--ink-soft); display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .pbtn.active-present{ background:var(--present-tint); border-color:var(--present); color:var(--present); }
+  .pbtn.active-absent{ background:var(--absent-tint); border-color:var(--absent); color:var(--absent); }
+
+  .team-list{ margin-top:6px; display:flex; flex-direction:column; gap:6px; }
+  .team-row{ display:flex; align-items:center; justify-content:space-between; font-size:13px; padding:4px 0; }
+  .team-row .status-tag{
+    font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px;
+  }
+  .status-tag.present{ background:var(--present-tint); color:var(--present); }
+  .status-tag.absent{ background:var(--absent-tint); color:var(--absent); }
+  .status-tag.pending{ background:#EEEDE6; color:var(--ink-faint); }
+
+  .field{ margin-top:16px; }
+  .field label{ display:block; font-size:12px; font-weight:600; color:var(--ink-soft); margin-bottom:6px; }
+  .field textarea, .field input[type=text]{
+    width:100%; border:1px solid var(--line); border-radius:10px;
+    padding:10px 12px; font-size:14px; color:var(--ink);
+    background:var(--surface); resize:vertical;
+  }
+  .field textarea{ min-height:56px; }
+  .field textarea:focus, .field input:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+
+  .detail-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+
+  .empty{
+    text-align:center; padding:50px 20px; color:var(--ink-soft);
+  }
+  .empty .big{ font-size:34px; margin-bottom:6px; }
+
+  /* ---------- Name picker overlay ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(34,38,43,0.55);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px; z-index:100;
+  }
+  .overlay-card{
+    background:var(--surface); border-radius:18px; padding:26px 24px;
+    max-width:380px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,0.25);
+  }
+  .overlay-card h2{ margin:0 0 6px; font-size:19px; }
+  .overlay-card p{ margin:0 0 18px; font-size:13px; color:var(--ink-soft); }
+  .name-grid{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .name-chip{
+    border:1.5px solid var(--line); background:var(--surface);
+    padding:9px 14px; border-radius:999px; font-size:14px; font-weight:600;
+  }
+  .name-chip:hover{ border-color:var(--accent); color:var(--accent-deep); }
+  .add-name-row{ display:flex; gap:8px; margin-top:6px; }
+  .add-name-row input{
+    flex:1; border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:14px;
+  }
+
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(34,38,43,0.5);
+    display:flex; align-items:flex-end; justify-content:center;
+    z-index:90;
+  }
+  @media (min-width:640px){
+    .modal-backdrop{ align-items:center; }
+  }
+  .modal{
+    background:var(--surface); width:100%; max-width:480px;
+    border-radius:18px 18px 0 0; padding:22px; max-height:88vh; overflow:auto;
+  }
+  @media (min-width:640px){
+    .modal{ border-radius:18px; }
+  }
+  .modal h2{ margin:0 0 16px; font-size:18px; }
+  .modal-row{ display:flex; gap:10px; }
+  .modal-actions{ display:flex; justify-content:flex-end; gap:10px; margin-top:20px; }
+
+  .toast{
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:#F2EFE6; padding:10px 18px; border-radius:10px;
+    font-size:13px; z-index:200; box-shadow:0 8px 24px rgba(0,0,0,0.25);
+  }
+
+  .past-toggle{
+    text-align:center; margin:10px 0 4px;
+  }
+  .link-x{ background:none;border:none;color:var(--ink-faint);font-size:16px;padding:6px; }
+  .team-manage-row{ display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line); }
+  .team-manage-row:last-child{ border-bottom:none; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <svg class="mic" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="9" y="2" width="6" height="11" rx="3" fill="#141414"/>
+      <path d="M6 11a1 1 0 0 1 2 0 4 4 0 0 0 8 0 1 1 0 0 1 2 0 6 6 0 0 1-5 5.92V19h2a1 1 0 0 1 0 2H9a1 1 0 0 1 0-2h2v-2.08A6 6 0 0 1 6 11Z" fill="#141414"/>
+    </svg>
+    <div class="brand-text">
+      <div class="name">Vivement Demain ?</div>
+      <div class="sub">Grille de programmation</div>
+    </div>
+  </div>
+  <div class="whoami" id="whoamiBox"></div>
+</div>
+
+<div class="wrap">
+  <div class="page-head">
+    <h1 class="display" style="text-transform:uppercase;">Planning des émissions</h1>
+    <p>Indique ta présence et prépare le contenu de chaque émission.</p>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn btn-primary" id="btnNewShow">+ Nouvelle émission</button>
+    <button class="btn" id="btnManageTeam">👥 Équipe</button>
+    <button class="btn btn-ghost" id="btnRefresh">↻ Actualiser</button>
+  </div>
+
+  <div id="upcomingZone"></div>
+
+  <div class="past-toggle">
+    <button class="btn btn-ghost btn-small" id="btnTogglePast">Voir les émissions passées</button>
+  </div>
+  <div id="pastZone" style="display:none;"></div>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toastRoot"></div>
+
+<script>
+/* ======================= State ======================= */
+let data = { team: [], shows: [] };
+let currentUser = null;
+let showPast = false;
+let openCardId = null;
+let modalOpen = false;
+let loaded = false;
+
+const DOW = ["DIM","LUN","MAR","MER","JEU","VEN","SAM"];
+const MON = ["JANV","FÉVR","MARS","AVR","MAI","JUIN","JUIL","AOÛT","SEPT","OCT","NOV","DÉC"];
+
+function uid(prefix){ return prefix + "_" + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function escapeHtml(s){
+  return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function initials(name){
+  return (name||"?").trim().split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
+}
+function toast(msg){
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.getElementById('toastRoot').innerHTML = '';
+  document.getElementById('toastRoot').appendChild(el);
+  setTimeout(()=>{ el.remove(); }, 3200);
+}
+
+/* ======================= Configuration ======================= */
+// Colle ici l'URL de ton application web Google Apps Script (voir instructions fournies).
+// Elle ressemble à : https://script.google.com/macros/s/XXXXXXXXXXXX/exec
+const CONFIG = {
+  API_URL: "https://script.google.com/macros/s/AKfycbzWaH-hE8jDmU1I20KDKHtJ-PQVC0HxNoaLHODI7Pvw8o8xWIbKv8uTFPqJuwz6pueU/exec"
+};
+
+/* ======================= Storage (Google Sheets via Apps Script) ======================= */
+async function loadData(){
+  if(!CONFIG.API_URL){ loaded = 'unconfigured'; return; }
+  try{
+    const res = await fetch(CONFIG.API_URL + '?key=planning_data');
+    const json = await res.json();
+    if(json && json.value){
+      data = JSON.parse(json.value);
+      if(!Array.isArray(data.team)) data.team = [];
+      if(!Array.isArray(data.shows)) data.shows = [];
+    }
+  }catch(e){
+    // Aucune donnée encore enregistrée, ou connexion impossible : on part d'un planning vide.
+    data = { team: [], shows: [] };
+  }
+  loaded = true;
+}
+
+async function saveData(){
+  if(!CONFIG.API_URL){ return; }
+  try{
+    const res = await fetch(CONFIG.API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ key: 'planning_data', value: JSON.stringify(data) })
+    });
+    const json = await res.json();
+    if(!json || !json.ok){ toast("La sauvegarde a échoué, réessaie."); }
+  }catch(e){
+    toast("La sauvegarde a échoué : " + (e && e.message ? e.message : e));
+  }
+}
+
+window.addEventListener('error', (e) => {
+  toast("Erreur : " + (e.message || "problème inattendu"));
+});
+
+/* ======================= Render ======================= */
+function renderWhoAmI(){
+  const box = document.getElementById('whoamiBox');
+  if(!currentUser){ box.innerHTML = ''; return; }
+  box.innerHTML = `
+    <div class="pill">
+      <span>${escapeHtml(currentUser)}</span>
+      <button id="switchUserBtn">changer</button>
+    </div>`;
+  document.getElementById('switchUserBtn').onclick = () => {
+    currentUser = null;
+    render();
+  };
+}
+
+function sortedShows(list){
+  return [...list].sort((a,b)=> (a.date+ (a.time||'')).localeCompare(b.date+(b.time||'')));
+}
+
+function isPast(show){
+  const today = new Date().toISOString().slice(0,10);
+  return show.date < today;
+}
+
+function presenceCounts(show){
+  let present=0, absent=0, pending=0;
+  data.team.forEach(name=>{
+    const st = (show.presence||{})[name];
+    if(st==='present') present++;
+    else if(st==='absent') absent++;
+    else pending++;
+  });
+  return {present, absent, pending};
+}
+
+function formatDate(dateStr){
+  const d = new Date(dateStr + 'T00:00:00');
+  return { dow: DOW[d.getDay()], dnum: d.getDate(), mon: MON[d.getMonth()] };
+}
+
+function renderShowCard(show){
+  const df = formatDate(show.date);
+  const isOpen = openCardId === show.id;
+  const myStatus = currentUser ? (show.presence||{})[currentUser] : null;
+
+  const avatars = data.team.slice(0,8).map(name=>{
+    const st = (show.presence||{})[name] || 'pending';
+    return `<div class="avatar ${st}" title="${escapeHtml(name)}">${initials(name)}</div>`;
+  }).join('');
+
+  const metaBits = [];
+  if(show.theme) metaBits.push(`<span><b>Thème</b> ${escapeHtml(show.theme)}</span>`);
+  if(show.guest) metaBits.push(`<span><b>Invité</b> ${escapeHtml(show.guest)}</span>`);
+
+  const detailHtml = isOpen ? renderDetail(show, myStatus) : '';
+
+  return `
+  <div class="card" data-id="${show.id}">
+    <div class="card-head" data-toggle="${show.id}">
+      <div class="cue-tab mono">
+        <div class="dow">${df.dow}</div>
+        <div class="dnum">${df.dnum}</div>
+        <div class="mon">${df.mon}</div>
+        ${show.time ? `<div class="time">${escapeHtml(show.time)}</div>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-title">${escapeHtml(show.title || 'Émission sans titre')}</div>
+        <div class="card-meta">${metaBits.join('')}</div>
+        <div class="presence-summary">${avatars}</div>
+      </div>
+      <div class="chev">${isOpen ? '︿' : '﹀'}</div>
+    </div>
+    <div class="card-detail ${isOpen ? 'open' : ''}">${detailHtml}</div>
+  </div>`;
+}
+
+function renderDetail(show, myStatus){
+  const counts = presenceCounts(show);
+  const teamRows = data.team.map(name=>{
+    const st = (show.presence||{})[name] || 'pending';
+    const label = st==='present' ? 'Présent·e' : st==='absent' ? 'Absent·e' : 'Sans réponse';
+    return `<div class="team-row"><span>${escapeHtml(name)}</span><span class="status-tag ${st}">${label}</span></div>`;
+  }).join('');
+
+  return `
+    <div class="my-presence">
+      <div class="label">Ta présence, ${escapeHtml(currentUser)}</div>
+      <div class="presence-btns">
+        <button class="pbtn ${myStatus==='present'?'active-present':''}" data-presence="present" data-show="${show.id}">✓ Présent·e</button>
+        <button class="pbtn ${myStatus==='absent'?'active-absent':''}" data-presence="absent" data-show="${show.id}">✕ Absent·e</button>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:18px;">Équipe (${counts.present} présent·e·s, ${counts.absent} absent·e·s, ${counts.pending} sans réponse)</div>
+    <div class="team-list">${teamRows || '<span style="color:var(--ink-faint);font-size:13px;">Ajoute des membres dans "Équipe".</span>'}</div>
+
+    <div class="field">
+      <label>Thème de l'émission</label>
+      <input type="text" data-field="theme" data-show="${show.id}" value="${escapeHtml(show.theme)}" placeholder="Ex. La chute de l'Empire romain">
+    </div>
+    <div class="field">
+      <label>Invité</label>
+      <input type="text" data-field="guest" data-show="${show.id}" value="${escapeHtml(show.guest)}" placeholder="Nom de l'invité·e">
+    </div>
+    <div class="field">
+      <label>Questions à préparer</label>
+      <textarea data-field="questions" data-show="${show.id}" placeholder="Une question par ligne...">${escapeHtml(show.questions)}</textarea>
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea data-field="notes" data-show="${show.id}" placeholder="Autres informations utiles...">${escapeHtml(show.notes)}</textarea>
+    </div>
+
+    <div class="detail-actions">
+      <button class="btn btn-small" data-save="${show.id}">Enregistrer le contenu</button>
+      <button class="btn btn-ghost btn-small" data-delete="${show.id}">Supprimer l'émission</button>
+    </div>
+  `;
+}
+
+function render(){
+  renderWhoAmI();
+
+  if(loaded === 'unconfigured'){
+    renderSetupNotice();
+    return;
+  }
+  if(!loaded) return;
+
+  if(!currentUser){
+    renderNamePicker();
+    return;
+  }
+  closeOverlay();
+
+  const all = sortedShows(data.shows);
+  const upcoming = all.filter(s=>!isPast(s));
+  const past = all.filter(isPast).reverse();
+
+  const upcomingZone = document.getElementById('upcomingZone');
+  if(upcoming.length===0){
+    upcomingZone.innerHTML = `
+      <div class="empty">
+        <div class="big">📻</div>
+        <div><b>Aucune émission à venir</b></div>
+        <div style="font-size:13px;margin-top:4px;">Clique sur « + Nouvelle émission » pour commencer.</div>
+      </div>`;
+  } else {
+    upcomingZone.innerHTML = `<div class="section-label">À venir</div>` + upcoming.map(renderShowCard).join('');
+  }
+
+  const pastZone = document.getElementById('pastZone');
+  pastZone.innerHTML = past.length
+    ? `<div class="section-label">Passées</div>` + past.map(renderShowCard).join('')
+    : `<div class="empty" style="padding:20px;"><span style="font-size:13px;">Aucune émission passée.</span></div>`;
+  pastZone.style.display = showPast ? 'block' : 'none';
+
+  attachHandlers();
+}
+
+function renderSetupNotice(){
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="overlay">
+      <div class="overlay-card" style="max-width:440px;">
+        <h2>Presque prêt 🔧</h2>
+        <p>Ce planning n'est pas encore relié à sa base de données. Il manque l'adresse de ton application Google (voir les instructions fournies), à coller dans le fichier HTML, ligne <code>API_URL: ""</code>.</p>
+        <p style="margin-top:10px;">Une fois cette ligne complétée et le fichier réenregistré, recharge la page.</p>
+      </div>
+    </div>`;
+}
+
+function renderNamePicker(){
+  const root = document.getElementById('modalRoot');
+  if(data.team.length === 0){
+    root.innerHTML = `
+      <div class="overlay">
+        <div class="overlay-card">
+          <h2>Bienvenue 👋</h2>
+          <p>Cette grille n'a pas encore d'équipe. Ajoute les noms des personnes qui l'utiliseront.</p>
+          <div class="add-name-row">
+            <input type="text" id="firstTeamName" placeholder="Prénom Nom">
+            <button class="btn btn-primary btn-small" id="firstTeamAdd">Ajouter</button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('firstTeamAdd').onclick = async () => {
+      const val = document.getElementById('firstTeamName').value.trim();
+      if(!val) return;
+      data.team.push(val);
+      await saveData();
+      render();
+    };
+    return;
+  }
+  root.innerHTML = `
+    <div class="overlay">
+      <div class="overlay-card">
+        <h2>Qui es-tu ?</h2>
+        <p>Choisis ton nom pour indiquer ta présence et modifier le contenu des émissions.</p>
+        <div class="name-grid">
+          ${data.team.map(n=>`<button class="name-chip" data-pick="${escapeHtml(n)}">${escapeHtml(n)}</button>`).join('')}
+        </div>
+        <div class="add-name-row">
+          <input type="text" id="newSelfName" placeholder="Ton nom n'est pas dans la liste ?">
+          <button class="btn btn-small" id="addSelfBtn">Ajouter</button>
+        </div>
+      </div>
+    </div>`;
+  root.querySelectorAll('[data-pick]').forEach(btn=>{
+    btn.onclick = () => { currentUser = btn.getAttribute('data-pick'); render(); };
+  });
+  document.getElementById('addSelfBtn').onclick = async () => {
+    const val = document.getElementById('newSelfName').value.trim();
+    if(!val) return;
+    if(!data.team.includes(val)) data.team.push(val);
+    await saveData();
+    currentUser = val;
+    render();
+  };
+}
+
+function closeOverlay(){
+  if(!modalOpen){
+    document.getElementById('modalRoot').innerHTML = '';
+  }
+}
+
+/* ======================= Handlers ======================= */
+function attachHandlers(){
+  document.querySelectorAll('[data-toggle]').forEach(el=>{
+    el.onclick = () => {
+      const id = el.getAttribute('data-toggle');
+      openCardId = (openCardId === id) ? null : id;
+      render();
+    };
+  });
+
+  document.querySelectorAll('[data-presence]').forEach(btn=>{
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      const showId = btn.getAttribute('data-show');
+      const status = btn.getAttribute('data-presence');
+      const show = data.shows.find(s=>s.id===showId);
+      if(!show) return;
+      if(!show.presence) show.presence = {};
+      show.presence[currentUser] = (show.presence[currentUser] === status) ? undefined : status;
+      if(show.presence[currentUser] === undefined) delete show.presence[currentUser];
+      await saveData();
+      render();
+    };
+  });
+
+  document.querySelectorAll('[data-save]').forEach(btn=>{
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      const showId = btn.getAttribute('data-save');
+      const show = data.shows.find(s=>s.id===showId);
+      if(!show) return;
+      const card = btn.closest('.card-detail');
+      show.theme = card.querySelector('[data-field="theme"]').value;
+      show.guest = card.querySelector('[data-field="guest"]').value;
+      show.questions = card.querySelector('[data-field="questions"]').value;
+      show.notes = card.querySelector('[data-field="notes"]').value;
+      await saveData();
+      toast("Contenu enregistré ✓");
+      render();
+    };
+  });
+
+  document.querySelectorAll('[data-delete]').forEach(btn=>{
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      const showId = btn.getAttribute('data-delete');
+      openDeleteConfirm(showId);
+    };
+  });
+
+  // Prevent card collapse while typing in fields
+  document.querySelectorAll('.card-detail input, .card-detail textarea').forEach(el=>{
+    el.addEventListener('click', e=>e.stopPropagation());
+    el.addEventListener('focus', ()=>{ modalOpen = true; });
+    el.addEventListener('blur', ()=>{ modalOpen = false; });
+  });
+}
+
+function openDeleteConfirm(showId){
+  modalOpen = true;
+  const show = data.shows.find(s=>s.id===showId);
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modal-backdrop">
+      <div class="modal">
+        <h2>Supprimer cette émission ?</h2>
+        <p style="color:var(--ink-soft);font-size:14px;">« ${escapeHtml(show ? show.title : '')} » sera définitivement supprimée du planning pour tout le monde.</p>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="cancelDelete">Annuler</button>
+          <button class="btn btn-primary" style="background:var(--absent);border-color:var(--absent);" id="confirmDelete">Supprimer</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('cancelDelete').onclick = () => { modalOpen=false; render(); };
+  document.getElementById('confirmDelete').onclick = async () => {
+    data.shows = data.shows.filter(s=>s.id!==showId);
+    modalOpen = false;
+    await saveData();
+    toast("Émission supprimée");
+    render();
+  };
+}
+
+function openNewShowModal(){
+  modalOpen = true;
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modal-backdrop">
+      <div class="modal">
+        <h2>Nouvelle émission</h2>
+        <div class="field">
+          <label>Titre</label>
+          <input type="text" id="nsTitle" placeholder="Ex. 5000 ans d'Histoire — Épisode 42">
+        </div>
+        <div class="modal-row">
+          <div class="field" style="flex:1;">
+            <label>Date</label>
+            <input type="text" id="nsDate" placeholder="AAAA-MM-JJ">
+          </div>
+          <div class="field" style="flex:1;">
+            <label>Heure (optionnel)</label>
+            <input type="text" id="nsTime" placeholder="18:00">
+          </div>
+        </div>
+        <div class="field">
+          <label>Thème (optionnel)</label>
+          <input type="text" id="nsTheme" placeholder="">
+        </div>
+        <div class="field">
+          <label>Invité (optionnel)</label>
+          <input type="text" id="nsGuest" placeholder="">
+        </div>
+        <div id="nsError" style="display:none;color:var(--absent);font-size:13px;font-weight:600;margin-top:4px;"></div>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="cancelNew">Annuler</button>
+          <button class="btn btn-primary" id="confirmNew">Créer l'émission</button>
+        </div>
+      </div>
+    </div>`;
+
+  // Prefill a date input using native picker when supported
+  const dateInput = document.getElementById('nsDate');
+  dateInput.type = 'date';
+  dateInput.value = new Date().toISOString().slice(0,10);
+  const timeInput = document.getElementById('nsTime');
+  timeInput.type = 'time';
+
+  document.getElementById('cancelNew').onclick = () => { modalOpen=false; render(); };
+  document.getElementById('confirmNew').onclick = async () => {
+    try{
+      const title = document.getElementById('nsTitle').value.trim();
+      const dateVal = dateInput.value;
+      const titleField = document.getElementById('nsTitle');
+      const errBox = document.getElementById('nsError');
+      if(!title || !dateVal){
+        titleField.style.borderColor = !title ? 'var(--absent)' : '';
+        dateInput.style.borderColor = !dateVal ? 'var(--absent)' : '';
+        errBox.textContent = "Ajoute au moins un titre et une date pour créer l'émission.";
+        errBox.style.display = 'block';
+        return;
+      }
+      const show = {
+        id: uid('show'),
+        date: dateVal,
+        time: timeInput.value || '',
+        title,
+        theme: document.getElementById('nsTheme').value.trim(),
+        guest: document.getElementById('nsGuest').value.trim(),
+        questions: '',
+        notes: '',
+        presence: {},
+        createdBy: currentUser,
+        createdAt: Date.now()
+      };
+      data.shows.push(show);
+      modalOpen = false;
+      await saveData();
+      toast("Émission créée ✓");
+      openCardId = show.id;
+      render();
+    }catch(err){
+      toast("Erreur lors de la création : " + (err && err.message ? err.message : err));
+    }
+  };
+}
+
+function openManageTeamModal(){
+  modalOpen = true;
+  const root = document.getElementById('modalRoot');
+  function draw(){
+    root.innerHTML = `
+      <div class="modal-backdrop">
+        <div class="modal">
+          <h2>Équipe</h2>
+          <div id="teamRows">
+            ${data.team.map(n=>`
+              <div class="team-manage-row">
+                <span>${escapeHtml(n)}</span>
+                <button class="link-x" data-remove="${escapeHtml(n)}">✕</button>
+              </div>`).join('') || '<p style="color:var(--ink-soft);font-size:13px;">Aucun membre pour le moment.</p>'}
+          </div>
+          <div class="add-name-row" style="margin-top:14px;">
+            <input type="text" id="tmNewName" placeholder="Ajouter un nom">
+            <button class="btn btn-small" id="tmAddBtn">Ajouter</button>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="tmClose">Fermer</button>
+          </div>
+        </div>
+      </div>`;
+    root.querySelectorAll('[data-remove]').forEach(btn=>{
+      btn.onclick = async () => {
+        const n = btn.getAttribute('data-remove');
+        data.team = data.team.filter(t=>t!==n);
+        await saveData();
+        draw();
+      };
+    });
+    document.getElementById('tmAddBtn').onclick = async () => {
+      const val = document.getElementById('tmNewName').value.trim();
+      if(!val || data.team.includes(val)) return;
+      data.team.push(val);
+      await saveData();
+      draw();
+    };
+    document.getElementById('tmClose').onclick = () => { modalOpen=false; render(); };
+  }
+  draw();
+}
+
+/* ======================= Wire up top-level buttons ======================= */
+document.getElementById('btnNewShow').onclick = openNewShowModal;
+document.getElementById('btnManageTeam').onclick = openManageTeamModal;
+document.getElementById('btnRefresh').onclick = async () => { await loadData(); render(); toast("Planning actualisé"); };
+document.getElementById('btnTogglePast').onclick = () => {
+  showPast = !showPast;
+  document.getElementById('btnTogglePast').textContent = showPast ? "Masquer les émissions passées" : "Voir les émissions passées";
+  render();
+};
+
+/* ======================= Boot ======================= */
+(async function boot(){
+  await loadData();
+  render();
+})();
+
+/* Poll for changes made by teammates on other devices */
+setInterval(async () => {
+  if(modalOpen) return;
+  await loadData();
+  render();
+}, 20000);
+
+window.addEventListener('focus', async () => {
+  if(modalOpen) return;
+  await loadData();
+  render();
+});
+</script>
+</body>
+</html>
