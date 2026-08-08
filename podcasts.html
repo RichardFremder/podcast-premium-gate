@@ -71,8 +71,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .emission-card { background: var(--ink-mid); cursor: pointer; position: relative; overflow: hidden; transition: background 0.2s; text-decoration: none; display: block; }
 .emission-card:hover { background: #162440; }
 .emission-card:hover .emission-card-img { transform: scale(1.04); }
-.emission-card-img-wrap { overflow: hidden; height: 180px; }
-.emission-card-img { width: 100%; height: 180px; object-fit: cover; display: block; transition: transform 0.4s ease; background: #0d1a30; }
+.emission-card-img-wrap { overflow: hidden; aspect-ratio: 1 / 1; }
+.emission-card-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: transform 0.4s ease; background: #0d1a30; }
 .emission-card-body { padding: 20px; }
 .emission-card-title { font-size: 17px; color: var(--white); margin-bottom: 6px; line-height: 1.3; }
 .emission-card-desc { font-size: 12px; color: var(--ink-light); line-height: 1.5; }
@@ -322,13 +322,13 @@ async function loadEmissions() {
       var props = item.properties;
       var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : 'Sans titre';
       var desc = props.Description && props.Description.rich_text && props.Description.rich_text[0] ? props.Description.rich_text[0].plain_text : '';
-      var image = props.Image && props.Image.url ? props.Image.url : 'https://picsum.photos/seed/' + item.id.slice(0,8) + '/400/180';
+      var image = props.Image && props.Image.url ? props.Image.url : 'https://picsum.photos/seed/' + item.id.slice(0,8) + '/400/400';
       var idBase = props['ID base'] && props['ID base'].url ? props['ID base'].url : '';
       var type = props.Type && props.Type.rich_text && props.Type.rich_text[0] ? props.Type.rich_text[0].plain_text : 'audio';
       var emId = item.id.replace(/-/g, '');
 
       return '<a href="/emission.html?id=' + emId + '&db=' + idBase + '&type=' + type + '" class="emission-card">' +
-        '<div class="emission-card-img-wrap"><img class="emission-card-img" src="' + image + '" alt="' + titre + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/default/400/180\'"></div>' +
+        '<div class="emission-card-img-wrap"><img class="emission-card-img" src="' + image + '" alt="' + titre + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/default/400/400\'"></div>' +
         '<div class="emission-card-body">' +
           '<div class="emission-card-title">' + titre + '</div>' +
           (desc ? '<div class="emission-card-desc">' + desc + '</div>' : '') +
