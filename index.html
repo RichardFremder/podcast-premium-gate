@@ -1479,7 +1479,7 @@ function togglePlay() {
     playing = false;
     setTimeout(function() { stoppingManually = false; }, 500);
   } else {
-    audio.src = 'https://api.radioking.io/radio/791081/listen.m3u';
+    audio.src = 'https://play.radioking.io/timelineradio';
     audio.play().then(function() {
       document.getElementById('icon-play').style.display = 'none';
       document.getElementById('icon-pause').style.display = 'block';
