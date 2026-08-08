@@ -8,7 +8,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Podcasts — Timeline Story</title>
+<title>Parcours — Timeline Story</title>
+<meta name="description" content="Des parcours thématiques Timeline Story qui mêlent podcasts, interviews et formats courts pour comprendre l'Histoire en profondeur.">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.cdnfonts.com/css/alte-haas-grotesk');
@@ -17,6 +18,7 @@
   --blue: #166bf5; --blue-dark: #0d4fd4; --blue-glow: rgba(22,107,245,0.18);
   --ink: #080f1e; --ink-mid: #1e2d4a; --ink-light: #4a607f;
   --silver: #c8d6e8; --white: #ffffff; --off-white: #f4f7fc;
+  --teal: #2fb8a6; --gold: #d9a441; --orange: #d97a41;
 }
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--white); overflow-x: hidden; padding-bottom: 64px; }
@@ -52,6 +54,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
 .nav-links a { font-size: 13px; font-weight: 500; color: var(--silver); text-decoration: none; transition: color 0.2s; }
 .nav-links a:hover { color: var(--white); }
+.nav-links a.active { color: var(--white); }
 .nav-premium { background: var(--blue) !important; color: var(--white) !important; padding: 8px 18px; border-radius: 4px; }
 .nav-premium:hover { background: var(--blue-dark) !important; }
 .nav-social-group { display: flex; align-items: center; gap: 12px; }
@@ -64,25 +67,45 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .page-hero { padding: 120px 40px 60px; background: linear-gradient(180deg,#0a1628 0%,var(--ink) 100%); text-align: center; }
 .page-hero .section-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
 .page-hero h1 { font-size: clamp(28px,5vw,52px); font-weight: 400; color: var(--white); margin-bottom: 12px; }
-.page-hero p { font-size: 16px; color: var(--silver); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+.page-hero p { font-size: 16px; color: var(--silver); max-width: 620px; margin: 0 auto; line-height: 1.7; }
 
-/* ═══ GRILLE ÉMISSIONS ═══ */
-.emission-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 2px; padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
-.emission-card { background: var(--ink-mid); cursor: pointer; position: relative; overflow: hidden; transition: background 0.2s; text-decoration: none; display: block; }
-.emission-card:hover { background: #162440; }
-.emission-card:hover .emission-card-img { transform: scale(1.04); }
-.emission-card-img-wrap { overflow: hidden; aspect-ratio: 1 / 1; }
-.emission-card-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: transform 0.4s ease; background: #0d1a30; }
-.emission-card-body { padding: 20px; }
-.emission-card-title { font-size: 17px; color: var(--white); margin-bottom: 6px; line-height: 1.3; }
-.emission-card-desc { font-size: 12px; color: var(--ink-light); line-height: 1.5; }
+/* ═══ LISTE DES PARCOURS ═══ */
+.parcours-list { max-width: 920px; margin: 0 auto; padding: 20px 40px 80px; display: flex; flex-direction: column; gap: 40px; }
+.parcours-card { background: var(--ink-mid); border-radius: 12px; overflow: hidden; }
+.parcours-card-media { width: 100%; aspect-ratio: 1672 / 941; background: var(--ink); }
+.parcours-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.parcours-card-body { padding: 36px 40px 40px; }
+.parcours-step-label { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; }
+.parcours-card-title { font-size: clamp(22px,3vw,32px); font-weight: 400; color: var(--white); margin-bottom: 20px; line-height: 1.25; }
+.parcours-summary { font-size: 15px; line-height: 1.8; color: var(--silver); text-align: justify; margin-bottom: 32px; }
+.parcours-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.parcours-step { display: flex; align-items: center; gap: 16px; background: var(--ink); border-radius: 8px; padding: 16px 18px; text-decoration: none; border-left: 3px solid var(--blue); transition: background 0.2s, transform 0.15s; }
+.parcours-step:hover { background: #142238; transform: translateX(2px); }
+.parcours-step.principal { border-left-color: var(--teal); }
+.parcours-step.approfondissement { border-left-color: var(--gold); }
+.parcours-step.complement { border-left-color: var(--orange); }
+.parcours-step-icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.parcours-step.principal .parcours-step-icon { background: rgba(47,184,166,0.15); color: var(--teal); }
+.parcours-step.approfondissement .parcours-step-icon { background: rgba(217,164,65,0.15); color: var(--gold); }
+.parcours-step.complement .parcours-step-icon { background: rgba(217,122,65,0.15); color: var(--orange); }
+.parcours-step-icon svg { width: 16px; height: 16px; }
+.parcours-step-text { flex: 1; min-width: 0; }
+.parcours-step-tag { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.parcours-step.principal .parcours-step-tag { color: var(--teal); }
+.parcours-step.approfondissement .parcours-step-tag { color: var(--gold); }
+.parcours-step.complement .parcours-step-tag { color: var(--orange); }
+.parcours-step-title { font-size: 14px; color: var(--white); line-height: 1.4; }
+.parcours-step-meta { font-size: 12px; color: var(--ink-light); margin-top: 2px; }
+.parcours-step-arrow { flex-shrink: 0; color: var(--ink-light); }
+.parcours-function { font-size: 13px; color: var(--ink-light); line-height: 1.6; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); }
+.parcours-function strong { color: var(--silver); font-weight: 500; }
 
 /* ═══ FOOTER ═══ */
 footer { background: #040810; padding: 44px 40px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(22,107,245,0.08); }
 .footer-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .footer-logo img { height: 32px; width: 32px; border-radius: 6px; }
 .footer-logo-text { font-size: 16px; color: var(--white); }
-.footer-links { display: flex; gap: 24px; list-style: none; }
+.footer-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
 .footer-links a { font-size: 13px; color: var(--ink-light); text-decoration: none; transition: color 0.2s; }
 .footer-links a:hover { color: var(--silver); }
 .footer-copy { font-size: 12px; color: var(--ink-light); }
@@ -97,55 +120,19 @@ footer { background: #040810; padding: 44px 40px; display: flex; align-items: ce
   footer { flex-direction: column; gap: 20px; text-align: center; padding: 36px 20px; }
 }
 @media (max-width: 768px) {
-  .emission-grid { padding: 40px 20px; }
+  .parcours-list { padding: 12px 20px 60px; gap: 28px; }
+  .parcours-card-body { padding: 24px 22px 28px; }
   .page-hero { padding: 100px 20px 40px; }
+  .parcours-step { flex-wrap: wrap; }
 }
 </style>
-<script type="application/ld+json">
-{
-"@context": "https://schema.org",
-"@graph": [
-{
-"@type": "Organization",
-"@id": "https://www.timeline-story.fr/#org",
-"name": "Timeline Story",
-"url": "https://www.timeline-story.fr/",
-"foundingDate": "2012",
-"founder": { "@id": "https://www.timeline-story.fr/#fremder" },
-"sameAs": [
-"https://www.youtube.com/@TimelineStory2026",
-"https://www.facebook.com/TimelineHistoire",
-"https://www.instagram.com/timelinestory2026",
-"https://x.com/TimelineStory",
-"https://www.twitch.tv/timeline_podcast",
-"https://podcasts.apple.com/fr/podcast/id524299145",
-"https://open.spotify.com/show/4yRHe5RybxcddGKnVzODQN",
-"https://thestorycast.fr/"
-]
-},
-{
-"@type": "Person",
-"@id": "https://www.timeline-story.fr/#fremder",
-"name": "Richard Fremder",
-"jobTitle": "Historien, fondateur de Timeline",
-"worksFor": { "@id": "https://www.timeline-story.fr/#org" }
-},
-{
-"@type": "PodcastSeries",
-"name": "Timeline, 5000 ans d'Histoire",
-"url": "https://www.timeline-story.fr/podcasts.html",
-"inLanguage": "fr",
-"publisher": { "@id": "https://www.timeline-story.fr/#org" },
-"webFeed": "https://feeds.audiomeans.fr/feed/b4de9333-deb0-4c99-82e3-3c21cfac3f2a.xml"
-}
-]
-}
-</script>
 </head>
 <body>
 
 <!-- BANDEAU EN DIRECT -->
-<div class="live-bar" style="justify-content:center;height:auto;padding:12px 0;border-top:2px solid #166bf5;box-shadow:0 -4px 32px rgba(22,107,245,0.2);"><iframe src="https://player.radioking.io/timelineradio/?c=%231e7fcb&c2=%23ffffff&f=h&i=0&p=1&s=1&alb=1&li=1&popup=1&plc=0&h=undefined&l=470&v=2" style="border-radius:5px;width:470px;height:145px;box-shadow:0px 0px 20px 0px rgba(0,0,0,0.3);" frameBorder="0"></iframe></div>
+<div class="live-bar">
+  <div class="live-badge">
+    <div class="live-dot"></div>
     <span class="live-label">En direct</span>
   </div>
   <div class="live-sep"></div>
@@ -157,6 +144,7 @@ footer { background: #040810; padding: 44px 40px; display: flex; align-items: ce
   <div class="live-info">
     <div class="live-show">Timeline Story — Radio en direct</div>
     <div class="live-track" id="live-track">L'Histoire en continu · 24h/24 · 7j/7</div>
+    <div id="live-next" style="display:none;font-size:10px;color:rgba(255,255,255,0.4);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
   </div>
   <div class="live-waves">
     <div class="wave"></div><div class="wave"></div><div class="wave"></div>
@@ -172,9 +160,10 @@ footer { background: #040810; padding: 44px 40px; display: flex; align-items: ce
   </a>
   <ul class="nav-links">
     <li><a href="/podcasts.html">Podcasts</a></li>
-    <li><a href="/parcours.html">Parcours</a></li>
+    <li><a href="/parcours.html" class="active">Parcours</a></li>
     <li><a href="/invites.html">L'invité Histoire</a></li>
     <li><a href="/articles.html">Nos articles</a></li>
+    <li><a href="/periodes.html">5 000 ans d'Histoire</a></li>
     <li><a href="/grille.html">Grille des programmes</a></li>
     <li id="boutique-nav-item" style="display:none"><a href="/boutique.html">Boutique</a></li>
     <li class="nav-social-group">
@@ -203,14 +192,60 @@ footer { background: #040810; padding: 44px 40px; display: flex; align-items: ce
 
 <!-- HERO -->
 <div class="page-hero">
-  <div class="section-eyebrow">Nos émissions</div>
-  <h1>À la Radio et en Podcasts</h1>
-  <p>Retrouvez toutes nos émissions<br>interviews, formats courts et vidéos</p>
+  <div class="section-eyebrow">Comprendre l'Histoire</div>
+  <h1>Parcours</h1>
+  <p>Des parcours thématiques qui mêlent podcasts, interviews et formats courts pour aller plus loin sur un sujet — pensés comme des chemins de compréhension, épisode après épisode.</p>
 </div>
 
-<!-- GRILLE ÉMISSIONS (chargée depuis Notion) -->
-<div class="emission-grid" id="emission-grid">
-  <div style="color:var(--silver);padding:40px;text-align:center;">Chargement des émissions…</div>
+<!-- LISTE DES PARCOURS -->
+<div class="parcours-list" id="parcours-list">
+
+  <article class="parcours-card">
+    <div class="parcours-card-media">
+      <img src="/images/Etape1.jpg" alt="Étape 1 — Quand commence l'histoire humaine ?" loading="lazy">
+    </div>
+    <div class="parcours-card-body">
+      <div class="parcours-step-label">Parcours 1</div>
+      <h2 class="parcours-card-title">1. Quand commence l'histoire humaine ?</h2>
+
+      <p class="parcours-summary">Quand commence vraiment l'histoire humaine ? Bien avant l'écriture, bien avant les premières villes, bien avant les royaumes et les empires. Ce premier parcours nous ramène aux origines, à l'époque où nos ancêtres apprennent à survivre, à se déplacer, à coopérer et, surtout, à penser autrement.</p>
+      <p class="parcours-summary">À travers La Planète des Hommes : le Temps des Hommes, puis l'entretien avec Antoine Balzeau, nous découvrons comment les premiers humains ont peu à peu développé leurs capacités, adapté leur corps et leur cerveau à des environnements très différents, et parcouru d'immenses territoires. Le complément consacré aux enfants de la Préhistoire permet enfin d'approcher cette époque par le quotidien, loin des seules grandes théories sur l'évolution.</p>
+      <p class="parcours-summary">L'objectif de cette première étape est simple : comprendre que l'histoire de l'humanité ne commence pas avec les rois, les guerres ou les monuments, mais avec une longue aventure faite de migrations, d'adaptation, de transmission et de progrès cognitifs. C'est là que se trouvent les premières clés de tout ce qui viendra ensuite.</p>
+
+      <div class="parcours-steps">
+        <a class="parcours-step principal" href="/episode.html?id=372011ab-d129-81b3-a54c-d6982ec9f4cb&emission=planete">
+          <div class="parcours-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+          <div class="parcours-step-text">
+            <span class="parcours-step-tag">Contenu principal</span>
+            <div class="parcours-step-title">La Planète des Hommes : le Temps des Hommes</div>
+            <div class="parcours-step-meta">7 min 55</div>
+          </div>
+          <div class="parcours-step-arrow">→</div>
+        </a>
+        <a class="parcours-step approfondissement" href="/episode.html?id=365011ab-d129-8107-9c00-cc934d95eef2&emission=interviews">
+          <div class="parcours-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg></div>
+          <div class="parcours-step-text">
+            <span class="parcours-step-tag">Approfondissement</span>
+            <div class="parcours-step-title">Dans la tête de nos ancêtres — Antoine Balzeau</div>
+            <div class="parcours-step-meta">Les Interviews Histoire · 51 min 14</div>
+          </div>
+          <div class="parcours-step-arrow">→</div>
+        </a>
+        <a class="parcours-step complement" href="/episode.html?id=365011ab-d129-8179-992f-fe629d91bdc6&emission=5minutes">
+          <div class="parcours-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <div class="parcours-step-text">
+            <span class="parcours-step-tag">Complément court</span>
+            <div class="parcours-step-title">Le Calendrier de l'Avent : les Enfants de la préhistoire 7/25</div>
+            <div class="parcours-step-meta">5 Minutes d'Histoire</div>
+          </div>
+          <div class="parcours-step-arrow">→</div>
+        </a>
+      </div>
+
+      <div class="parcours-function"><strong>Fonction dans ce parcours :</strong> présenter les premiers humains, les migrations et le développement des capacités cognitives.</div>
+    </div>
+  </article>
+
 </div>
 
 <!-- FOOTER -->
@@ -250,39 +285,75 @@ footer { background: #040810; padding: 44px 40px; display: flex; align-items: ce
 
 <script>
 // ── Radio live ──────────────────────────────────────────────────────────────
-var radioStream = document.getElementById('radio-stream');
-var isPlaying = false;
+var audio = document.getElementById('radio-stream');
+var playing = false;
+var trackInterval = null;
+var stoppingManually = false;
+
+function fetchCurrentTrack() {
+  fetch('https://api.radioking.io/widget/radio/timelineradio/track/current')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var track = document.getElementById('live-track');
+      if (data && data.title) {
+        var text = data.title;
+        if (data.artist) text = data.artist + ' — ' + data.title;
+        track.textContent = text;
+      }
+    })
+    .catch(function() {});
+  fetch('https://api.radioking.io/widget/radio/timelineradio/track/next')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var next = document.getElementById('live-next');
+      if (data && data[0] && data[0].title) {
+        var time = '';
+        if (data[0].started_at) {
+          var d = new Date(data[0].started_at);
+          time = d.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+        }
+        next.textContent = '▶ À ' + time + ' : ' + data[0].title;
+        next.style.display = 'block';
+      }
+    })
+    .catch(function() {});
+}
 
 function togglePlay() {
-  if (isPlaying) {
-    radioStream.pause();
-    document.getElementById('icon-play').style.display = '';
+  if (playing) {
+    stoppingManually = true;
+    audio.pause();
+    audio.removeAttribute('src');
+    audio.load();
+    clearInterval(trackInterval);
+    document.getElementById('icon-play').style.display = 'block';
     document.getElementById('icon-pause').style.display = 'none';
-    isPlaying = false;
+    document.getElementById('live-track').textContent = "L'Histoire en continu · 24h/24 · 7j/7";
+    document.getElementById('live-next').style.display = 'none';
+    playing = false;
+    setTimeout(function() { stoppingManually = false; }, 500);
   } else {
-    fetch('/api/notion?db=362011abd129803d8915f72f9c726d33')
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var results = data.results || [];
-        var streamUrl = '';
-        results.forEach(function(item) {
-          if (item.properties && item.properties['stream_url'] && item.properties['stream_url'].url) {
-            streamUrl = item.properties['stream_url'].url;
-          }
-        });
-        if (streamUrl) radioStream.src = streamUrl;
-        radioStream.play();
-        document.getElementById('icon-play').style.display = 'none';
-        document.getElementById('icon-pause').style.display = '';
-        isPlaying = true;
-      }).catch(function() {
-        radioStream.play();
-        document.getElementById('icon-play').style.display = 'none';
-        document.getElementById('icon-pause').style.display = '';
-        isPlaying = true;
-      });
+    audio.src = 'https://play.radioking.io/timelineradio';
+    audio.play().then(function() {
+      document.getElementById('icon-play').style.display = 'none';
+      document.getElementById('icon-pause').style.display = 'block';
+      playing = true;
+      fetchCurrentTrack();
+      trackInterval = setInterval(fetchCurrentTrack, 15000);
+    }).catch(function(e) {
+      document.getElementById('live-track').textContent = "Erreur de lecture — réessayez";
+    });
   }
 }
+
+audio.addEventListener('error', function() {
+  if (stoppingManually) return;
+  document.getElementById('live-track').textContent = "Erreur de connexion — réessayez";
+  document.getElementById('icon-play').style.display = 'block';
+  document.getElementById('icon-pause').style.display = 'none';
+  clearInterval(trackInterval);
+  playing = false;
+});
 
 // ── Boutique visible ─────────────────────────────────────────────────────────
 fetch('/api/notion?db=362011abd129803d8915f72f9c726d33')
@@ -299,51 +370,6 @@ fetch('/api/notion?db=362011abd129803d8915f72f9c726d33')
       }
     });
   }).catch(function() {});
-
-// ── Chargement des émissions depuis Notion ───────────────────────────────────
-var EMISSIONS_LIST_DB = '362011abd129805ba540e25179bfd472';
-
-async function loadEmissions() {
-  try {
-    var res = await fetch('/api/notion?db=' + EMISSIONS_LIST_DB + '&nosort=1');
-    var data = await res.json();
-    var grid = document.getElementById('emission-grid');
-
-    if (!data.results || data.results.length === 0) {
-      grid.innerHTML = '<div style="color:var(--silver);padding:40px;text-align:center;">Aucune émission disponible pour le moment.</div>';
-      return;
-    }
-
-    var emissions = data.results.sort(function(a, b) {
-      var oa = a.properties.Ordre && a.properties.Ordre.number ? a.properties.Ordre.number : 99;
-      var ob = b.properties.Ordre && b.properties.Ordre.number ? b.properties.Ordre.number : 99;
-      return oa - ob;
-    });
-
-    grid.innerHTML = emissions.map(function(item) {
-      var props = item.properties;
-      var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : 'Sans titre';
-      var desc = props.Description && props.Description.rich_text && props.Description.rich_text[0] ? props.Description.rich_text[0].plain_text : '';
-      var image = props.Image && props.Image.url ? props.Image.url : 'https://picsum.photos/seed/' + item.id.slice(0,8) + '/400/400';
-      var idBase = props['ID base'] && props['ID base'].url ? props['ID base'].url : '';
-      var type = props.Type && props.Type.rich_text && props.Type.rich_text[0] ? props.Type.rich_text[0].plain_text : 'audio';
-      var emId = item.id.replace(/-/g, '');
-
-      return '<a href="/emission.html?id=' + emId + '&db=' + idBase + '&type=' + type + '" class="emission-card">' +
-        '<div class="emission-card-img-wrap"><img class="emission-card-img" src="' + image + '" alt="' + titre + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/default/400/400\'"></div>' +
-        '<div class="emission-card-body">' +
-          '<div class="emission-card-title">' + titre + '</div>' +
-          (desc ? '<div class="emission-card-desc">' + desc + '</div>' : '') +
-        '</div></a>';
-    }).join('');
-  } catch(e) {
-    console.error('Erreur chargement émissions:', e);
-    var grid = document.getElementById('emission-grid');
-    grid.innerHTML = '<div style="color:var(--silver);padding:40px;text-align:center;">Impossible de charger les émissions.</div>';
-  }
-}
-
-loadEmissions();
 </script>
 
 <!-- Widget de recherche universel -->
