@@ -1060,14 +1060,26 @@ async function loadInvites() {
       return;
     }
 
-    document.getElementById('invites-count').textContent = data.results.length + ' invités';
-
-    // Sort by date desc
+    // Tri par date de mise en ligne réelle (la propriété "Date" n'existe pas sur cette base,
+    // ce qui rendait le tri précédent incohérent et faisait remonter des fiches incomplètes/dupliquées)
     var items = data.results.sort(function(a, b) {
-      var da = a.properties.Date && a.properties.Date.date ? a.properties.Date.date.start : '0000';
-      var db2 = b.properties.Date && b.properties.Date.date ? b.properties.Date.date.start : '0000';
+      var da = a.properties['Date mise en ligne radio'] && a.properties['Date mise en ligne radio'].date ? a.properties['Date mise en ligne radio'].date.start : '0000';
+      var db2 = b.properties['Date mise en ligne radio'] && b.properties['Date mise en ligne radio'].date ? b.properties['Date mise en ligne radio'].date.start : '0000';
       return da < db2 ? 1 : -1;
     });
+
+    // Dédoublonnage : un même invité peut avoir plusieurs fiches (plusieurs émissions, ou des
+    // fiches incomplètes dupliquées sans visuel). On garde uniquement la première occurrence
+    // après le tri ci-dessus, donc la fiche la plus récente/complète.
+    var seenNoms = {};
+    items = items.filter(function(item) {
+      var nom = item.properties['Invité'] && item.properties['Invité'].rich_text && item.properties['Invité'].rich_text[0] ? item.properties['Invité'].rich_text[0].plain_text : '';
+      if (!nom || seenNoms[nom]) return false;
+      seenNoms[nom] = true;
+      return true;
+    });
+
+    document.getElementById('invites-count').textContent = items.length + ' invités';
 
     grid.innerHTML = items.map(function(item) {
       var props = item.properties;
@@ -1076,7 +1088,9 @@ async function loadInvites() {
       var titre = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
       var date = props['Date mise en ligne radio'] && props['Date mise en ligne radio'].date ? new Date(props['Date mise en ligne radio'].date.start).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'}) : '';
       var desc = props.Description && props.Description.rich_text && props.Description.rich_text[0] ? props.Description.rich_text[0].plain_text.substring(0, 150) + '…' : '';
-      var photo = props['Image URL'] && props['Image URL'].url ? props['Image URL'].url : 'https://picsum.photos/seed/'+item.id.slice(0,8)+'/400/240';
+      var photo = (props.Photo && props.Photo.url) ? props.Photo.url :
+                  (props['Image URL'] && props['Image URL'].url) ? props['Image URL'].url :
+                  'https://picsum.photos/seed/'+item.id.slice(0,8)+'/400/240';
       var lienEmission = '/episode.html?id=' + item.id + '&emission=interviews';
 
       return '<a href="'+lienEmission+'" class="invite-page-card">' +
