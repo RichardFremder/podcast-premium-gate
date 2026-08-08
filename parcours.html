@@ -79,16 +79,17 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .parcours-card-title { font-size: clamp(22px,3vw,32px); font-weight: 400; color: var(--white); margin-bottom: 20px; line-height: 1.25; }
 .parcours-summary { font-size: 15px; line-height: 1.8; color: var(--silver); text-align: justify; margin-bottom: 32px; }
 .parcours-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-.parcours-step { display: flex; align-items: center; gap: 16px; background: var(--ink); border-radius: 8px; padding: 16px 18px; text-decoration: none; border-left: 3px solid var(--blue); transition: background 0.2s, transform 0.15s; }
-.parcours-step:hover { background: #142238; transform: translateX(2px); }
+.parcours-step { display: flex; align-items: center; gap: 16px; background: var(--ink); border-radius: 8px; padding: 16px 18px; border-left: 3px solid var(--blue); transition: background 0.2s; }
+.parcours-step:hover { background: #142238; }
 .parcours-step.principal { border-left-color: var(--teal); }
 .parcours-step.approfondissement { border-left-color: var(--gold); }
 .parcours-step.complement { border-left-color: var(--orange); }
-.parcours-step-icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.parcours-step.principal .parcours-step-icon { background: rgba(47,184,166,0.15); color: var(--teal); }
-.parcours-step.approfondissement .parcours-step-icon { background: rgba(217,164,65,0.15); color: var(--gold); }
-.parcours-step.complement .parcours-step-icon { background: rgba(217,122,65,0.15); color: var(--orange); }
-.parcours-step-icon svg { width: 16px; height: 16px; }
+.parcours-step-play { width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.15s; }
+.parcours-step-play:hover { transform: scale(1.08); }
+.parcours-step.principal .parcours-step-play { background: rgba(47,184,166,0.15); color: var(--teal); }
+.parcours-step.approfondissement .parcours-step-play { background: rgba(217,164,65,0.15); color: var(--gold); }
+.parcours-step.complement .parcours-step-play { background: rgba(217,122,65,0.15); color: var(--orange); }
+.parcours-step-play svg { width: 14px; height: 14px; fill: currentColor; }
 .parcours-step-text { flex: 1; min-width: 0; }
 .parcours-step-tag { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
 .parcours-step.principal .parcours-step-tag { color: var(--teal); }
@@ -96,7 +97,6 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .parcours-step.complement .parcours-step-tag { color: var(--orange); }
 .parcours-step-title { font-size: 14px; color: var(--white); line-height: 1.4; }
 .parcours-step-meta { font-size: 12px; color: var(--ink-light); margin-top: 2px; }
-.parcours-step-arrow { flex-shrink: 0; color: var(--ink-light); }
 .parcours-function { font-size: 13px; color: var(--ink-light); line-height: 1.6; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); }
 .parcours-function strong { color: var(--silver); font-weight: 500; }
 
@@ -213,33 +213,36 @@ footer { background: #040810; padding: 44px 40px; display: flex; align-items: ce
       <p class="parcours-summary">L'objectif de cette première étape est simple : comprendre que l'histoire de l'humanité ne commence pas avec les rois, les guerres ou les monuments, mais avec une longue aventure faite de migrations, d'adaptation, de transmission et de progrès cognitifs. C'est là que se trouvent les premières clés de tout ce qui viendra ensuite.</p>
 
       <div class="parcours-steps">
-        <a class="parcours-step principal" href="/episode.html?id=372011ab-d129-81b3-a54c-d6982ec9f4cb&emission=planete">
-          <div class="parcours-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+        <div class="parcours-step principal">
+          <button class="parcours-step-play" onclick="toggleParcoursAudio(this, 'https://audio.audiomeans.fr/file/fPenDGoxpI/e98f5a52-19c5-4971-8ae2-8373d2c55a2b.mp3')" aria-label="Écouter">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
           <div class="parcours-step-text">
             <span class="parcours-step-tag">Contenu principal</span>
             <div class="parcours-step-title">La Planète des Hommes : le Temps des Hommes</div>
             <div class="parcours-step-meta">7 min 55</div>
           </div>
-          <div class="parcours-step-arrow">→</div>
-        </a>
-        <a class="parcours-step approfondissement" href="/episode.html?id=365011ab-d129-8107-9c00-cc934d95eef2&emission=interviews">
-          <div class="parcours-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg></div>
+        </div>
+        <div class="parcours-step approfondissement">
+          <button class="parcours-step-play" onclick="toggleParcoursAudio(this, 'https://audio.audiomeans.fr/file/VBQyAWMUlo/3037aa66-81ab-43aa-b147-327217383c2b.mp3')" aria-label="Écouter">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
           <div class="parcours-step-text">
             <span class="parcours-step-tag">Approfondissement</span>
             <div class="parcours-step-title">Dans la tête de nos ancêtres — Antoine Balzeau</div>
             <div class="parcours-step-meta">Les Interviews Histoire · 51 min 14</div>
           </div>
-          <div class="parcours-step-arrow">→</div>
-        </a>
-        <a class="parcours-step complement" href="/episode.html?id=365011ab-d129-8179-992f-fe629d91bdc6&emission=5minutes">
-          <div class="parcours-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        </div>
+        <div class="parcours-step complement">
+          <button class="parcours-step-play" onclick="toggleParcoursAudio(this, 'https://audio.audiomeans.fr/file/VBQyAWMUlo/4c276b95-0a06-4484-93f0-cf634ac62bff.mp3')" aria-label="Écouter">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
           <div class="parcours-step-text">
             <span class="parcours-step-tag">Complément court</span>
             <div class="parcours-step-title">Le Calendrier de l'Avent : les Enfants de la préhistoire 7/25</div>
             <div class="parcours-step-meta">5 Minutes d'Histoire</div>
           </div>
-          <div class="parcours-step-arrow">→</div>
-        </a>
+        </div>
       </div>
 
       <div class="parcours-function"><strong>Fonction dans ce parcours :</strong> présenter les premiers humains, les migrations et le développement des capacités cognitives.</div>
@@ -333,6 +336,7 @@ function togglePlay() {
     playing = false;
     setTimeout(function() { stoppingManually = false; }, 500);
   } else {
+    stopParcoursAudio();
     audio.src = 'https://play.radioking.io/timelineradio';
     audio.play().then(function() {
       document.getElementById('icon-play').style.display = 'none';
@@ -354,6 +358,45 @@ audio.addEventListener('error', function() {
   clearInterval(trackInterval);
   playing = false;
 });
+
+// ── Lecture des épisodes du parcours (inline, sans quitter la page) ──────────
+var currentParcoursAudio = null;
+var currentParcoursBtn = null;
+var ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+var ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+function stopParcoursAudio() {
+  if (currentParcoursAudio) {
+    currentParcoursAudio.pause();
+    if (currentParcoursBtn) currentParcoursBtn.innerHTML = ICON_PLAY;
+  }
+  currentParcoursAudio = null;
+  currentParcoursBtn = null;
+}
+
+function toggleParcoursAudio(btn, audioUrl) {
+  if (currentParcoursAudio && currentParcoursBtn === btn) {
+    if (currentParcoursAudio.paused) {
+      currentParcoursAudio.play();
+      btn.innerHTML = ICON_PAUSE;
+    } else {
+      currentParcoursAudio.pause();
+      btn.innerHTML = ICON_PLAY;
+    }
+    return;
+  }
+  stopParcoursAudio();
+  if (playing) togglePlay(); // coupe la radio en direct pour éviter le chevauchement
+  currentParcoursAudio = new Audio(audioUrl);
+  currentParcoursBtn = btn;
+  currentParcoursAudio.play();
+  btn.innerHTML = ICON_PAUSE;
+  currentParcoursAudio.addEventListener('ended', function() {
+    btn.innerHTML = ICON_PLAY;
+    currentParcoursAudio = null;
+    currentParcoursBtn = null;
+  });
+}
 
 // ── Boutique visible ─────────────────────────────────────────────────────────
 fetch('/api/notion?db=362011abd129803d8915f72f9c726d33')
