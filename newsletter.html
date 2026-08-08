@@ -1123,7 +1123,7 @@ async function subscribeNewsletter() {
     var res = await fetch('/api/newsletter', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, prenom: prenom })
+      body: JSON.stringify({ email: email, firstName: prenom })
     });
 
     var data = await res.json();

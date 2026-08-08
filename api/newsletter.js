@@ -23,7 +23,10 @@ module.exports = async (req, res) => {
         updateEnabled: true
       })
     });
-    const data = await response.json();
+    // Brevo renvoie un corps vide (204) quand le contact existe déjà et est mis à jour
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
+    if (!response.ok) return res.status(response.status).json(data);
     res.status(200).json(data);
   } catch(e) {
     res.status(500).json({ error: e.message });
