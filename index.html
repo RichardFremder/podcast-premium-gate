@@ -296,12 +296,13 @@ h1 em { font-style: normal; color: var(--blue); }
 /* HERO VISUAL */
 .hero-visual {
   position: relative;
+  z-index: 1;
   animation: fadeUp 0.7s 0.15s ease both;
 }
 
 .hero-img-main {
-  width: 100%; height: 480px;
-  object-fit: cover; border-radius: 8px;
+  width: 100%; height: auto; aspect-ratio: 1672 / 941;
+  object-fit: contain; border-radius: 8px;
   display: block; background: var(--ink-mid);
 }
 
@@ -805,7 +806,6 @@ footer {
   .nav-hamburger { display: flex; }
   .hero { grid-template-columns: 1fr; padding: 80px 20px 40px; min-height: auto; gap: 40px; }
   .hero-visual { order: -1; }
-  .hero-img-main { height: 280px; }
   .section { padding: 52px 20px; }
   .invite-section { padding: 52px 20px; }
   .periodes-section { padding: 52px 20px; }
@@ -1155,9 +1155,9 @@ function renderPodcasts(items) {
     <a id="hero-img-wrap" href="#" style="display:block;text-decoration:none;">
       <img class="hero-img-main"
         id="hero-main-img"
-        src="/images/accueilDef2.jpg"
-        alt="Timeline Story"
-        onerror="if(this.src.indexOf('/images/accueilDef2.jpg')===-1){this.src='/images/accueilDef2.jpg';}else{this.style.background='#1e2d4a';}">
+        src="/images/Image_Accueil_Site_Bleue.jpg"
+        width="1672" height="941"
+        alt="Timeline Story — L'avenir a une Histoire">
     </a>
   </div>
 </section>
@@ -1697,13 +1697,6 @@ async function loadSettings() {
       var props = item.properties;
       var key = props.Titre && props.Titre.title && props.Titre.title[0] ? props.Titre.title[0].plain_text : '';
       var value = props.Valeur && props.Valeur.url ? props.Valeur.url : '';
-      if (key === 'hero_image' && value) {
-        var img = document.getElementById('hero-main-img');
-        if (img) {
-          img.onerror = function() { img.onerror = null; img.src = '/images/accueilDef2.jpg'; };
-          img.src = value;
-        }
-      }
       if (key === 'hero_link' && value) {
         var heroWrap = document.getElementById('hero-img-wrap');
         if (heroWrap) { heroWrap.href = value; heroWrap.style.cursor = 'pointer'; }
