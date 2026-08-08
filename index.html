@@ -1155,8 +1155,9 @@ function renderPodcasts(items) {
     <a id="hero-img-wrap" href="#" style="display:block;text-decoration:none;">
       <img class="hero-img-main"
         id="hero-main-img"
+        src="/images/accueilDef2.jpg"
         alt="Timeline Story"
-        onerror="this.style.background='#1e2d4a';">
+        onerror="if(this.src.indexOf('/images/accueilDef2.jpg')===-1){this.src='/images/accueilDef2.jpg';}else{this.style.background='#1e2d4a';}">
     </a>
   </div>
 </section>
@@ -1698,7 +1699,10 @@ async function loadSettings() {
       var value = props.Valeur && props.Valeur.url ? props.Valeur.url : '';
       if (key === 'hero_image' && value) {
         var img = document.getElementById('hero-main-img');
-        if (img) img.src = value;
+        if (img) {
+          img.onerror = function() { img.onerror = null; img.src = '/images/accueilDef2.jpg'; };
+          img.src = value;
+        }
       }
       if (key === 'hero_link' && value) {
         var heroWrap = document.getElementById('hero-img-wrap');
