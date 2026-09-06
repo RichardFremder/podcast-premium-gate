@@ -31,6 +31,12 @@
       width: 100%;
     }
 
+    /* Le lecteur s'affiche en grand format, sur (quasi) toute la largeur de la page */
+    #player-area.card {
+      max-width: 1200px;
+      padding: 40px 32px;
+    }
+
     .logo {
       text-align: center;
       font-size: 40px;
@@ -249,10 +255,8 @@
     <div class="player-wrapper">
       <iframe
         id="audiomeans-player"
-        style="margin: auto; min-width: 320px; border: 0; display: block;"
+        style="margin: auto; min-width: 320px; width: 100%; border: 0; display: block; height: 80vh; min-height: 600px; max-height: 900px;"
         src=""
-        width="80%"
-        height="480px"
         allow="clipboard-write; autoplay">
       </iframe>
     </div>
